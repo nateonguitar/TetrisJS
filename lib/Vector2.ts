@@ -83,6 +83,10 @@ class Vector2 {
 		return vector;
 	}
 
+	public equals(vector: Vector2) {
+		return this.x == vector.x && this.y == vector.y;
+	}
+
 	public toString() {
 		return ("[" + this.x + "; " + this.y + "]");
 	}
