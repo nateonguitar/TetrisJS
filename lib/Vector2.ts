@@ -17,23 +17,29 @@ class Vector2 {
 		return new Vector2(this.x, this.y)
 	}
 
-	public add(vector) {
-		return new Vector2(this.x + vector.x, this.y + vector.y);
+	public add(vector: Vector2) {
+		this.x += vector.x;
+		this.y += vector.y;
+		return this;
 	}
 
-	public subtract(vector) {
-		return new Vector2(this.x - vector.x, this.y - vector.y);
+	public subtract(vector: Vector2) {
+		this.x -= vector.x;
+		this.y -= vector.y;
+		return this;
 	}
 
 	public scale(scalar) {
-		return new Vector2(this.x * scalar, this.y * scalar);
+		this.x *= scalar;
+		this.y *= scalar;
+		return this;
 	}
 
-	public dot(vector) {
+	public dot(vector: Vector2) {
 		return (this.x * vector.x + this.y + vector.y);
 	}
 
-	public moveTowards(vector, t) {
+	public moveTowards(vector: Vector2, t) {
 		t = Math.min(t, 1);
 		var diff = vector.subtract(this);
 		return this.add(diff.scale(t));
@@ -47,11 +53,11 @@ class Vector2 {
 		return (this.x * this.x + this.y * this.y);
 	}
 
-	public distance(vector) {
+	public distance(vector: Vector2) {
 		return Math.sqrt(this.distanceSqr(vector));
 	}
 
-	public distanceSqr(vector) {
+	public distanceSqr(vector: Vector2) {
 		var deltaX = this.x - vector.x;
 		var deltaY = this.y - vector.y;
 		return (deltaX * deltaX + deltaY * deltaY);
