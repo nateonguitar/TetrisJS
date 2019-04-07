@@ -1,5 +1,5 @@
 class GameLauncher {
-    constructor(options:object={}) {
-        GameManager.start(options);
-    }
+	constructor(options: object = {}) {
+		GameManager.start(options);
+	}
 }

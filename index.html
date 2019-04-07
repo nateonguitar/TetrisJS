@@ -1,39 +1,39 @@
 <html>
+
 <head>
-    <!-- library import -->
-    <!-- YOU MUST IMPORT THESE-->
-    <script src="js/lib/GameManager.js"></script>
-    <script src="js/lib/GameObject.js"></script>
-    <script src="js/lib/Transform.js"></script>
-    <script src="js/lib/Vector2.js"></script>
-    <script src="js/lib/GameLauncher.js"></script>
-    <!-- End required import-->
+	<!-- library import -->
+	<!-- YOU MUST IMPORT THESE-->
+	<script src="js/lib/GameManager.js"></script>
+	<script src="js/lib/GameObject.js"></script>
+	<script src="js/lib/Transform.js"></script>
+	<script src="js/lib/Vector2.js"></script>
+	<script src="js/lib/GameLauncher.js"></script>
+	<!-- End required import-->
 
-    <!-- my own code imports -->
-    <script src="js/Shapes/Piece.js"></script>
-    <script src="js/Shapes/Cube.js"></script>
-    <script src="js/Shapes/Line.js"></script>
-    <script src="js/Shapes/LL.js"></script>
-    <script src="js/Shapes/LR.js"></script>
-    <script src="js/GameController.js"></script>
+	<!-- my own code imports -->
+	<script src="js/Shapes/Piece.js"></script>
+	<script src="js/Shapes/Cube.js"></script>
+	<script src="js/Shapes/Line.js"></script>
+	<script src="js/Shapes/LL.js"></script>
+	<script src="js/Shapes/LR.js"></script>
+	<script src="js/GameController.js"></script>
 
-    <style type="text/css">
-        .canvas {
-            border: 1px solid black;
-        }
-    </style>
+	<style type="text/css">
+		.canvas {
+			border: 1px solid black;
+		}
+	</style>
 </head>
+
 <body>
-    <script type="text/JavaScript">
-
-        let options: Options = {
-            screenWidth: 500,
-            screenHeight: 750,
-        }
-        let gameLauncher = new GameLauncher(options);
-
-        let gameController = new GameController();
-
-    </script>
+	<script type="text/JavaScript">
+		let options: Options = {
+			screenWidth: 500,
+			screenHeight: 750,
+		}
+		let gameLauncher = new GameLauncher(options);
+		let gameController = new GameController();
+	</script>
 </body>
+
 </html>
