@@ -74,10 +74,10 @@ class VectorN {
         return this;
     }
     public dotProduct(vector) {
-        return this.values.map((value, index) => this.values[index] * value);
+        return this.values.map((value, index) => this.values[index] * value).reduce((total, value) => total + value);
     }
 
     public equals(vector) {
-        return this.directions == vector.directions && this.values.toString() == vector.values.toString()
+        return this.directions == vector.directions && this.values.toString() == vector.values.toString();
     }
 }
