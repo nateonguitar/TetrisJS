@@ -12,7 +12,7 @@ The `lib` directory is the game engine.
 Import all lib files into the index.html, then:
 
 ```
-let options: Options = {
+let options = {
     screenWidth: 500,
     screenHeight: 750,
 }
