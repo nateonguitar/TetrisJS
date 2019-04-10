@@ -40,19 +40,19 @@ class GameController extends GameObject {
 	private handleMovement(): void {
 		// don't allow repeat moves, have to press the button again
 		// left
-		if (GameManager.Keys.LEFT && !this.keys.left) {
+		if (Input.keys(Keys.ArrowLeft) && !this.keys.left) {
 			this.keys.left = true;
 			this.movePieceLeft();
 		}
-		if (!GameManager.Keys.LEFT && this.keys.left) {
+		if (!Input.keys(Keys.ArrowLeft) && this.keys.left) {
 			this.keys.left = false;
 		}
 		// right
-		if (GameManager.Keys.RIGHT && !this.keys.right) {
+		if (Input.keys(Keys.ArrowRight) && !this.keys.right) {
 			this.keys.right = true;
 			this.movePieceRight();
 		}
-		if (!GameManager.Keys.RIGHT && this.keys.right) {
+		if (!Input.keys(Keys.ArrowRight) && this.keys.right) {
 			this.keys.right = false;
 		}
 	}
