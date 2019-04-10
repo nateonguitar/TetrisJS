@@ -26,7 +26,7 @@ class GameObject {
 				if (this[key].constructor === Array) {
 					for (let i=this[key].length-1; i>=0; i--) {
 						if (this[key][i] === gameObject) {
-							this[key].splice(i, 1);
+							this[key][i] = null;
 						}
 					}
 				}
