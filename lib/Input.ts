@@ -1,7 +1,12 @@
 enum Keys {
 	Tab,
-	Ctrl,
-	Alt,
+	ControlLeft,
+	ControlRight,
+	AltLeft,
+	AltRight,
+	ShiftLeft,
+	ShiftRight,
+	Backquote,
 	Escape,
 	Space,
 	ArrowUp,
@@ -59,64 +64,69 @@ enum Keys {
 }
 
 class Input {
-	private static _KEYS: {[key:number]: Keys} = {
-		9: Keys.Tab,
-		17: Keys.Ctrl,
-		18: Keys.Alt,
-		27: Keys.Escape,
-		32: Keys.Space,
-		37: Keys.ArrowLeft,
-		38: Keys.ArrowUp,
-		39: Keys.ArrowRight,
-		40: Keys.ArrowDown,
-		48: Keys.Key0,
-		49: Keys.Key1,
-		50: Keys.Key2,
-		51: Keys.Key3,
-		52: Keys.Key4,
-		53: Keys.Key5,
-		54: Keys.Key6,
-		55: Keys.Key7,
-		56: Keys.Key8,
-		57: Keys.Key9,
-		65: Keys.KeyA,
-		66: Keys.KeyB,
-		67: Keys.KeyC,
-		68: Keys.KeyD,
-		69: Keys.KeyE,
-		70: Keys.KeyF,
-		71: Keys.KeyG,
-		72: Keys.KeyH,
-		73: Keys.KeyI,
-		74: Keys.KeyJ,
-		75: Keys.KeyK,
-		76: Keys.KeyL,
-		77: Keys.KeyM,
-		78: Keys.KeyN,
-		79: Keys.KeyO,
-		80: Keys.KeyP,
-		81: Keys.KeyQ,
-		82: Keys.KeyR,
-		83: Keys.KeyS,
-		84: Keys.KeyT,
-		85: Keys.KeyU,
-		86: Keys.KeyV,
-		87: Keys.KeyW,
-		88: Keys.KeyX,
-		89: Keys.KeyY,
-		90: Keys.KeyZ,
-		112: Keys.F1,
-		113: Keys.F2,
-		114: Keys.F3,
-		115: Keys.F4,
-		116: Keys.F5,
-		117: Keys.F6,
-		118: Keys.F7,
-		119: Keys.F8,
-		120: Keys.F9,
-		121: Keys.F10,
-		122: Keys.F11,
-		123: Keys.F12,
+	private static _KEYS: {[key:string]: Keys} = {
+		'Tab': Keys.Tab,
+		'Backquote': Keys.Backquote,
+		'ControlLeft': Keys.ControlLeft,
+		'ControlRight': Keys.ControlRight,
+		'AltLeft': Keys.AltLeft,
+		'AltRight': Keys.AltRight,
+		'ShiftLeft': Keys.ShiftLeft,
+		'ShiftRight': Keys.ShiftRight,
+		'Escape': Keys.Escape,
+		'Space': Keys.Space,
+		'ArrowLeft': Keys.ArrowLeft,
+		'ArrowUp': Keys.ArrowUp,
+		'ArrowRight': Keys.ArrowRight,
+		'ArrowDown': Keys.ArrowDown,
+		'Digit0': Keys.Key0,
+		'Digit1': Keys.Key1,
+		'Digit2': Keys.Key2,
+		'Digit3': Keys.Key3,
+		'Digit4': Keys.Key4,
+		'Digit5': Keys.Key5,
+		'Digit6': Keys.Key6,
+		'Digit7': Keys.Key7,
+		'Digit8': Keys.Key8,
+		'Digit9': Keys.Key9,
+		'KeyA': Keys.KeyA,
+		'KeyB': Keys.KeyB,
+		'KeyC': Keys.KeyC,
+		'KeyD': Keys.KeyD,
+		'KeyE': Keys.KeyE,
+		'KeyF': Keys.KeyF,
+		'KeyG': Keys.KeyG,
+		'KeyH': Keys.KeyH,
+		'KeyI': Keys.KeyI,
+		'KeyJ': Keys.KeyJ,
+		'KeyK': Keys.KeyK,
+		'KeyL': Keys.KeyL,
+		'KeyM': Keys.KeyM,
+		'KeyN': Keys.KeyN,
+		'KeyO': Keys.KeyO,
+		'KeyP': Keys.KeyP,
+		'KeyQ': Keys.KeyQ,
+		'KeyR': Keys.KeyR,
+		'KeyS': Keys.KeyS,
+		'KeyT': Keys.KeyT,
+		'KeyU': Keys.KeyU,
+		'KeyV': Keys.KeyV,
+		'KeyW': Keys.KeyW,
+		'KeyX': Keys.KeyX,
+		'KeyY': Keys.KeyY,
+		'KeyZ': Keys.KeyZ,
+		'F1': Keys.F1,
+		'F2': Keys.F2,
+		'F3': Keys.F3,
+		'F4': Keys.F4,
+		'F5': Keys.F5,
+		'F6': Keys.F6,
+		'F7': Keys.F7,
+		'F8': Keys.F8,
+		'F9': Keys.F9,
+		'F10': Keys.F10,
+		'F11': Keys.F11,
+		'F12': Keys.F12,
 	};
 
 	private static _keyDowns: { [key:number]:boolean } = {}
@@ -126,7 +136,7 @@ class Input {
 		document.onkeyup = Input.getKeyUp;
 	}
 
-	/** `Input.KEYS(Keys.UP)` will return `true` if key is pressed */
+	/** `Input.keys(Keys.UP)` will return `true` if key is pressed */
 	public static keys(key: Keys): boolean {
 		if (Input._keyDowns[key]) {
 			return true;
@@ -137,11 +147,11 @@ class Input {
 
 	private static getKeyDown(e) {
 		e = e || window.event;
-		Input._keyDowns[Input._KEYS[e.keyCode]] = true;
+		Input._keyDowns[Input._KEYS[e.code]] = true;
 	}
 
 	private static getKeyUp(e) {
 		e = e || window.event;
-		Input._keyDowns[Input._KEYS[e.keyCode]] = false;
+		Input._keyDowns[Input._KEYS[e.code]] = false;
 	}
 }
