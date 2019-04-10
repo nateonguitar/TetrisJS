@@ -56,6 +56,7 @@ class GameManager {
 		this._gameObjects.push(gameObject);
 	}
 
+	/** Will set all references to the GameObject from any other GameObject to null and de-register it from the GameManager */
 	public static destroy(gameObject: GameObject): void {
 		// remove all references to the game object from other game objects
 		for (let obj of this._gameObjects) {
