@@ -14,27 +14,10 @@ class GameManager {
 
 	private static _gameObjects: GameObject[] = [];
 
-	private static _up: boolean = false;
-	private static _down: boolean = false;
-	private static _left: boolean = false;
-	private static _right: boolean = false;
-	private static _space: boolean = false;
-
 	private static _options: Options = {
 		screenWidth: 50,
 		screenHeight: 50,
 	};
-
-	public static get Keys() {
-		const k = {
-			UP: GameManager._up,
-			DOWN: GameManager._down,
-			LEFT: GameManager._left,
-			RIGHT: GameManager._right,
-			SPACE: GameManager._space,
-		};
-		return k;
-	}
 
 	public static get time() { return GameManager._time; }
 	public static get getOptions() { return GameManager._options; }
@@ -45,9 +28,6 @@ class GameManager {
 		for (let key in options) {
 			this._options[key] = options[key];
 		}
-
-		document.onkeydown = GameManager.getKeyDown;
-		document.onkeyup = GameManager.getKeyUp;
 
 		document.addEventListener('DOMContentLoaded', () => GameManager.gameLauncher(), false);
 	}
@@ -80,6 +60,8 @@ class GameManager {
 		this._canvas.width = this._options.screenWidth;
 		this._canvas.height = this._options.screenHeight;
 		document.body.appendChild(this._canvas);
+
+		Input.init();
 
 		this.context = this._canvas.getContext("2d");
 		this.context.shadowBlur = 0;
@@ -118,43 +100,5 @@ class GameManager {
 
 	public static fps(): number {
 		return 1000 / this.deltaTime;
-	}
-
-	private static getKeyDown(e) {
-		e = e || window.event;
-		if (e.keyCode == 32) {
-			GameManager._space = true;
-		}
-		if (e.keyCode == 38) {
-			GameManager._up = true;
-		}
-		if (e.keyCode == 40) {
-			GameManager._down = true;
-		}
-		if (e.keyCode == 37) {
-			GameManager._left = true;
-		}
-		if (e.keyCode == 39) {
-			GameManager._right = true;
-		}
-	}
-
-	private static getKeyUp(e) {
-		e = e || window.event;
-		if (e.keyCode == 32) {
-			GameManager._space = false;
-		}
-		if (e.keyCode == 38) {
-			GameManager._up = false;
-		}
-		if (e.keyCode == 40) {
-			GameManager._down = false;
-		}
-		if (e.keyCode == 37) {
-			GameManager._left = false;
-		}
-		if (e.keyCode == 39) {
-			GameManager._right = false;
-		}
 	}
 }
