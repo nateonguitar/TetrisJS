@@ -56,6 +56,21 @@ class GameManager {
 		this._gameObjects.push(gameObject);
 	}
 
+	public static destroy(gameObject: GameObject): void {
+		// remove all references to the game object from other game objects
+		for (let obj of this._gameObjects) {
+			obj.removeAllReferencesToGameObject(gameObject);
+		}
+
+		// remove reference to the game object from here in this class
+		for (let i=0; i<this._gameObjects.length; i++) {
+			if (this._gameObjects[i] == gameObject) {
+				this._gameObjects.splice(i, 1);
+				break;
+			}
+		}
+	}
+
 	/** Anything we want to start before we run the main loop */
 	public static gameLauncher(): void {
 		// create the canvas
