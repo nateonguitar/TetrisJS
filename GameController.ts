@@ -32,7 +32,7 @@ class GameController extends GameObject {
 		else {
 			this.handleMovement();
 			if (this.currentPiece.transform.position.y > GameManager.getOptions.screenHeight) {
-				this.currentPiece = null;
+				GameManager.destroy(this.currentPiece);
 			}
 		}
 	}

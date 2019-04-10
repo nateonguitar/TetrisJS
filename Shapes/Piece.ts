@@ -14,7 +14,7 @@ class Piece extends GameObject {
 
 	// overriding GameObject's update()
 	public update(): void {
-		this.transform.position.y += 1;
+		this.transform.position.y += 3;
 	}
 
 	public draw(): void {

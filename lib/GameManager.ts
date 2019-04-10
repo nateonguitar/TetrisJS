@@ -18,6 +18,7 @@ class GameManager {
 	private static _down: boolean = false;
 	private static _left: boolean = false;
 	private static _right: boolean = false;
+	private static _space: boolean = false;
 
 	private static _options: Options = {
 		screenWidth: 50,
@@ -30,12 +31,15 @@ class GameManager {
 			DOWN: GameManager._down,
 			LEFT: GameManager._left,
 			RIGHT: GameManager._right,
+			SPACE: GameManager._space,
 		};
 		return k;
 	}
 
 	public static get time() { return GameManager._time; }
 	public static get getOptions() { return GameManager._options; }
+
+
 
 	public static start(options: Object = {}): void {
 		for (let key in options) {
@@ -50,6 +54,22 @@ class GameManager {
 
 	public static registerGameObject(gameObject: GameObject): void {
 		this._gameObjects.push(gameObject);
+	}
+
+	/** Will set all references to the GameObject from any other GameObject to null and de-register it from the GameManager */
+	public static destroy(gameObject: GameObject): void {
+		// remove all references to the game object from other game objects
+		for (let obj of this._gameObjects) {
+			obj.removeAllReferencesToGameObject(gameObject);
+		}
+
+		// remove reference to the game object from here in this class
+		for (let i=0; i<this._gameObjects.length; i++) {
+			if (this._gameObjects[i] == gameObject) {
+				this._gameObjects.splice(i, 1);
+				break;
+			}
+		}
 	}
 
 	/** Anything we want to start before we run the main loop */
@@ -102,32 +122,38 @@ class GameManager {
 
 	private static getKeyDown(e) {
 		e = e || window.event;
-		if (e.keyCode == '38') {
+		if (e.keyCode == 32) {
+			GameManager._space = true;
+		}
+		if (e.keyCode == 38) {
 			GameManager._up = true;
 		}
-		if (e.keyCode == '40') {
+		if (e.keyCode == 40) {
 			GameManager._down = true;
 		}
-		if (e.keyCode == '37') {
+		if (e.keyCode == 37) {
 			GameManager._left = true;
 		}
-		if (e.keyCode == '39') {
+		if (e.keyCode == 39) {
 			GameManager._right = true;
 		}
 	}
 
 	private static getKeyUp(e) {
 		e = e || window.event;
-		if (e.keyCode == '38') {
+		if (e.keyCode == 32) {
+			GameManager._space = false;
+		}
+		if (e.keyCode == 38) {
 			GameManager._up = false;
 		}
-		if (e.keyCode == '40') {
+		if (e.keyCode == 40) {
 			GameManager._down = false;
 		}
-		if (e.keyCode == '37') {
+		if (e.keyCode == 37) {
 			GameManager._left = false;
 		}
-		if (e.keyCode == '39') {
+		if (e.keyCode == 39) {
 			GameManager._right = false;
 		}
 	}

@@ -17,4 +17,36 @@ class GameObject {
 	public draw(): void {
 
 	}
+
+	public removeAllReferencesToGameObject(gameObject: GameObject) {
+		for (let key in <any>this) {
+			if (this[key] != null) {
+				// remove gameObject from arrays:
+				// like if this.cars[3] === gameObject
+				if (this[key].constructor === Array) {
+					for (let i=this[key].length-1; i>=0; i--) {
+						if (this[key][i] === gameObject) {
+							this[key][i] = null;
+						}
+					}
+				}
+
+				// remove direct references to gameObject:
+				// like if this.car === gameObject
+				else if (this[key] === gameObject) {
+					this[key] = null;
+				}
+
+				// remove object references:
+				// like if this.car.driver === gameObject
+				else if (typeof this[key] === 'object') {
+					for (let objKey in this[key]) {
+						if (this[key][objKey] === gameObject) {
+							this[key][objKey] = null;
+						}
+					}
+				}
+			}
+		}
+	}
 }
