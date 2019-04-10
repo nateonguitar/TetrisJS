@@ -33,13 +33,13 @@ class GameObject {
 
 				// remove direct references to gameObject:
 				// like if this.car === gameObject
-				if (this[key] === gameObject) {
+				else if (this[key] === gameObject) {
 					this[key] = null;
 				}
 
 				// remove object references:
 				// like if this.car.driver === gameObject
-				if (typeof this[key] === 'object') {
+				else if (typeof this[key] === 'object') {
 					for (let objKey in this[key]) {
 						if (this[key][objKey] === gameObject) {
 							this[key][objKey] = null;
