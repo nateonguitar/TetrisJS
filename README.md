@@ -42,18 +42,21 @@ Import all lib files into the index.html
 ```
 
 
-, then:
+then in a script tag:
 
 ```
-// all parameters are optional, they have defaults
-let gameLauncher = new GameLauncher({
-    screenWidth: 250,        // default: 800
-    screenHeight: 450,       // default: 600
-    imageAntiAliasing: true, // default: false
-    layers: 3,               // default: 1
-    showDebug: true,         // default: false
-});
-// Note: HTML5 canvas runs much smoother without antialiasing
+<script type="text/JavaScript">
+    // all parameters are optional, they have defaults
+    let gameLauncher = new GameLauncher({
+        screenWidth: 250,        // default: 800
+        screenHeight: 450,       // default: 600
+        imageAntiAliasing: true, // default: false
+        layers: 3,               // default: 1
+        showDebug: true,         // default: false
+        border: "1px solid red"  // default: "1px solid #444"
+    });
+    // Note: HTML5 canvas runs much smoother without antialiasing
+</script>
 ```
 
 to launch the game.

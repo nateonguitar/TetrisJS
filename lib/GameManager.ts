@@ -6,6 +6,7 @@ interface Options {
 	imageAntiAliasing: boolean;
 	layers: number;
 	showDebug: boolean;
+	border: string;
 }
 
 class GameManager {
@@ -22,6 +23,7 @@ class GameManager {
 		imageAntiAliasing: false,
 		layers: 1,
 		showDebug: false,
+		border: "1px solid #444",
 	};
 
 	// will dynamically add to this
@@ -75,6 +77,7 @@ class GameManager {
 	private static createCanvas(): void {
 		// create the canvas
 		this._canvas = document.createElement("canvas");
+		this._canvas.style.border = this._options.border;
 		this._canvas.classList.add("canvas");
 		this._canvas.width = this._options.screenWidth;
 		this._canvas.height = this._options.screenHeight;
