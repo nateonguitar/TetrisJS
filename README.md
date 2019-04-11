@@ -12,14 +12,15 @@ The `lib` directory is the game engine.
 Import all lib files into the index.html, then:
 
 ```
+// all parameters are optional, they have defaults
 let gameLauncher = new GameLauncher({
-    screenWidth: 250,
-    screenHeight: 450,
-    // HTML5 canvas runs much smoother without antialiasing
-    imageAntiAliasing: false,
-    layers: 3,
-    showDebug: true,
+    screenWidth: 250,        // default: 800
+    screenHeight: 450,       // default: 600
+    imageAntiAliasing: true, // default: false
+    layers: 3,               // default: 1
+    showDebug: true,         // default: false
 });
+// Note: HTML5 canvas runs much smoother without antialiasing
 ```
 
 to launch the game.
