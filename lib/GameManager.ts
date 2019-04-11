@@ -89,6 +89,10 @@ class GameManager {
 					border: 1px solid black;
 					padding: 3px;
 					font-size: 10pt;
+					width: ` +
+					// -6 for the padding
+					((this._options.screenWidth > 250 ? this._options.screenWidth : 250) - 6) +
+					`px
 				}
 				#debug h3 {
 					text-align: center;
