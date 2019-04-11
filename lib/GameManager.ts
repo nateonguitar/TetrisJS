@@ -107,10 +107,6 @@ class GameManager {
 			this.debugDom["divOuter"].id = "debug";
 			document.body.appendChild(this.debugDom["divOuter"]);
 
-			this.debugDom["h3Title"] = document.createElement("h3");
-			this.debugDom["h3Title"].innerText = "Debug";
-			this.debugDom["divOuter"].appendChild(this.debugDom["h3Title"]);
-
 			this.debugDom["paraFPS"] = document.createElement("p");
 			this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
 
