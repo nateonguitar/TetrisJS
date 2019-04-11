@@ -5,6 +5,7 @@ interface Options {
 	screenHeight: number;
 	imageAntiAliasing: boolean;
 	layers: number;
+	showDebug: boolean;
 }
 
 class GameManager {
@@ -19,7 +20,11 @@ class GameManager {
 		screenHeight: 50,
 		imageAntiAliasing: false,
 		layers: 1,
+		showDebug: false,
 	};
+
+	// will dynamically add to this
+	private static debugDom: {[k:string]: HTMLElement} = {};
 
 	public static start(options: Object = {}): void {
 		// if an option is passed in override our defaults
@@ -54,13 +59,8 @@ class GameManager {
 
 	/** Anything we want to start before we run the main loop */
 	public static gameLauncher(): void {
-		// create the canvas
-		this._canvas = document.createElement("canvas");
-		this._canvas.classList.add("canvas");
-		this._canvas.width = this._options.screenWidth;
-		this._canvas.height = this._options.screenHeight;
-		document.body.appendChild(this._canvas);
-
+		this.createCanvas();
+		this.createDebug();
 		Input.init();
 
 		this.context = this._canvas.getContext("2d");
@@ -69,6 +69,54 @@ class GameManager {
 
 		// calling update once will start it infinitely running
 		requestAnimationFrame(this.gameLoop.bind(this));
+	}
+
+	private static createCanvas(): void {
+		// create the canvas
+		this._canvas = document.createElement("canvas");
+		this._canvas.classList.add("canvas");
+		this._canvas.width = this._options.screenWidth;
+		this._canvas.height = this._options.screenHeight;
+		document.body.appendChild(this._canvas);
+	}
+
+	private static createDebug(): void {
+		if (this._options.showDebug) {
+			let style = document.createElement('style');
+			style.type = 'text/css';
+			style.innerHTML = `
+				#debug {
+					border: 1px solid black;
+					padding: 3px;
+					font-size: 10pt;
+				}
+				#debug h3 {
+					text-align: center;
+					text-decoration: underline;
+					margin-top: 0;
+					margin-bottom: 0;
+				}
+				#debug p {
+					margin-top: 0;
+					margin-bottom: 0;
+				}
+			`;
+			document.getElementsByTagName('head')[0].appendChild(style);
+
+			this.debugDom["divOuter"] = document.createElement("div");
+			this.debugDom["divOuter"].id = "debug";
+			document.body.appendChild(this.debugDom["divOuter"]);
+
+			this.debugDom["h3Title"] = document.createElement("h3");
+			this.debugDom["h3Title"].innerText = "Debug";
+			this.debugDom["divOuter"].appendChild(this.debugDom["h3Title"]);
+
+			this.debugDom["paraFPS"] = document.createElement("p");
+			this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
+
+			this.debugDom["paraFPS"] = document.createElement("p");
+			this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
+		}
 	}
 
 	/** main game loop */
@@ -82,6 +130,10 @@ class GameManager {
 	private static update(): void {
 		for (let gameObject of this._gameObjects) {
 			gameObject.update();
+		}
+
+		if (this._options.showDebug) {
+			this.debugDom.paraFPS.innerText = 'FPS: ' + this.fps().toFixed(1);
 		}
 	}
 
