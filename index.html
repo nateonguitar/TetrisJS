@@ -29,12 +29,12 @@
 
 <body>
 	<script type="text/JavaScript">
-		let options = {
+		let gameLauncher = new GameLauncher({
 			screenWidth: 500,
 			screenHeight: 750,
+			imageAntiAliasing: false,
 			layers: 3,
-		}
-		let gameLauncher = new GameLauncher(options);
+		});
 		let gameController = new GameController();
 	</script>
 </body>

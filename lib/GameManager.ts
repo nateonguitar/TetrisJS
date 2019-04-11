@@ -3,6 +3,7 @@
 interface Options {
 	screenWidth: number;
 	screenHeight: number;
+	imageAntiAliasing: boolean;
 	layers: number;
 }
 
@@ -18,6 +19,7 @@ class GameManager {
 	private static _options: Options = {
 		screenWidth: 50,
 		screenHeight: 50,
+		imageAntiAliasing: false,
 		layers: 1,
 	};
 
@@ -66,6 +68,7 @@ class GameManager {
 		Input.init();
 
 		this.context = this._canvas.getContext("2d");
+		this.context.imageSmoothingEnabled = this._options.imageAntiAliasing;
 		this.context.shadowBlur = 0;
 
 		// calling update once will start it infinitely running
