@@ -16,8 +16,9 @@ class GameManager {
 	private static _gameObjects: GameObject[] = [];
 
 	private static _options: Options = {
-		screenWidth: 50,
-		screenHeight: 50,
+		screenWidth: 800,
+		screenHeight: 600,
+    	// HTML5 canvas runs much smoother without antialiasing
 		imageAntiAliasing: false,
 		layers: 1,
 		showDebug: false,
