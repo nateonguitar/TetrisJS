@@ -41,7 +41,7 @@ then in a script tag:
 
 ```
 <div style="padding:10px; background-color: grey;">
-    <div id="game"></div>
+    <div id="game-holder"></div>
 </div>
 
 <script type="text/JavaScript">
