@@ -27,7 +27,7 @@ class GameController extends GameObject {
 			let randomIndex = Math.floor(Math.random() * this.shapes.length);
 			let Shape = this.shapes[randomIndex];
 			this.currentPiece = new Shape();
-			this.currentPiece.transform.position.x = 150;
+			this.currentPiece.transform.position.x = 100;
 
 		}
 
