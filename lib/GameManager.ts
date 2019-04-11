@@ -3,6 +3,8 @@
 interface Options {
 	screenWidth: number;
 	screenHeight: number;
+	imageAntiAliasing: boolean;
+	layers: number;
 }
 
 class GameManager {
@@ -17,20 +19,22 @@ class GameManager {
 	private static _options: Options = {
 		screenWidth: 50,
 		screenHeight: 50,
+		imageAntiAliasing: false,
+		layers: 1,
 	};
 
-	public static get time() { return GameManager._time; }
-	public static get getOptions() { return GameManager._options; }
-
-
-
 	public static start(options: Object = {}): void {
+		// if an option is passed in override our defaults
 		for (let key in options) {
 			this._options[key] = options[key];
 		}
 
 		document.addEventListener('DOMContentLoaded', () => GameManager.gameLauncher(), false);
 	}
+
+
+	public static get time() { return GameManager._time; }
+	public static getOptions() { return GameManager._options; }
 
 	public static registerGameObject(gameObject: GameObject): void {
 		this._gameObjects.push(gameObject);
@@ -64,6 +68,7 @@ class GameManager {
 		Input.init();
 
 		this.context = this._canvas.getContext("2d");
+		this.context.imageSmoothingEnabled = this._options.imageAntiAliasing;
 		this.context.shadowBlur = 0;
 
 		// calling update once will start it infinitely running
@@ -89,8 +94,26 @@ class GameManager {
 
 	private static draw(): void {
 		this.context.clearRect(0, 0, this._canvas.width, this._canvas.height);
-		for (let gameObject of this._gameObjects) {
-			gameObject.draw();
+		let drawnObjects: GameObject[] = [];
+
+		// loop through our layers
+		for (let i=0; i<this._options.layers; i++) {
+			// draw gameobjects on that layer
+			for (let j=0; j<this._gameObjects.length; j++) {
+				let gameObject = this._gameObjects[j];
+				if (gameObject.getLayer() == i) {
+					drawnObjects.push(gameObject);
+					gameObject.draw();
+				}
+			}
+		}
+
+		if (drawnObjects.length < this._gameObjects.length) {
+			for (let gameObject of this._gameObjects) {
+				if (drawnObjects.indexOf(gameObject) == -1) {
+					console.warn(gameObject.constructor.name + " GameObject was not drawn, did you set its layers properly?");
+				}
+			}
 		}
 	}
 

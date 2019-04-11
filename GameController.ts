@@ -14,9 +14,11 @@ class GameController extends GameObject {
 	};
 
 	private currentPiece: Piece = null;
+	private grid: Grid = null;
 
 	constructor() {
 		super();
+		this.grid = new Grid();
 	}
 
 	public update() {
@@ -26,12 +28,13 @@ class GameController extends GameObject {
 			let Shape = this.shapes[randomIndex];
 			this.currentPiece = new Shape();
 			this.currentPiece.transform.position.x = 150;
+
 		}
 
 		// control the falling piece
 		else {
 			this.handleMovement();
-			if (this.currentPiece.transform.position.y > GameManager.getOptions.screenHeight) {
+			if (this.currentPiece.transform.position.y > GameManager.getOptions().screenHeight) {
 				GameManager.destroy(this.currentPiece);
 			}
 		}
@@ -70,8 +73,8 @@ class GameController extends GameObject {
 		if (this.currentPiece) {
 			this.currentPiece.transform.position.x += Piece.size;
 			let totalWidth = this.currentPiece.transform.size.x * this.currentPiece.arrangement[0].length;
-			if (this.currentPiece.transform.position.x > GameManager.getOptions.screenWidth - totalWidth) {
-				this.currentPiece.transform.position.x = GameManager.getOptions.screenWidth - totalWidth;
+			if (this.currentPiece.transform.position.x > this.grid.transform.size.x - totalWidth) {
+				this.currentPiece.transform.position.x = this.grid.transform.size.x - totalWidth;
 			}
 		}
 	}

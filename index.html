@@ -17,6 +17,7 @@
 	<script src="js/Shapes/Line.js"></script>
 	<script src="js/Shapes/LL.js"></script>
 	<script src="js/Shapes/LR.js"></script>
+	<script src="js/Grid.js"></script>
 	<script src="js/GameController.js"></script>
 
 	<style type="text/css">
@@ -28,11 +29,12 @@
 
 <body>
 	<script type="text/JavaScript">
-		let options = {
+		let gameLauncher = new GameLauncher({
 			screenWidth: 500,
 			screenHeight: 750,
-		}
-		let gameLauncher = new GameLauncher(options);
+			imageAntiAliasing: false,
+			layers: 3,
+		});
 		let gameController = new GameController();
 	</script>
 </body>
