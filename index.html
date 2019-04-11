@@ -25,6 +25,7 @@
 		body, html {
 			margin: 0;
 			padding: 0;
+			font-family: sans-serif;
 		}
 		#game-holder {
 			padding:10px;
@@ -49,7 +50,9 @@
 </head>
 
 <body>
-	<div id="game-holder"></div>
+	<div id="game-holder">
+		<h1>Tetris</h1>
+	</div>
 	<script type="text/JavaScript">
 		let gameLauncher = new GameLauncher({
 			parentElementID: "game-holder",
