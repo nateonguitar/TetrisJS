@@ -83,6 +83,7 @@ class GameManager {
 		this._canvas = document.createElement("canvas");
 		this._canvas.style.border = this._options.border;
 		this._canvas.style.backgroundColor = this._options.backgroundColor;
+		this._canvas.id = "game-canvas"
 		this._canvas.classList.add("canvas");
 		this._canvas.width = this._options.screenWidth;
 		this._canvas.height = this._options.screenHeight;
@@ -96,23 +97,15 @@ class GameManager {
 			let style = document.createElement('style');
 			style.type = 'text/css';
 			style.innerHTML = `
-				#debug {
-					border: 1px solid black;
+				#game-debug {
 					padding: 3px;
 					font-size: 10pt;
 					width: ` +
-					// -6 for the padding
-					((this._options.screenWidth > 250 ? this._options.screenWidth : 250) - 6) +
+						// -6 for the padding
+						((this._options.screenWidth > 250 ? this._options.screenWidth : 250) - 6) +
 					`px;
-					background-color: #ddd;
 				}
-				#debug h3 {
-					text-align: center;
-					text-decoration: underline;
-					margin-top: 0;
-					margin-bottom: 0;
-				}
-				#debug p {
+				#game-debug p {
 					margin-top: 0;
 					margin-bottom: 0;
 				}
@@ -120,7 +113,7 @@ class GameManager {
 			document.getElementsByTagName('head')[0].appendChild(style);
 
 			this.debugDom["divOuter"] = document.createElement("div");
-			this.debugDom["divOuter"].id = "debug";
+			this.debugDom["divOuter"].id = "game-debug";
 			let parentElement = document.getElementById(this._options.parentElementID);
 
 			let el = parentElement ? parentElement : document.body;

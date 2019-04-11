@@ -22,19 +22,25 @@
 	<script src="js/GameController.js"></script>
 
 	<style type="text/css">
-		.canvas {
-			border: 1px solid black;
+		#game-holder {
+			padding:10px;
+			background-color: grey;
+		}
+		#game-canvas {
+			box-shadow: 2px -2px 2px #000;
+		}
+		#game-debug {
+			border: 1px solid #ff0000;
+			background-color: #dddddd;
 		}
 	</style>
 </head>
 
 <body>
-	<div style="padding:10px; background-color: grey;">
-		<div id="game"></div>
-	</div>
+	<div id="game-holder"></div>
 	<script type="text/JavaScript">
 		let gameLauncher = new GameLauncher({
-			parentElementID: "game",
+			parentElementID: "game-holder",
 			screenWidth: 250,
 			screenHeight: 450,
 			imageAntiAliasing: false,
