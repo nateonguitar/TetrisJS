@@ -124,6 +124,9 @@ class GameManager {
 			this.debugDom["paraFPS"] = document.createElement("p");
 			this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
 
+			this.debugDom["paraGameObjects"] = document.createElement("p");
+			this.debugDom.divOuter.appendChild(this.debugDom["paraGameObjects"]);
+
 			this.debugDom["paraFPS"] = document.createElement("p");
 			this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
 		}
@@ -143,7 +146,8 @@ class GameManager {
 		}
 
 		if (this._options.showDebug) {
-			this.debugDom.paraFPS.innerText = 'FPS: ' + this.fps().toFixed(1);
+			this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + this._gameObjects.length;
+			this.debugDom["paraFPS"].innerText = 'FPS: ' + this.fps().toFixed(1);
 		}
 	}
 
