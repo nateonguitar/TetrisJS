@@ -12,11 +12,13 @@ The `lib` directory is the game engine.
 Import all lib files into the index.html, then:
 
 ```
-let options = {
-    screenWidth: 500,
-    screenHeight: 750,
-}
-let gameLauncher = new GameLauncher(options);
+let gameLauncher = new GameLauncher({
+    screenWidth: 250,
+    screenHeight: 450,
+    imageAntiAliasing: false,
+    layers: 3,
+    showDebug: true,
+});
 ```
 
 to launch the game.
