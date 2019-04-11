@@ -8,9 +8,7 @@ interface Options {
 }
 
 class GameManager {
-	public static deltaTime: number = 0;
 
-	private static _time: number = 0;
 	private static _canvas: HTMLCanvasElement = null;
 	public static context: CanvasRenderingContext2D = null;
 
@@ -32,8 +30,6 @@ class GameManager {
 		document.addEventListener('DOMContentLoaded', () => GameManager.gameLauncher(), false);
 	}
 
-
-	public static get time() { return GameManager._time; }
 	public static getOptions() { return GameManager._options; }
 
 	public static registerGameObject(gameObject: GameObject): void {
@@ -78,9 +74,7 @@ class GameManager {
 	/** main game loop */
 	private static gameLoop(frame: DOMHighResTimeStamp = null): void {
 		requestAnimationFrame(this.gameLoop.bind(this));
-		let currentTime: number = (new Date()).getTime();
-		this.deltaTime = currentTime - this._time;
-		this._time = currentTime;
+		Time.update();
 		this.update();
 		this.draw();
 	}
@@ -122,6 +116,6 @@ class GameManager {
 	}
 
 	public static fps(): number {
-		return 1000 / this.deltaTime;
+		return 1000 / Time.deltaTime;
 	}
 }
