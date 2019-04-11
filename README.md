@@ -9,7 +9,40 @@ From a terminal, compile with `tsc`, run `tsc -w` if you want to auto-recompile 
 
 The `lib` directory is the game engine.
 
-Import all lib files into the index.html, then:
+Import all lib files into the index.html
+
+```
+<html>
+<head>
+	<!-- library import -->
+	<!-- YOU MUST IMPORT THESE-->
+	<script src="js/lib/GameManager.js"></script>
+	<script src="js/lib/GameObject.js"></script>
+	<script src="js/lib/Transform.js"></script>
+	<script src="js/lib/Vector2.js"></script>
+	<script src="js/lib/Input.js"></script>
+	<script src="js/lib/Time.js"></script>
+	<script src="js/lib/GameLauncher.js"></script>
+	<!-- End required import-->
+
+	<!-- your own code imports -->
+	<script src="js/Shapes/Piece.js"></script>
+	<script src="js/Shapes/Cube.js"></script>
+	<script src="js/Shapes/Line.js"></script>
+	<script src="js/Shapes/LL.js"></script>
+	<script src="js/Shapes/LR.js"></script>
+	<script src="js/Grid.js"></script>
+	<script src="js/GameController.js"></script>
+
+	<style type="text/css">
+		.canvas { border: 1px solid black; }
+	</style>
+</head>
+
+```
+
+
+, then:
 
 ```
 // all parameters are optional, they have defaults
