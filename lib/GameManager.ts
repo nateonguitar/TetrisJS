@@ -87,6 +87,8 @@ class GameManager {
 		this._canvas.classList.add("canvas");
 		this._canvas.width = this._options.screenWidth;
 		this._canvas.height = this._options.screenHeight;
+		this._canvas.style.width = this._options.screenWidth + "px";
+		this._canvas.style.height = this._options.screenHeight + "px";
 		let parentElement = document.getElementById(this._options.parentElementID);
 		let el = parentElement ? parentElement : document.body;
 		el.appendChild(this._canvas);
