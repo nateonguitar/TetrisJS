@@ -1,6 +1,7 @@
 /** GM stands for GameManager */
 
 interface Options {
+	parentElementID: string;
 	screenWidth: number;
 	screenHeight: number;
 	imageAntiAliasing: boolean;
@@ -17,6 +18,7 @@ class GameManager {
 	private static _gameObjects: GameObject[] = [];
 
 	private static _options: Options = {
+		parentElementID: null,
 		screenWidth: 800,
 		screenHeight: 600,
     	// HTML5 canvas runs much smoother without antialiasing
@@ -81,7 +83,9 @@ class GameManager {
 		this._canvas.classList.add("canvas");
 		this._canvas.width = this._options.screenWidth;
 		this._canvas.height = this._options.screenHeight;
-		document.body.appendChild(this._canvas);
+		let parentElement = document.getElementById(this._options.parentElementID);
+		let el = parentElement ? parentElement : document.body;
+		el.appendChild(this._canvas);
 	}
 
 	private static createDebug(): void {
@@ -96,7 +100,8 @@ class GameManager {
 					width: ` +
 					// -6 for the padding
 					((this._options.screenWidth > 250 ? this._options.screenWidth : 250) - 6) +
-					`px
+					`px;
+					background-color: #ddd;
 				}
 				#debug h3 {
 					text-align: center;
@@ -113,7 +118,10 @@ class GameManager {
 
 			this.debugDom["divOuter"] = document.createElement("div");
 			this.debugDom["divOuter"].id = "debug";
-			document.body.appendChild(this.debugDom["divOuter"]);
+			let parentElement = document.getElementById(this._options.parentElementID);
+
+			let el = parentElement ? parentElement : document.body;
+			el.appendChild(this.debugDom["divOuter"]);
 
 			this.debugDom["paraFPS"] = document.createElement("p");
 			this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);

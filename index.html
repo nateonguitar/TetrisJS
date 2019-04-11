@@ -29,8 +29,12 @@
 </head>
 
 <body>
+	<div style="padding:10px; background-color: grey;">
+		<div id="game"></div>
+	</div>
 	<script type="text/JavaScript">
 		let gameLauncher = new GameLauncher({
+			parentElementID: "game",
 			screenWidth: 250,
 			screenHeight: 450,
 			imageAntiAliasing: false,

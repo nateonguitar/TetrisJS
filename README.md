@@ -45,15 +45,20 @@ Import all lib files into the index.html
 then in a script tag:
 
 ```
+<div style="padding:10px; background-color: grey;">
+    <div id="game"></div>
+</div>
+
 <script type="text/JavaScript">
     // all parameters are optional, they have defaults
     let gameLauncher = new GameLauncher({
-        screenWidth: 250,        // default: 800
-        screenHeight: 450,       // default: 600
-        imageAntiAliasing: true, // default: false
-        layers: 3,               // default: 1
-        showDebug: true,         // default: false
-        border: "1px solid red"  // default: "1px solid #444"
+        parentElementID: "game",  // default: null, directly to body if not provided or id not found
+        screenWidth: 250,         // default: 800
+        screenHeight: 450,        // default: 600
+        imageAntiAliasing: true,  // default: false
+        layers: 3,                // default: 1
+        showDebug: true,          // default: false
+        border: "1px solid red"   // default: "1px solid #444"
     });
     // Note: HTML5 canvas runs much smoother without antialiasing
 </script>
