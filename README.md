@@ -15,6 +15,7 @@ Import all lib files into the index.html, then:
 let gameLauncher = new GameLauncher({
     screenWidth: 250,
     screenHeight: 450,
+    // HTML5 canvas runs much smoother without antialiasing
     imageAntiAliasing: false,
     layers: 3,
     showDebug: true,
