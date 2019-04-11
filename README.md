@@ -52,13 +52,14 @@ then in a script tag:
 <script type="text/JavaScript">
     // all parameters are optional, they have defaults
     let gameLauncher = new GameLauncher({
-        parentElementID: "game",  // default: null, directly to body if not provided or id not found
-        screenWidth: 250,         // default: 800
-        screenHeight: 450,        // default: 600
-        imageAntiAliasing: true,  // default: false
-        layers: 3,                // default: 1
-        showDebug: true,          // default: false
-        border: "1px solid red"   // default: "1px solid #444"
+        parentElementID: "game",    // default: null, directly to body if not provided or id not found
+        screenWidth: 250,           // default: 800
+        screenHeight: 450,          // default: 600
+        imageAntiAliasing: true,    // default: false
+        layers: 3,                  // default: 1
+        showDebug: true,            // default: false
+        backgroundColor: "#dd0000", // default: "#000000"
+        border: "1px solid red"     // default: "1px solid #444444"
     });
     // Note: HTML5 canvas runs much smoother without antialiasing
 </script>
