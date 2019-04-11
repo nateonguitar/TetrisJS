@@ -1,6 +1,7 @@
 class GameObject {
 
 	public transform: Transform = new Transform();
+	protected layer: number = 0;
 
 	constructor() {
 		// TODO: Come up with a way to remove game objects,
@@ -8,15 +9,15 @@ class GameObject {
 		GameManager.registerGameObject(this);
 	}
 
-	// override this if you want anything to happen
-	public update(): void {
-
+	public getLayer(): number {
+		return this.layer;
 	}
 
 	// override this if you want anything to happen
-	public draw(): void {
+	public update(): void { }
 
-	}
+	// override this if you want anything to happen
+	public draw(): void { }
 
 	public removeAllReferencesToGameObject(gameObject: GameObject) {
 		for (let key in <any>this) {
