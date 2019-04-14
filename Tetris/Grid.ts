@@ -4,7 +4,8 @@ class Grid extends GameObject {
 
 	constructor() {
 		super();
-		this.transform.size = new Vector2(GameManager.getOptions().screenWidth, GameManager.getOptions().screenHeight);
+		let o = GameManager.options;
+		this.transform.size = new Vector2(o.screenWidth, o.screenHeight);
 	}
 
 	// override

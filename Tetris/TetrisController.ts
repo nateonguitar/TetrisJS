@@ -1,4 +1,4 @@
-class GameController extends GameObject {
+class TetrisController extends GameObject {
 	private shapes = [
 		Cube,
 		Line,
@@ -16,17 +16,12 @@ class GameController extends GameObject {
 	private currentPiece: Piece = null;
 	private grid: Grid = null;
 
-	private testers: StressTestSquare[] = [];
-
 	constructor() {
 		super();
 		this.grid = new Grid();
 	}
 
 	public update() {
-
-		this.testers.push(new StressTestSquare());
-
 		// drop a new piece
 		if (this.currentPiece == null) {
 			let randomIndex = Math.floor(Math.random() * this.shapes.length);
@@ -39,7 +34,7 @@ class GameController extends GameObject {
 		// control the falling piece
 		else {
 			this.handleMovement();
-			if (this.currentPiece.transform.position.y > GameManager.getOptions().screenHeight) {
+			if (this.currentPiece.transform.position.y > GameManager.options.screenHeight) {
 				GameManager.destroy(this.currentPiece);
 			}
 		}

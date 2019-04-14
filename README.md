@@ -54,7 +54,8 @@ then in a script tag:
         layers: 3,                      // default: 1
         showDebug: true,                // default: false
         backgroundColor: "#dd0000",     // default: "#000000"
-        border: "1px solid red"         // default: "1px solid #444444"
+        border: "1px solid red",        // default: "1px solid #444444"
+        originCenter: false,            // default: true, false == origin top left
     });
     // Note: HTML5 canvas runs much smoother without antialiasing
 </script>
