@@ -16,12 +16,17 @@ class GameController extends GameObject {
 	private currentPiece: Piece = null;
 	private grid: Grid = null;
 
+	private testers: StressTestSquare[] = [];
+
 	constructor() {
 		super();
 		this.grid = new Grid();
 	}
 
 	public update() {
+
+		this.testers.push(new StressTestSquare());
+
 		// drop a new piece
 		if (this.currentPiece == null) {
 			let randomIndex = Math.floor(Math.random() * this.shapes.length);

@@ -1,4 +1,4 @@
-class TestCube extends GameObject {
+class StressTestSquare extends GameObject {
 
 	private color: string = '#';
 
