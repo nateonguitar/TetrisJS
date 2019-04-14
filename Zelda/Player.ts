@@ -12,8 +12,6 @@ class Player extends GameObject {
 		this.transform.position = this.boundarySize.clone();
 		this.transform.position.scale(0.5);
 		this.transform.position.subtract(this.transform.size.clone().scale(0.5));
-
-		GameManager.camera.follow(this);
 	}
 
 	// override

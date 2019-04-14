@@ -12,13 +12,18 @@ class ZeldaController extends GameObject {
 			GameManager.options.screenWidth * 2,
 			GameManager.options.screenHeight * 2
 		);
+		GameManager.camera.setPosition(boundarySize.clone().scale(0.5));
+
 		this.background = new Background(boundarySize);
-		this.player = new Player(boundarySize);
 
 		for (let i=0; i<50; i++) {
 			this.enemies.push(new Soldier(boundarySize));
 		}
-		GameManager.camera.setPosition(boundarySize.clone().scale(0.5));
+		this.player = new Player(boundarySize);
+
+		// camera follow
+		// GameManager.camera.follow(this.enemies[0]);
+		GameManager.camera.follow(this.player);
 	}
 
 	public update() {
