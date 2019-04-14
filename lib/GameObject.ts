@@ -40,8 +40,8 @@ class GameObject {
 		if (this.image) {
 			GameManager.context.drawImage(
 				this.image,
-				this.transform.position.x + GameManager.camera.position.x,
-				this.transform.position.y + GameManager.camera.position.y,
+				this.transform.position.x - GameManager.camera.position.x,
+				this.transform.position.y - GameManager.camera.position.y,
 				this.transform.size.x,
 				this.transform.size.y
 			);
@@ -51,8 +51,8 @@ class GameObject {
 				GameManager.context.fillStyle = this.fillStyle;
 				if (this.shape == "square") {
 					GameManager.context.fillRect(
-						this.transform.position.x + GameManager.camera.position.x,
-						this.transform.position.y + GameManager.camera.position.y,
+						this.transform.position.x - GameManager.camera.position.x,
+						this.transform.position.y - GameManager.camera.position.y,
 						this.transform.size.x,
 						this.transform.size.y
 					);
@@ -62,8 +62,8 @@ class GameObject {
 				GameManager.context.strokeStyle = this.strokeStyle;
 				if (this.shape == "square") {
 					GameManager.context.strokeRect(
-						this.transform.position.x + GameManager.camera.position.x,
-						this.transform.position.y + GameManager.camera.position.y,
+						this.transform.position.x - GameManager.camera.position.x,
+						this.transform.position.y - GameManager.camera.position.y,
 						this.transform.size.x,
 						this.transform.size.y
 					);

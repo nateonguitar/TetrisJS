@@ -18,6 +18,7 @@ class ZeldaController extends GameObject {
 		for (let i=0; i<50; i++) {
 			this.enemies.push(new Soldier(boundarySize));
 		}
+		GameManager.camera.setPosition(boundarySize.clone().scale(0.5));
 	}
 
 	public update() {

@@ -8,15 +8,16 @@ class Soldier extends GameObject {
 		super({ imageSrc: "Zelda/SoldierBlue.png" });
 		this.layer = 1;
 
+		this.boundarySize = boundarySize.clone();
+
 		this.speedX = (-0.5 + Math.random()) / 3;
 		this.speedY = (-0.5 + Math.random()) / 3;
 
-		this.boundarySize = boundarySize;
 		this.transform.size = new Vector2(13, 18).scale(3 + Math.random());
 
 		this.transform.position = new Vector2(
-			boundarySize.x/2 - this.transform.size.x / 2,
-			boundarySize.y/2 - this.transform.size.y / 2
+			this.boundarySize.x/2 - this.transform.size.x / 2,
+			this.boundarySize.y/2 - this.transform.size.y / 2
 		);
 	}
 

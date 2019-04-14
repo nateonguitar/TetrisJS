@@ -17,9 +17,13 @@ class Camera {
 
 	public update(): void {
 		if (this.gameObjectToFollow) {
-			let go = this.gameObjectToFollow;
-			this._position.x = -go.transform.position.x - go.transform.size.x/2;
-			this._position.y = -go.transform.position.y - go.transform.size.y/2;
+			let o = this.gameObjectToFollow;
+			this._position = o.transform.position.clone();
+			this._position.add(o.transform.size.clone().scale(0.5));
 		}
+	}
+
+	public setPosition(pos:Vector2): void {
+		this._position = pos.clone();
 	}
 }
