@@ -38,32 +38,32 @@ class GameObject {
 	// override this if you want anything else to happen
 	public draw(): void {
 		if (this.image) {
-			Canvas.context.drawImage(
+			Canvas.drawImage(
 				this.image,
-				this.transform.position.x - GameManager.camera.position.x,
-				this.transform.position.y - GameManager.camera.position.y,
+				this.transform.position.x,
+				this.transform.position.y,
 				this.transform.size.x,
 				this.transform.size.y
 			);
 		}
 		else {
 			if (this.fillStyle) {
-				Canvas.context.fillStyle = this.fillStyle;
+				Canvas.setFillStyle(this.fillStyle);
 				if (this.shape == "square") {
-					Canvas.context.fillRect(
-						this.transform.position.x - GameManager.camera.position.x,
-						this.transform.position.y - GameManager.camera.position.y,
+					Canvas.fillRect(
+						this.transform.position.x,
+						this.transform.position.y,
 						this.transform.size.x,
 						this.transform.size.y
 					);
 				}
 			}
 			if (this.strokeStyle) {
-				Canvas.context.strokeStyle = this.strokeStyle;
+				Canvas.setStrokeStyle(this.strokeStyle);
 				if (this.shape == "square") {
-					Canvas.context.strokeRect(
-						this.transform.position.x - GameManager.camera.position.x,
-						this.transform.position.y - GameManager.camera.position.y,
+					Canvas.strokeRect(
+						this.transform.position.x,
+						this.transform.position.y,
 						this.transform.size.x,
 						this.transform.size.y
 					);

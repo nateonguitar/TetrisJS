@@ -86,17 +86,17 @@
 			originCenter: true,
 		};
 
-		// let gameLauncher = new GameLauncher(tetrisOptions);
-		// let tetrisController = new TetrisController();
+		let gameLauncher = new GameLauncher(tetrisOptions);
+		let tetrisController = new TetrisController();
 
-		let gameLauncher = new GameLauncher(zeldaOptions);
-		let zeldaController = null;
+		// let gameLauncher = new GameLauncher(zeldaOptions);
+		// let zeldaController = null;
 
-		// TODO: Running our update function in the GameLauncher seems to have a race condition.
-		//       If we wait to start the zeldaController the soldiers appear in the right place.
-		setTimeout(() => {
-			zeldaController = new ZeldaController();
-		}, 500);
+		// // TODO: Running our update function in the GameLauncher seems to have a race condition.
+		// //       If we wait to start the zeldaController the soldiers appear in the right place.
+		// setTimeout(() => {
+		// 	zeldaController = new ZeldaController();
+		// }, 500);
 	</script>
 </body>
 

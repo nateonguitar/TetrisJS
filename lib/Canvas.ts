@@ -1,7 +1,7 @@
 class Canvas {
 
 	public static canvas: HTMLCanvasElement = null;
-	public static context: CanvasRenderingContext2D = null;
+	private static context: CanvasRenderingContext2D = null;
 
 	public static create(): void {
 		this.canvas = document.createElement("canvas");
@@ -32,5 +32,48 @@ class Canvas {
 		else {
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		}
+	}
+
+	public static setFillStyle(color:string): void {
+		this.context.fillStyle = color;
+	}
+
+	public static setStrokeStyle(color:string): void {
+		this.context.strokeStyle = color;
+	}
+
+	public static setLineWidth(width:number): void {
+		this.context.lineWidth = width;
+	}
+
+	/** Handles camera placement */
+	public static drawImage(image:any, x:number, y:number, width:number, height:number ): void {
+		this.context.drawImage(
+			image,
+			x - GameManager.camera.position.x,
+			y - GameManager.camera.position.y,
+			width,
+			height
+		);
+	}
+
+	/** Handles camera placement */
+	public static fillRect(x:number, y:number, width:number, height:number ): void {
+		Canvas.context.fillRect(
+			x - GameManager.camera.position.x,
+			y - GameManager.camera.position.y,
+			width,
+			height
+		);
+	}
+
+	/** Handles camera placement */
+	public static strokeRect(x:number, y:number, width:number, height:number ): void {
+		Canvas.context.strokeRect(
+			x - GameManager.camera.position.x,
+			y - GameManager.camera.position.y,
+			width,
+			height
+		);
 	}
 }
