@@ -13,9 +13,6 @@ interface Options {
 }
 
 class GameManager {
-
-	private static _canvas: HTMLCanvasElement = null;
-	public static context: CanvasRenderingContext2D = null;
 	public static _camera: Camera = null;
 
 	private static _gameObjects: GameObject[] = [];
@@ -72,36 +69,14 @@ class GameManager {
 
 	/** Anything we want to start before we run the main loop */
 	public static gameLauncher(): void {
-		this.createCanvas();
+		Canvas.create();
 		this.createDebug();
 		Input.init();
-
-		this.context = this._canvas.getContext("2d");
-		if (this._options.originCenter) {
-			this.context.translate(this._options.screenWidth/2, this._options.screenHeight/2);
-		}
-		this.context.imageSmoothingEnabled = this._options.imageAntiAliasing;
-		this.context.shadowBlur = 0;
-
 		// calling update once will start it infinitely running
 		requestAnimationFrame(this.gameLoop.bind(this));
 	}
 
-	private static createCanvas(): void {
-		// create the canvas
-		this._canvas = document.createElement("canvas");
-		this._canvas.style.border = this._options.border;
-		this._canvas.style.backgroundColor = this._options.backgroundColor;
-		this._canvas.id = "game-canvas"
-		this._canvas.classList.add("canvas");
-		this._canvas.width = this._options.screenWidth;
-		this._canvas.height = this._options.screenHeight;
-		this._canvas.style.width = this._options.screenWidth + "px";
-		this._canvas.style.height = this._options.screenHeight + "px";
-		let parentElement = document.getElementById(this._options.parentElementID);
-		let el = parentElement ? parentElement : document.body;
-		el.appendChild(this._canvas);
-	}
+
 
 	private static createDebug(): void {
 		if (this._options.showDebug) {
@@ -165,12 +140,7 @@ class GameManager {
 
 
 	private static draw(): void {
-		if (this._options.originCenter) {
-			this.context.clearRect(-this._canvas.width/2, -this._canvas.height/2, this._canvas.width, this._canvas.height);
-		}
-		else {
-			this.context.clearRect(0, 0, this._canvas.width, this._canvas.height);
-		}
+		Canvas.wipe();
 		let drawnObjects: GameObject[] = [];
 
 		// loop through our layers

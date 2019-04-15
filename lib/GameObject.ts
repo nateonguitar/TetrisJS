@@ -38,7 +38,7 @@ class GameObject {
 	// override this if you want anything else to happen
 	public draw(): void {
 		if (this.image) {
-			GameManager.context.drawImage(
+			Canvas.context.drawImage(
 				this.image,
 				this.transform.position.x - GameManager.camera.position.x,
 				this.transform.position.y - GameManager.camera.position.y,
@@ -48,9 +48,9 @@ class GameObject {
 		}
 		else {
 			if (this.fillStyle) {
-				GameManager.context.fillStyle = this.fillStyle;
+				Canvas.context.fillStyle = this.fillStyle;
 				if (this.shape == "square") {
-					GameManager.context.fillRect(
+					Canvas.context.fillRect(
 						this.transform.position.x - GameManager.camera.position.x,
 						this.transform.position.y - GameManager.camera.position.y,
 						this.transform.size.x,
@@ -59,9 +59,9 @@ class GameObject {
 				}
 			}
 			if (this.strokeStyle) {
-				GameManager.context.strokeStyle = this.strokeStyle;
+				Canvas.context.strokeStyle = this.strokeStyle;
 				if (this.shape == "square") {
-					GameManager.context.strokeRect(
+					Canvas.context.strokeRect(
 						this.transform.position.x - GameManager.camera.position.x,
 						this.transform.position.y - GameManager.camera.position.y,
 						this.transform.size.x,
