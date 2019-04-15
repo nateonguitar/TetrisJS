@@ -11,8 +11,12 @@ class Camera {
 		this.gameObjectToFollow = gameObject;
 	}
 
+	public set position(pos:Vector2) {
+		this._position = pos.clone();
+	}
+
 	public get position(): Vector2 {
-		return this._position;
+		return this._position.clone();
 	}
 
 	public update(): void {
@@ -21,9 +25,5 @@ class Camera {
 			this._position = o.transform.position.clone();
 			this._position.add(o.transform.size.clone().scale(0.5));
 		}
-	}
-
-	public setPosition(pos:Vector2): void {
-		this._position = pos.clone();
 	}
 }

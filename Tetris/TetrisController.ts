@@ -58,6 +58,19 @@ class TetrisController extends GameObject {
 		if (!Input.keys(Keys.ArrowRight) && this.keys.right) {
 			this.keys.right = false;
 		}
+
+		if (Input.keys(Keys.ControlLeft)) {
+			GameManager.camera.position = GameManager.camera.position.subtract(new Vector2(1, 0));
+		}
+		if (Input.keys(Keys.ControlRight)) {
+			GameManager.camera.position = GameManager.camera.position.add(new Vector2(1, 0));
+		}
+		if (Input.keys(Keys.ShiftLeft)) {
+			GameManager.camera.position = GameManager.camera.position.subtract(new Vector2(0, 1));
+		}
+		if (Input.keys(Keys.ShiftRight)) {
+			GameManager.camera.position = GameManager.camera.position.add(new Vector2(0, 1));
+		}
 	}
 
 	private movePieceLeft(): void {
