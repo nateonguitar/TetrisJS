@@ -5,8 +5,10 @@ class Soldier extends GameObject {
 	private boundarySize: Vector2;
 
 	constructor(boundarySize: Vector2) {
-		super({ imageSrc: "Zelda/SoldierBlue.png" });
-		this.layer = 1;
+		super({
+			layer: 1,
+			imageSrc: "Zelda/SoldierBlue.png",
+		});
 
 		this.boundarySize = boundarySize.clone();
 

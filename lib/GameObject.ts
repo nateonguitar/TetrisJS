@@ -2,7 +2,9 @@ class GameObject {
 
 	public transform: Transform = new Transform();
 	protected layer: number = 0;
-	protected imageSrc: string = null;
+
+	/** Set this to draw part of the image */
+	protected imageSub: { x:number, y:number, width:number, height:number } = null;
 
 	/** basic shape fill color */
 	protected fillStyle: string = null;
@@ -14,6 +16,16 @@ class GameObject {
 
 	/** will be an instance of `Image` but TypeScript doesn't like using that type for some reason */
 	private image: any = null;
+	protected _imageSrc: string = null;
+
+	public set imageSrc(src:string) {
+		if (src != null) {
+			if (this.image == null) {
+				this.image = new Image;
+			}
+			this.image.src = src;
+		}
+	}
 
 	constructor(options: object = {}) {
 		for (let key in options) {
@@ -21,11 +33,6 @@ class GameObject {
 		}
 
 		GameManager.registerGameObject(this);
-
-		if (this.imageSrc) {
-			this.image = new Image;
-			this.image.src = this.imageSrc;
-		}
 	}
 
 	public getLayer(): number {
@@ -38,13 +45,28 @@ class GameObject {
 	// override this if you want anything else to happen
 	public draw(): void {
 		if (this.image) {
-			Canvas.drawImage(
-				this.image,
-				this.transform.position.x,
-				this.transform.position.y,
-				this.transform.size.x,
-				this.transform.size.y
-			);
+			if (this.imageSub) {
+				Canvas.drawPartialImage(
+					this.image,
+					this.transform.position.x,
+					this.transform.position.y,
+					this.transform.size.x,
+					this.transform.size.y,
+					this.imageSub.x,
+					this.imageSub.y,
+					this.imageSub.width,
+					this.imageSub.height
+				);
+			}
+			else {
+				Canvas.drawImage(
+					this.image,
+					this.transform.position.x,
+					this.transform.position.y,
+					this.transform.size.x,
+					this.transform.size.y
+				);
+			}
 		}
 		else {
 			if (this.fillStyle) {
