@@ -27,10 +27,7 @@ class ZeldaController extends GameObject {
 		this.tree = new Tree(boundarySize);
 
 		// camera follow
-		// GameManager.camera.follow(this.enemies[0]);
 		GameManager.camera.follow(this.player);
-
-
 	}
 
 	public update() {
