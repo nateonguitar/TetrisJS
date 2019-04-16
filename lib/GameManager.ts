@@ -9,12 +9,11 @@ interface Options {
 	showDebug: boolean;
 	backgroundColor: string;
 	border: string;
+	originCenter: boolean;
 }
 
 class GameManager {
-
-	private static _canvas: HTMLCanvasElement = null;
-	public static context: CanvasRenderingContext2D = null;
+	public static _camera: Camera = null;
 
 	private static _gameObjects: GameObject[] = [];
 
@@ -28,12 +27,15 @@ class GameManager {
 		showDebug: false,
 		backgroundColor: "#000000",
 		border: "1px solid #444444",
+		originCenter: true,
 	};
 
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
 
 	public static start(options: Object = {}): void {
+
+		this._camera = new Camera();
 		// if an option is passed in override our defaults
 		for (let key in options) {
 			this._options[key] = options[key];
@@ -42,7 +44,8 @@ class GameManager {
 		document.addEventListener('DOMContentLoaded', () => GameManager.gameLauncher(), false);
 	}
 
-	public static getOptions() { return GameManager._options; }
+	public static get camera() { return GameManager._camera; }
+	public static get options() { return GameManager._options; }
 
 	public static registerGameObject(gameObject: GameObject): void {
 		this._gameObjects.push(gameObject);
@@ -66,33 +69,14 @@ class GameManager {
 
 	/** Anything we want to start before we run the main loop */
 	public static gameLauncher(): void {
-		this.createCanvas();
+		Canvas.create();
 		this.createDebug();
 		Input.init();
-
-		this.context = this._canvas.getContext("2d");
-		this.context.imageSmoothingEnabled = this._options.imageAntiAliasing;
-		this.context.shadowBlur = 0;
-
 		// calling update once will start it infinitely running
 		requestAnimationFrame(this.gameLoop.bind(this));
 	}
 
-	private static createCanvas(): void {
-		// create the canvas
-		this._canvas = document.createElement("canvas");
-		this._canvas.style.border = this._options.border;
-		this._canvas.style.backgroundColor = this._options.backgroundColor;
-		this._canvas.id = "game-canvas"
-		this._canvas.classList.add("canvas");
-		this._canvas.width = this._options.screenWidth;
-		this._canvas.height = this._options.screenHeight;
-		this._canvas.style.width = this._options.screenWidth + "px";
-		this._canvas.style.height = this._options.screenHeight + "px";
-		let parentElement = document.getElementById(this._options.parentElementID);
-		let el = parentElement ? parentElement : document.body;
-		el.appendChild(this._canvas);
-	}
+
 
 	private static createDebug(): void {
 		if (this._options.showDebug) {
@@ -145,6 +129,9 @@ class GameManager {
 			gameObject.update();
 		}
 
+		// might have a game object its following
+		this.camera.update();
+
 		if (this._options.showDebug) {
 			this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + this._gameObjects.length;
 			this.debugDom["paraFPS"].innerText = 'FPS: ' + this.fps().toFixed(1);
@@ -153,7 +140,7 @@ class GameManager {
 
 
 	private static draw(): void {
-		this.context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+		Canvas.wipe();
 		let drawnObjects: GameObject[] = [];
 
 		// loop through our layers

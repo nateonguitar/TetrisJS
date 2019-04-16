@@ -4,7 +4,8 @@ class Grid extends GameObject {
 
 	constructor() {
 		super();
-		this.transform.size = new Vector2(GameManager.getOptions().screenWidth, GameManager.getOptions().screenHeight);
+		let o = GameManager.options;
+		this.transform.size = new Vector2(o.screenWidth, o.screenHeight);
 	}
 
 	// override
@@ -15,11 +16,11 @@ class Grid extends GameObject {
 	// override
 	public draw(): void {
 		let size: number = 25;
-		GameManager.context.strokeStyle = "#aaaaaa";
+		Canvas.setStrokeStyle("#aaaaaa");
 		// NOTE: pieces are 25 wide and 25 tall
 		for (let i=0; i<this.transform.size.y; i+=size) {
 			for (let j=0; j<this.transform.size.x; j+=size) {
-				GameManager.context.strokeRect(j, i, size, size);
+				Canvas.strokeRect(j, i, size, size);
 			}
 		}
 	}

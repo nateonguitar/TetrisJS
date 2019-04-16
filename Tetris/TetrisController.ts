@@ -1,4 +1,4 @@
-class GameController extends GameObject {
+class TetrisController extends GameObject {
 	private shapes = [
 		Cube,
 		Line,
@@ -16,17 +16,12 @@ class GameController extends GameObject {
 	private currentPiece: Piece = null;
 	private grid: Grid = null;
 
-	private testers: StressTestSquare[] = [];
-
 	constructor() {
 		super();
 		this.grid = new Grid();
 	}
 
 	public update() {
-
-		this.testers.push(new StressTestSquare());
-
 		// drop a new piece
 		if (this.currentPiece == null) {
 			let randomIndex = Math.floor(Math.random() * this.shapes.length);
@@ -39,7 +34,7 @@ class GameController extends GameObject {
 		// control the falling piece
 		else {
 			this.handleMovement();
-			if (this.currentPiece.transform.position.y > GameManager.getOptions().screenHeight) {
+			if (this.currentPiece.transform.position.y > GameManager.options.screenHeight) {
 				GameManager.destroy(this.currentPiece);
 			}
 		}
@@ -62,6 +57,19 @@ class GameController extends GameObject {
 		}
 		if (!Input.keys(Keys.ArrowRight) && this.keys.right) {
 			this.keys.right = false;
+		}
+
+		if (Input.keys(Keys.ControlLeft)) {
+			GameManager.camera.position = GameManager.camera.position.subtract(new Vector2(1, 0));
+		}
+		if (Input.keys(Keys.ControlRight)) {
+			GameManager.camera.position = GameManager.camera.position.add(new Vector2(1, 0));
+		}
+		if (Input.keys(Keys.ShiftLeft)) {
+			GameManager.camera.position = GameManager.camera.position.subtract(new Vector2(0, 1));
+		}
+		if (Input.keys(Keys.ShiftRight)) {
+			GameManager.camera.position = GameManager.camera.position.add(new Vector2(0, 1));
 		}
 	}
 

@@ -10,17 +10,24 @@
 	<script src="js/lib/Input.js"></script>
 	<script src="js/lib/Time.js"></script>
 	<script src="js/lib/StressTestSquare.js"></script>
+	<script src="js/lib/Camera.js"></script>
+	<script src="js/lib/Canvas.js"></script>
 	<script src="js/lib/GameLauncher.js"></script>
 	<!-- End required import-->
 
 	<!-- my own code imports -->
-	<script src="js/Shapes/Piece.js"></script>
-	<script src="js/Shapes/Cube.js"></script>
-	<script src="js/Shapes/Line.js"></script>
-	<script src="js/Shapes/LL.js"></script>
-	<script src="js/Shapes/LR.js"></script>
-	<script src="js/Grid.js"></script>
-	<script src="js/GameController.js"></script>
+	<script src="js/Tetris/Shapes/Piece.js"></script>
+	<script src="js/Tetris/Shapes/Cube.js"></script>
+	<script src="js/Tetris/Shapes/Line.js"></script>
+	<script src="js/Tetris/Shapes/LL.js"></script>
+	<script src="js/Tetris/Shapes/LR.js"></script>
+	<script src="js/Tetris/Grid.js"></script>
+	<script src="js/Tetris/TetrisController.js"></script>
+
+	<script src="js/Zelda/ZeldaController.js"></script>
+	<script src="js/Zelda/Player.js"></script>
+	<script src="js/Zelda/Soldier.js"></script>
+	<script src="js/Zelda/Background.js"></script>
 
 	<style type="text/css">
 		body, html {
@@ -55,7 +62,7 @@
 		<h1>Tetris</h1>
 	</div>
 	<script type="text/JavaScript">
-		let gameLauncher = new GameLauncher({
+		let tetrisOptions = {
 			parentElementID: "game-holder",
 			screenWidth: 250,
 			screenHeight: 450,
@@ -63,9 +70,33 @@
 			layers: 3,
 			showDebug: true,
 			backgroundColor: "#330000",
-			border: "1px solid red"
-		});
-		let gameController = new GameController();
+			border: "1px solid red",
+			originCenter: false,
+		}
+
+		let zeldaOptions = {
+			parentElementID: "game-holder",
+			screenWidth: 1000,
+			screenHeight: 800,
+			imageAntiAliasing: false,
+			layers: 3,
+			showDebug: true,
+			backgroundColor: "#001100",
+			border: "1px solid #008800",
+			originCenter: true,
+		};
+
+		let gameLauncher = new GameLauncher(tetrisOptions);
+		let tetrisController = new TetrisController();
+
+		// let gameLauncher = new GameLauncher(zeldaOptions);
+		// let zeldaController = null;
+
+		// // TODO: Running our update function in the GameLauncher seems to have a race condition.
+		// //       If we wait to start the zeldaController the soldiers appear in the right place.
+		// setTimeout(() => {
+		// 	zeldaController = new ZeldaController();
+		// }, 500);
 	</script>
 </body>
 
