@@ -23,7 +23,7 @@ class Tree extends GameObject {
 		this.transform.position.subtract(this.transform.size.clone().scale(0.5));
 		this.transform.position.add(this.transform.size);
 
-		this.imageSprite = {
+		this.spritesheetBounds = {
 			x: 0,
 			y: 0,
 			width: this.transform.size.x/2,
@@ -33,8 +33,8 @@ class Tree extends GameObject {
 
 	// override
 	public update(): void {
-		this.imageSprite.x += this.imageShifts.speed * this.imageShifts.direction;
-		this.imageSprite.y += this.imageShifts.speed/2 * this.imageShifts.direction;
+		this.spritesheetBounds.x += this.imageShifts.speed * this.imageShifts.direction;
+		this.spritesheetBounds.y += this.imageShifts.speed/2 * this.imageShifts.direction;
 		this.imageShifts.shifts++;
 		if (this.imageShifts.shifts > this.imageShifts.perDirection) {
 			this.imageShifts.shifts = 0;
