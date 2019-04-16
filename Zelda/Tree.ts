@@ -6,7 +6,7 @@ class Tree extends GameObject {
 		perDirection: 120,
 		shifts: 0,
 		direction: 1,
-		speed: 1,
+		speed: 0.2,
 	};
 
 	constructor(boundarySize:Vector2) {
@@ -39,6 +39,7 @@ class Tree extends GameObject {
 		if (this.imageShifts.shifts > this.imageShifts.perDirection) {
 			this.imageShifts.shifts = 0;
 			this.imageShifts.direction *= -1;
+			this.imageSrc = this.imageShifts.direction == 1 ? "Zelda/Overworld.png" : "Zelda/SoldierBlue.png";
 		}
 	}
 }
