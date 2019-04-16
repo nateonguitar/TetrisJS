@@ -10,6 +10,12 @@ class GameObject {
 		GameManager.registerGameObject(this);
 	}
 
+	public addChild(child: GameObject) {
+		this.children.push(child);
+	}
+
+
+
 	public getLayer(): number {
 		return this.layer;
 	}
