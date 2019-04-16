@@ -1,5 +1,6 @@
 class GameObject {
 
+	public children: Array<GameObject> = [];
 	public transform: Transform = new Transform();
 	protected layer: number = 0;
 
