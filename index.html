@@ -58,49 +58,50 @@
 			color: white;
 		}
 	</style>
+
+	<script type="text/JavaScript">
+
+		function runTetris() {
+			let gameLauncher = new GameLauncher({
+				parentElementID: "game-holder",
+				screenWidth: 250,
+				screenHeight: 450,
+				imageAntiAliasing: false,
+				layers: 3,
+				showDebug: true,
+				backgroundColor: "#330000",
+				border: "1px solid red",
+				originCenter: false,
+				onLoad: () => {
+					var tetrisController = new TetrisController();
+				}
+			});
+		}
+
+		function runZelda() {
+			let gameLauncher = new GameLauncher({
+				parentElementID: "game-holder",
+				screenWidth: 1000,
+				screenHeight: 800,
+				imageAntiAliasing: false,
+				layers: 4,
+				showDebug: true,
+				backgroundColor: "#001100",
+				border: "1px solid #008800",
+				originCenter: true,
+				onLoad: () => {
+					var zeldaController = new ZeldaController();
+				}
+			});
+		}
+
+		window.addEventListener('load', runZelda, false);
+	</script>
 </head>
 
 <body>
 	<div id="game-holder">
 		<h1>Tetris</h1>
 	</div>
-	<script type="text/JavaScript">
-		let tetrisOptions = {
-			parentElementID: "game-holder",
-			screenWidth: 250,
-			screenHeight: 450,
-			imageAntiAliasing: false,
-			layers: 3,
-			showDebug: true,
-			backgroundColor: "#330000",
-			border: "1px solid red",
-			originCenter: false,
-		}
-
-		let zeldaOptions = {
-			parentElementID: "game-holder",
-			screenWidth: 1000,
-			screenHeight: 800,
-			imageAntiAliasing: false,
-			layers: 4,
-			showDebug: true,
-			backgroundColor: "#001100",
-			border: "1px solid #008800",
-			originCenter: true,
-		};
-
-		// let gameLauncher = new GameLauncher(tetrisOptions);
-		// let tetrisController = new TetrisController();
-
-		let gameLauncher = new GameLauncher(zeldaOptions);
-		let zeldaController = null;
-
-		// TODO: Running our update function in the GameLauncher seems to have a race condition.
-		//       If we wait to start the zeldaController the soldiers appear in the right place.
-		setTimeout(() => {
-			zeldaController = new ZeldaController();
-		}, 500);
-	</script>
 </body>
-
 </html>

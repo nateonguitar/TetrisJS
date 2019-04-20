@@ -48,19 +48,26 @@ then in a script tag:
 </div>
 
 <script type="text/JavaScript">
-    // all parameters are optional, they have defaults
-    let gameLauncher = new GameLauncher({
-        parentElementID: "game-holder", // default: null, directly to body if not provided or id not found
-        screenWidth: 250,               // default: 800
-        screenHeight: 450,              // default: 600
-        imageAntiAliasing: true,        // default: false
-        layers: 3,                      // default: 1
-        showDebug: true,                // default: false
-        backgroundColor: "#dd0000",     // default: "#000000"
-        border: "1px solid red",        // default: "1px solid #444444"
-        originCenter: false,            // default: true, false == origin top left
-    });
-    // Note: HTML5 canvas runs much smoother without antialiasing
+    function runZelda() {
+        // Note: HTML5 canvas runs much smoother without antialiasing
+        let gameLauncher = new GameLauncher({
+            // all parameters are optional, they have defaults
+            parentElementID: "game-holder", // default: null, directly to body if not provided or id not found
+            screenWidth: 1000,              // default: 800
+            screenHeight: 800,              // default: 600
+            imageAntiAliasing: false,       // default: false
+            layers: 4,                      // default: 1
+            showDebug: true,                // default: false
+            backgroundColor: "#001100",     // default: "#000000"
+            border: "1px solid #008800",    // default: "1px solid #444444"
+            originCenter: true,             // default: true, false == origin top left
+            onLoad: () => {
+                var zeldaController = new ZeldaController();
+            }
+        });
+    }
+
+    window.addEventListener('load', runZelda, false);
 </script>
 ```
 
