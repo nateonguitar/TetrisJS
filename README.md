@@ -22,17 +22,20 @@ Import all lib files into the index.html
 	<script src="js/lib/Vector2.js"></script>
 	<script src="js/lib/Input.js"></script>
 	<script src="js/lib/Time.js"></script>
+	<script src="js/lib/StressTestSquare.js"></script>
+	<script src="js/lib/Camera.js"></script>
+	<script src="js/lib/Canvas.js"></script>
 	<script src="js/lib/GameLauncher.js"></script>
 	<!-- End required import-->
 
-	<!-- your own code imports -->
-	<script src="js/Shapes/Piece.js"></script>
-	<script src="js/Shapes/Cube.js"></script>
-	<script src="js/Shapes/Line.js"></script>
-	<script src="js/Shapes/LL.js"></script>
-	<script src="js/Shapes/LR.js"></script>
-	<script src="js/Grid.js"></script>
-	<script src="js/GameController.js"></script>
+	<!-- my own code imports -->
+	<script src="js/Tetris/Shapes/Piece.js"></script>
+	<script src="js/Tetris/Shapes/Cube.js"></script>
+	<script src="js/Tetris/Shapes/Line.js"></script>
+	<script src="js/Tetris/Shapes/LL.js"></script>
+	<script src="js/Tetris/Shapes/LR.js"></script>
+	<script src="js/Tetris/Grid.js"></script>
+	<script src="js/Tetris/TetrisController.js"></script>
 </head>
 
 ```
@@ -82,16 +85,29 @@ You can override some styles using the game-canvas and game-debug ids
 
 ```
 <style type="text/css">
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+    }
     #game-holder {
         padding:10px;
         background-color: grey;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
     }
     #game-canvas {
-        box-shadow: 2px -2px 2px #000;
+        /* box-shadow: 2px -2px 2px #000; */
     }
     #game-debug {
-        border: 1px solid #ff0000;
-        background-color: #dddddd;
+        border: 1px solid #330000;
+        background-color: #220000;
+        color: white;
     }
 </style>
 ```

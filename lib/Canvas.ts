@@ -57,6 +57,57 @@ class Canvas {
 		);
 	}
 
+	/**
+	 * Handles camera placement.
+	 *
+	 * `x`
+	 * The x-axis coordinate in the destination canvas at which to place the top-left corner of the source image.
+	 *
+	 * `y`
+	 * The y-axis coordinate in the destination canvas at which to place the top-left corner of the source image.
+	 *
+	 * `width`
+	 * The width to draw the image in the destination canvas.
+	 *
+	 * `height`
+	 * The height to draw the image in the destination canvas.
+	 *
+	 * `sx`
+	 * The x-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
+	 *
+	 * `sy`
+	 * The y-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
+	 *
+	 * `sWidth`
+	 * The width of the sub-rectangle of the source image to draw into the destination context.
+	 *
+	 * `sHeight`
+	 * The height of the sub-rectangle of the source image to draw into the destination context.
+	 **/
+	public static drawPartialImage(
+		image:any,
+		x:number,
+		y:number,
+		width:number,
+		height:number,
+		sx:number,
+		sy:number,
+		sWidth:number,
+		sHeight:number
+	): void {
+		this.context.drawImage(
+			image,
+			sx,
+			sy,
+			sWidth,
+			sHeight,
+			x - GameManager.camera.position.x,
+			y - GameManager.camera.position.y,
+			width,
+			height
+		);
+	}
+
 	/** Handles camera placement */
 	public static fillRect(x:number, y:number, width:number, height:number ): void {
 		Canvas.context.fillRect(

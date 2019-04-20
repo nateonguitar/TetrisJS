@@ -1,11 +1,14 @@
 class Player extends GameObject {
 
-	public layer = 2;
 	private speed = 4;
 	private boundarySize: Vector2 = null;
 
 	constructor(boundarySize:Vector2) {
-		super({imageSrc: "Zelda/Link.png"});
+		super({
+			layer: 2,
+			imageSrc: "Zelda/Link.png",
+		});
+
 		this.boundarySize = boundarySize.clone();
 		this.transform.size = new Vector2(16,22).scale(2);
 

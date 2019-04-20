@@ -16,6 +16,7 @@
 	<!-- End required import-->
 
 	<!-- my own code imports -->
+	<!-- Tetris -->
 	<script src="js/Tetris/Shapes/Piece.js"></script>
 	<script src="js/Tetris/Shapes/Cube.js"></script>
 	<script src="js/Tetris/Shapes/Line.js"></script>
@@ -24,9 +25,11 @@
 	<script src="js/Tetris/Grid.js"></script>
 	<script src="js/Tetris/TetrisController.js"></script>
 
+	<!-- Zelda -->
 	<script src="js/Zelda/ZeldaController.js"></script>
 	<script src="js/Zelda/Player.js"></script>
 	<script src="js/Zelda/Soldier.js"></script>
+	<script src="js/Zelda//Tree.js"></script>
 	<script src="js/Zelda/Background.js"></script>
 
 	<style type="text/css">
@@ -79,24 +82,24 @@
 			screenWidth: 1000,
 			screenHeight: 800,
 			imageAntiAliasing: false,
-			layers: 3,
+			layers: 4,
 			showDebug: true,
 			backgroundColor: "#001100",
 			border: "1px solid #008800",
 			originCenter: true,
 		};
 
-		let gameLauncher = new GameLauncher(tetrisOptions);
-		let tetrisController = new TetrisController();
+		// let gameLauncher = new GameLauncher(tetrisOptions);
+		// let tetrisController = new TetrisController();
 
-		// let gameLauncher = new GameLauncher(zeldaOptions);
-		// let zeldaController = null;
+		let gameLauncher = new GameLauncher(zeldaOptions);
+		let zeldaController = null;
 
-		// // TODO: Running our update function in the GameLauncher seems to have a race condition.
-		// //       If we wait to start the zeldaController the soldiers appear in the right place.
-		// setTimeout(() => {
-		// 	zeldaController = new ZeldaController();
-		// }, 500);
+		// TODO: Running our update function in the GameLauncher seems to have a race condition.
+		//       If we wait to start the zeldaController the soldiers appear in the right place.
+		setTimeout(() => {
+			zeldaController = new ZeldaController();
+		}, 500);
 	</script>
 </body>
 
