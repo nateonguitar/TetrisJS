@@ -10,6 +10,7 @@ interface Options {
 	backgroundColor: string;
 	border: string;
 	originCenter: boolean;
+	onLoad: Function;
 }
 
 class GameManager {
@@ -28,20 +29,29 @@ class GameManager {
 		backgroundColor: "#000000",
 		border: "1px solid #444444",
 		originCenter: true,
+		onLoad: () => {},
 	};
 
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
 
+	/** Anything we want to start before we run the main loop */
 	public static start(options: Object = {}): void {
-
 		this._camera = new Camera();
 		// if an option is passed in override our defaults
 		for (let key in options) {
 			this._options[key] = options[key];
 		}
+		Canvas.create();
+		this.createDebug();
+		Input.init();
 
-		document.addEventListener('DOMContentLoaded', () => GameManager.gameLauncher(), false);
+
+		// calling gameLoop once will start it infinitely running
+		requestAnimationFrame(() => {
+			this.gameLoop.bind(this)();
+			this._options.onLoad();
+		});
 	}
 
 	public static get camera() { return GameManager._camera; }
@@ -66,17 +76,6 @@ class GameManager {
 			}
 		}
 	}
-
-	/** Anything we want to start before we run the main loop */
-	public static gameLauncher(): void {
-		Canvas.create();
-		this.createDebug();
-		Input.init();
-		// calling update once will start it infinitely running
-		requestAnimationFrame(this.gameLoop.bind(this));
-	}
-
-
 
 	private static createDebug(): void {
 		if (this._options.showDebug) {
