@@ -62,7 +62,7 @@
 	<script type="text/JavaScript">
 
 		function runTetris() {
-			let gameLauncher = new GameLauncher({
+			new GameLauncher({
 				parentElementID: "game-holder",
 				screenWidth: 250,
 				screenHeight: 450,
@@ -73,13 +73,13 @@
 				border: "1px solid red",
 				originCenter: false,
 				onLoad: () => {
-					var tetrisController = new TetrisController();
+					new TetrisController();
 				}
 			});
 		}
 
 		function runZelda() {
-			let gameLauncher = new GameLauncher({
+			new GameLauncher({
 				parentElementID: "game-holder",
 				screenWidth: 1000,
 				screenHeight: 800,
@@ -90,7 +90,7 @@
 				border: "1px solid #008800",
 				originCenter: true,
 				onLoad: () => {
-					var zeldaController = new ZeldaController();
+					new ZeldaController();
 				}
 			});
 		}

@@ -50,7 +50,7 @@ then in a script tag:
 <script type="text/JavaScript">
     function runZelda() {
         // Note: HTML5 canvas runs much smoother without antialiasing
-        let gameLauncher = new GameLauncher({
+        new GameLauncher({
             // all parameters are optional, they have defaults
             parentElementID: "game-holder", // default: null, directly to body if not provided or id not found
             screenWidth: 1000,              // default: 800
@@ -62,7 +62,7 @@ then in a script tag:
             border: "1px solid #008800",    // default: "1px solid #444444"
             originCenter: true,             // default: true, false == origin top left
             onLoad: () => {
-                var zeldaController = new ZeldaController();
+                new ZeldaController();
             }
         });
     }
