@@ -3,8 +3,6 @@ class ZeldaController extends GameObject {
 	private background: Background = null;
 	private enemies: Soldier[] = [];
 
-	private soldierGreen: SoldierGreen = null;
-
 	constructor() {
 		super({
 			layer: 0
