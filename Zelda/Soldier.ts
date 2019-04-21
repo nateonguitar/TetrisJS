@@ -2,16 +2,15 @@ class Soldier extends GameObject {
 	private speedX: number = 0;
 	private speedY: number = 0;
 
-	private boundarySize: Vector2;
+	protected boundarySize: Vector2;
 
-	constructor(boundarySize: Vector2) {
+	constructor() {
 		super({
 			layer: 1,
-			imageSrc: "Zelda/SoldierBlue.png",
 		});
+	}
 
-		this.boundarySize = boundarySize.clone();
-
+	protected init(): void {
 		this.speedX = (-0.5 + Math.random()) / 3;
 		this.speedY = (-0.5 + Math.random()) / 3;
 
@@ -28,7 +27,7 @@ class Soldier extends GameObject {
 		this.handleMovement();
 	}
 
-	private handleMovement(): void {
+	protected handleMovement(): void {
 		let p = this.transform.position;
 		let s = this.transform.size;
 		p.x += this.speedX * Time.deltaTime;
@@ -44,15 +43,18 @@ class Soldier extends GameObject {
 			this.speedY *= -1;
 			p.y = 0;
 		}
-		// right
-		if (p.x > this.boundarySize.x - s.x) {
-			this.speedX *= -1;
-			p.x = this.boundarySize.x - s.x;
-		}
-		// bottom
-		if (p.y > this.boundarySize.y - s.y) {
-			this.speedY *= -1;
-			p.y = this.boundarySize.y - s.y;
+
+		if (this.boundarySize) {
+			// right
+			if (p.x > this.boundarySize.x - s.x) {
+				this.speedX *= -1;
+				p.x = this.boundarySize.x - s.x;
+			}
+			// bottom
+			if (p.y > this.boundarySize.y - s.y) {
+				this.speedY *= -1;
+				p.y = this.boundarySize.y - s.y;
+			}
 		}
 	}
 }

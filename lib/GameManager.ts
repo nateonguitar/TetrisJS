@@ -120,6 +120,7 @@ class GameManager {
 		requestAnimationFrame(this.gameLoop.bind(this));
 		Time.update();
 		this.update();
+		this.updateAnimations();
 		this.draw();
 	}
 
@@ -134,6 +135,12 @@ class GameManager {
 		if (this._options.showDebug) {
 			this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + this._gameObjects.length;
 			this.debugDom["paraFPS"].innerText = 'FPS: ' + this.fps().toFixed(1);
+		}
+	}
+
+	private static updateAnimations(): void {
+		for (let gameObject of this._gameObjects) {
+			gameObject.updateAnimations();
 		}
 	}
 
