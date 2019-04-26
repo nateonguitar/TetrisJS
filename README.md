@@ -22,6 +22,8 @@ Import all lib files into the index.html
 	<script src="js/lib/Vector2.js"></script>
 	<script src="js/lib/Input.js"></script>
 	<script src="js/lib/Time.js"></script>
+	<script src="js/lib/SpritesheetAnimation.js"></script>
+	<script src="js/lib/SpritesheetAnimationSet.js"></script>
 	<script src="js/lib/StressTestSquare.js"></script>
 	<script src="js/lib/Camera.js"></script>
 	<script src="js/lib/Canvas.js"></script>
@@ -29,13 +31,13 @@ Import all lib files into the index.html
 	<!-- End required import-->
 
 	<!-- my own code imports -->
-	<script src="js/Tetris/Shapes/Piece.js"></script>
-	<script src="js/Tetris/Shapes/Cube.js"></script>
-	<script src="js/Tetris/Shapes/Line.js"></script>
-	<script src="js/Tetris/Shapes/LL.js"></script>
-	<script src="js/Tetris/Shapes/LR.js"></script>
-	<script src="js/Tetris/Grid.js"></script>
-	<script src="js/Tetris/TetrisController.js"></script>
+	<script src="js/Zelda/ZeldaController.js"></script>
+	<script src="js/Zelda/Player.js"></script>
+	<script src="js/Zelda/Soldier.js"></script>
+	<script src="js/Zelda/SoldierGreen.js"></script>
+	<script src="js/Zelda/SoldierBlue.js"></script>
+	<script src="js/Zelda//Tree.js"></script>
+	<script src="js/Zelda/Background.js"></script>
 </head>
 
 ```
