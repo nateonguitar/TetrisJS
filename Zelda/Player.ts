@@ -3,6 +3,8 @@ class Player extends GameObject {
 	private speed = 4;
 	private boundarySize: Vector2 = null;
 
+	private holdingMouse: boolean = false;
+
 	constructor(boundarySize:Vector2) {
 		super({
 			layer: 2,
@@ -15,11 +17,22 @@ class Player extends GameObject {
 		this.transform.position = this.boundarySize.clone();
 		this.transform.position.scale(0.5);
 		this.transform.position.subtract(this.transform.size.clone().scale(0.5));
+
+		Input.registerMouseDown(this, this.mousedown);
+		Input.registerMouseUp(this, this.mouseup);
 	}
 
 	// override
 	public update(): void {
 		this.handleMovement();
+		if (this.holdingMouse) {
+			this.transform.size.x += 1;
+			this.transform.size.y += 1;
+		}
+		if (Input.keys(Keys.Space) && this.transform.size.x > 20) {
+			this.transform.size.x -= 1;
+			this.transform.size.y -= 1;
+		}
 	}
 
 	private handleMovement(): void {
@@ -53,6 +66,22 @@ class Player extends GameObject {
 		}
 		if (this.transform.position.y > this.boundarySize.y - this.transform.size.y) {
 			this.transform.position.y = this.boundarySize.y - this.transform.size.y;
+		}
+	}
+
+	private mousedown(coords:Vector2, gameObjects:GameObject[]): void {
+		for (let obj of gameObjects) {
+			if (obj == this) {
+				this.holdingMouse = true;
+			}
+		}
+	}
+
+	private mouseup(coords:Vector2, gameObjects:GameObject[]): void {
+		for (let obj of gameObjects) {
+			if (obj == this) {
+				this.holdingMouse = false;
+			}
 		}
 	}
 }

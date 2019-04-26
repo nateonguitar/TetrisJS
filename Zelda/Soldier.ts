@@ -1,6 +1,6 @@
 class Soldier extends GameObject {
-	private speedX: number = 0;
-	private speedY: number = 0;
+	protected speedX: number = 0;
+	protected speedY: number = 0;
 
 	protected boundarySize: Vector2;
 
@@ -11,8 +11,7 @@ class Soldier extends GameObject {
 	}
 
 	protected init(): void {
-		this.speedX = (-0.5 + Math.random()) / 3;
-		this.speedY = (-0.5 + Math.random()) / 3;
+		this.setRandomDirection();
 
 		this.transform.size = new Vector2(13, 18).scale(3 + Math.random());
 
@@ -25,6 +24,11 @@ class Soldier extends GameObject {
 	// override
 	public update(): void {
 		this.handleMovement();
+	}
+
+	protected setRandomDirection(): void {
+		this.speedX = (-0.5 + Math.random()) / 3;
+		this.speedY = (-0.5 + Math.random()) / 3;
 	}
 
 	protected handleMovement(): void {

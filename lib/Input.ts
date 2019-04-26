@@ -131,9 +131,66 @@ class Input {
 
 	private static _keyDowns: { [key:number]:boolean } = {}
 
-	public static init(): void {
+	private static mousedownListeners: Function[] = [];
+	private static mouseupListeners: Function[] = [];
+	private static mousePos: Vector2 = Vector2.zero;
+
+	/** The list of game objects handed to this class from GameManager */
+	private static gameObjects: GameObject[] = [];
+
+	public static init(gameObjects:GameObject[]): void {
+		Input.gameObjects = gameObjects;
 		document.onkeydown = Input.getKeyDown;
 		document.onkeyup = Input.getKeyUp;
+		Canvas.canvas.addEventListener('mousedown', this.mousedown);
+		Canvas.canvas.addEventListener('mouseup', this.mouseup);
+		Canvas.canvas.addEventListener('mousemove', this.mousemove);
+	}
+
+	private static mousedown(event:MouseEvent): void {
+		Input.mouseUpOrDown(event, Input.mousedownListeners);
+	}
+
+	private static mouseup(event:MouseEvent): void {
+		Input.mouseUpOrDown(event, Input.mouseupListeners);
+	}
+
+	private static mousemove(event:MouseEvent): void {
+		let cameraPos = GameManager.camera.position.clone();
+		if (GameManager.options.originCenter) {
+			cameraPos.x -= Canvas.canvas.width / 2;
+			cameraPos.y -= Canvas.canvas.height / 2;
+		}
+		Input.mousePos = new Vector2(event.layerX + cameraPos.x, event.layerY + cameraPos.y);
+	}
+
+	private static mouseUpOrDown(event, listeners:Function[]): void {
+		let clickPos = new Vector2(event.layerX, event.layerY);
+
+		let cameraPos = GameManager.camera.position.clone();
+		if (GameManager.options.originCenter) {
+			cameraPos.x -= Canvas.canvas.width / 2;
+			cameraPos.y -= Canvas.canvas.height / 2;
+		}
+
+		for (let i=0; i<listeners.length; i++) {
+			let clickedObjects: GameObject[] = Input.gameObjects.filter(obj => {
+				if (
+					clickPos.x >= obj.transform.position.x - cameraPos.x &&
+					clickPos.y >= obj.transform.position.y - cameraPos.y &&
+					clickPos.x <= obj.transform.position.x - cameraPos.x + obj.transform.size.x &&
+					clickPos.y <= obj.transform.position.y - cameraPos.y + obj.transform.size.y
+				) {
+					return true;
+				}
+				return false;
+			});
+			listeners[i](clickPos.clone().subtract(cameraPos), clickedObjects);
+		}
+	}
+
+	public static getMousePosition(): Vector2 {
+		return Input.mousePos.clone();
 	}
 
 	/** `Input.keys(Keys.UP)` will return `true` if key is pressed */
@@ -153,5 +210,13 @@ class Input {
 	private static getKeyUp(e) {
 		e = e || window.event;
 		Input._keyDowns[Input._KEYS[e.code]] = false;
+	}
+
+	public static registerMouseDown(toBind: object, func:Function): void {
+		Input.mousedownListeners.push(func.bind(toBind));
+	}
+
+	public static registerMouseUp(toBind: object, func:Function): void {
+		Input.mouseupListeners.push(func.bind(toBind));
 	}
 }
