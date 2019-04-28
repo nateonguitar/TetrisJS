@@ -78,10 +78,6 @@ class Player extends GameObject {
 	}
 
 	private mouseup(coords:Vector2, gameObjects:GameObject[]): void {
-		for (let obj of gameObjects) {
-			if (obj == this) {
-				this.holdingMouse = false;
-			}
-		}
+		this.holdingMouse = false;
 	}
 }
