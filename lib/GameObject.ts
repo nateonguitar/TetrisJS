@@ -122,7 +122,7 @@ class GameObject {
 	}
 
 	public removeAllReferencesToGameObject(gameObject: GameObject) {
-		for (let key in <any>this) {
+		for (let key in this as any) {
 			if (this[key] != null) {
 				// remove gameObject from arrays:
 				// like if this.cars[3] === gameObject
