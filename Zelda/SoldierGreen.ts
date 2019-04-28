@@ -1,6 +1,8 @@
 class SoldierGreen extends Soldier {
 
 	private currentAnimationName: string = null;
+	private holdingMouse: boolean = false;
+
 	constructor(boundarySize: Vector2) {
 		super();
 		this.boundarySize = boundarySize.clone();
@@ -31,6 +33,9 @@ class SoldierGreen extends Soldier {
 			this.currentAnimationName // start animation name
 		);
 
+		Input.registerMouseDown(this, this.mousedown);
+		Input.registerMouseUp(this, this.mouseup);
+
 		this.init();
 	}
 
@@ -46,5 +51,26 @@ class SoldierGreen extends Soldier {
 			this.spritesheetAnimationSet.currentAnimationName = this.currentAnimationName;
 		}
 		this.handleMovement();
+
+		if (this.holdingMouse) {
+			this.speedX = 0;
+			this.speedY = 0;
+			this.transform.position = Input.getMousePosition().subtract(this.transform.size.clone().scale(0.5));
+		}
+		else if (this.speedX == 0) {
+			this.setRandomDirection();
+		}
+	}
+
+	private mousedown(coords:Vector2, gameObjects:GameObject[]): void {
+		for (let obj of gameObjects) {
+			if (obj == this) {
+				this.holdingMouse = true;
+			}
+		}
+	}
+
+	private mouseup(coords:Vector2, gameObjects:GameObject[]): void {
+		this.holdingMouse = false;
 	}
 }

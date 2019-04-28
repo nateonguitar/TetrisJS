@@ -42,10 +42,13 @@ class GameManager {
 		for (let key in options) {
 			this._options[key] = options[key];
 		}
-		Canvas.create();
-		this.createDebug();
-		Input.init();
 
+		Canvas.create();
+
+		// input MUST be initialized after canvas as it registers click events
+		Input.init(this._gameObjects);
+
+		this.createDebug();
 
 		// calling gameLoop once will start it infinitely running
 		requestAnimationFrame(() => {

@@ -19,6 +19,8 @@ class TetrisController extends GameObject {
 	constructor() {
 		super();
 		this.grid = new Grid();
+
+		Input.registerMouseDown(this, this.mousedown);
 	}
 
 	public update() {
@@ -90,5 +92,10 @@ class TetrisController extends GameObject {
 				this.currentPiece.transform.position.x = this.grid.transform.size.x - totalWidth;
 			}
 		}
+	}
+
+	private mousedown(coords:Vector2, gameObjects:GameObject[]): void {
+		console.log(coords);
+		console.log(gameObjects);
 	}
 }
