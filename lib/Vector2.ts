@@ -94,6 +94,6 @@ class Vector2 {
 	}
 
 	public toString() {
-		return ("[" + this.x + "; " + this.y + "]");
+		return ("[" + this.x + ", " + this.y + "]");
 	}
 }
