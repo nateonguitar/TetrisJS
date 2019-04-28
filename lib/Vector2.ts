@@ -29,7 +29,7 @@ class Vector2 {
 		return this;
 	}
 
-	public scale(scalar) {
+	public scale(scalar: number) {
 		this.x *= scalar;
 		this.y *= scalar;
 		return this;
@@ -80,7 +80,7 @@ class Vector2 {
 		return Math.atan2(this.y, this.x);
 	}
 
-	public rotate(alpha) {
+	public rotate(alpha: number) {
 		let cos = Math.cos(alpha);
 		let sin = Math.sin(alpha);
 		let vector = new Vector2(0, 0);
