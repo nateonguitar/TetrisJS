@@ -107,8 +107,8 @@ class Canvas {
 				sy,
 				sWidth,
 				sHeight,
-				x - GameManager.camera.position.x,
-				y - GameManager.camera.position.y,
+				x - camPos.x,
+				y - camPos.y,
 				width,
 				height
 			);
@@ -120,8 +120,8 @@ class Canvas {
 		let camPos: Vector2 = GameManager.camera.position;
 		if (this.insideCameraBounds(x, y, width, height)) {
 			Canvas.context.fillRect(
-				x - GameManager.camera.position.x,
-				y - GameManager.camera.position.y,
+				x - camPos.x,
+				y - camPos.y,
 				width,
 				height
 			);
@@ -133,8 +133,8 @@ class Canvas {
 		let camPos: Vector2 = GameManager.camera.position;
 		if (this.insideCameraBounds(x, y, width, height)) {
 			Canvas.context.strokeRect(
-				x - GameManager.camera.position.x,
-				y - GameManager.camera.position.y,
+				x - camPos.x,
+				y - camPos.y,
 				width,
 				height
 			);
