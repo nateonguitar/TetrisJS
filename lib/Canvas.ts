@@ -61,6 +61,22 @@ class Canvas {
 		}
 	}
 
+	/** Handles camera placement, won't draw if outside visible rect */
+	public static drawGameObjectImage(image:any, gameObject:GameObject,): void {
+		let t: Transform = gameObject.transform;
+		// if the entire image not outside the viewport
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+			this.context.drawImage(
+				image,
+				t.position.x - camPos.x,
+				t.position.y - camPos.y,
+				t.size.x,
+				t.size.y
+			);
+		}
+	}
+
 	/**
 	 * Handles camera placement, won't draw if outside visible rect
 	 *
@@ -115,8 +131,51 @@ class Canvas {
 		}
 	}
 
+	/**
+	 * Handles camera placement, won't draw if outside visible rect
+	 *
+	 * `gameObject`
+	 * The GameObject you'd like to draw
+	 *
+	 * `sx`
+	 * The x-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
+	 *
+	 * `sy`
+	 * The y-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
+	 *
+	 * `sWidth`
+	 * The width of the sub-rectangle of the source image to draw into the destination context.
+	 *
+	 * `sHeight`
+	 * The height of the sub-rectangle of the source image to draw into the destination context.
+	 **/
+	public static drawGameObjectPartialImage(
+		image:any,
+		gameObject:GameObject,
+		sx:number,
+		sy:number,
+		sWidth:number,
+		sHeight:number
+	): void {
+		let t: Transform = gameObject.transform;
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+			this.context.drawImage(
+				image,
+				sx,
+				sy,
+				sWidth,
+				sHeight,
+				t.position.x - camPos.x,
+				t.position.y - camPos.y,
+				t.size.x,
+				t.size.y
+			);
+		}
+	}
+
 	/** Handles camera placement, won't draw if outside visible rect */
-	public static fillRect(x:number, y:number, width:number, height:number ): void {
+	public static fillRect(x:number, y:number, width:number, height:number): void {
 		let camPos: Vector2 = GameManager.camera.position;
 		if (this.insideCameraBounds(x, y, width, height)) {
 			Canvas.context.fillRect(
@@ -124,6 +183,19 @@ class Canvas {
 				y - camPos.y,
 				width,
 				height
+			);
+		}
+	}
+	/** Handles camera placement, won't draw if outside visible rect */
+	public static fillGameObjectRect(gameObject:GameObject): void {
+		let t: Transform = gameObject.transform;
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+			Canvas.context.fillRect(
+				t.position.x - camPos.x,
+				t.position.y - camPos.y,
+				t.size.x,
+				t.size.y
 			);
 		}
 	}
@@ -137,6 +209,19 @@ class Canvas {
 				y - camPos.y,
 				width,
 				height
+			);
+		}
+	}
+	/** Handles camera placement, won't draw if outside visible rect */
+	public static strokeGameObjectRect(gameObject:GameObject): void {
+		let t: Transform = gameObject.transform;
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+			Canvas.context.strokeRect(
+				t.position.x - camPos.x,
+				t.position.y - camPos.y,
+				t.size.x,
+				t.size.y
 			);
 		}
 	}

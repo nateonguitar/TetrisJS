@@ -33,6 +33,7 @@ class GameObject {
 
 	constructor(options: object = {}) {
 		this.image = new Image();
+		this.image.addEventListener('load', () => { console.log(this._imageSrc); });
 
 		for (let key in options) {
 			this[key] = options[key];
@@ -59,12 +60,9 @@ class GameObject {
 		if (this.spritesheetAnimationSet) {
 			this.image.src = this.spritesheetAnimationSet.imageSrc;
 			let animationTransform = this.spritesheetAnimationSet.currentAnimationTransform;
-			Canvas.drawPartialImage(
+			Canvas.drawGameObjectPartialImage(
 				this.image,
-				this.transform.position.x,
-				this.transform.position.y,
-				this.transform.size.x,
-				this.transform.size.y,
+				this,
 				animationTransform.position.x,
 				animationTransform.position.y,
 				animationTransform.size.x,
@@ -73,12 +71,9 @@ class GameObject {
 		}
 		else if (this.image.src) {
 			if (this.spritesheetBounds) {
-				Canvas.drawPartialImage(
+				Canvas.drawGameObjectPartialImage(
 					this.image,
-					this.transform.position.x,
-					this.transform.position.y,
-					this.transform.size.x,
-					this.transform.size.y,
+					this,
 					this.spritesheetBounds.x,
 					this.spritesheetBounds.y,
 					this.spritesheetBounds.width,
@@ -86,36 +81,20 @@ class GameObject {
 				);
 			}
 			else {
-				Canvas.drawImage(
-					this.image,
-					this.transform.position.x,
-					this.transform.position.y,
-					this.transform.size.x,
-					this.transform.size.y
-				);
+				Canvas.drawGameObjectImage(this.image, this);
 			}
 		}
 		else {
 			if (this.fillStyle) {
 				Canvas.setFillStyle(this.fillStyle);
 				if (this.shape == "square") {
-					Canvas.fillRect(
-						this.transform.position.x,
-						this.transform.position.y,
-						this.transform.size.x,
-						this.transform.size.y
-					);
+					Canvas.fillGameObjectRect(this);
 				}
 			}
 			if (this.strokeStyle) {
 				Canvas.setStrokeStyle(this.strokeStyle);
 				if (this.shape == "square") {
-					Canvas.strokeRect(
-						this.transform.position.x,
-						this.transform.position.y,
-						this.transform.size.x,
-						this.transform.size.y
-					);
+					Canvas.strokeGameObjectRect(this);
 				}
 			}
 		}
