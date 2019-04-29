@@ -62,7 +62,7 @@ class Canvas {
 	}
 
 	/**
-	 * Handles camera placement.
+	 * Handles camera placement, won't draw if outside visible rect
 	 *
 	 * `x`
 	 * The x-axis coordinate in the destination canvas at which to place the top-left corner of the source image.
@@ -115,7 +115,7 @@ class Canvas {
 		}
 	}
 
-	/** Handles camera placement */
+	/** Handles camera placement, won't draw if outside visible rect */
 	public static fillRect(x:number, y:number, width:number, height:number ): void {
 		let camPos: Vector2 = GameManager.camera.position;
 		if (this.insideCameraBounds(x, y, width, height)) {
@@ -128,7 +128,7 @@ class Canvas {
 		}
 	}
 
-	/** Handles camera placement */
+	/** Handles camera placement, won't draw if outside visible rect */
 	public static strokeRect(x:number, y:number, width:number, height:number ): void {
 		let camPos: Vector2 = GameManager.camera.position;
 		if (this.insideCameraBounds(x, y, width, height)) {
