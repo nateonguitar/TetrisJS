@@ -46,15 +46,19 @@ class Canvas {
 		this.context.lineWidth = width;
 	}
 
-	/** Handles camera placement */
+	/** Handles camera placement, won't draw if outside visible rect */
 	public static drawImage(image:any, x:number, y:number, width:number, height:number ): void {
-		this.context.drawImage(
-			image,
-			x - GameManager.camera.position.x,
-			y - GameManager.camera.position.y,
-			width,
-			height
-		);
+		// if the entire image not outside the viewport
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+			this.context.drawImage(
+				image,
+				x - camPos.x,
+				y - camPos.y,
+				width,
+				height
+			);
+		}
 	}
 
 	/**
@@ -95,36 +99,56 @@ class Canvas {
 		sWidth:number,
 		sHeight:number
 	): void {
-		this.context.drawImage(
-			image,
-			sx,
-			sy,
-			sWidth,
-			sHeight,
-			x - GameManager.camera.position.x,
-			y - GameManager.camera.position.y,
-			width,
-			height
-		);
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+			this.context.drawImage(
+				image,
+				sx,
+				sy,
+				sWidth,
+				sHeight,
+				x - GameManager.camera.position.x,
+				y - GameManager.camera.position.y,
+				width,
+				height
+			);
+		}
 	}
 
 	/** Handles camera placement */
 	public static fillRect(x:number, y:number, width:number, height:number ): void {
-		Canvas.context.fillRect(
-			x - GameManager.camera.position.x,
-			y - GameManager.camera.position.y,
-			width,
-			height
-		);
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+			Canvas.context.fillRect(
+				x - GameManager.camera.position.x,
+				y - GameManager.camera.position.y,
+				width,
+				height
+			);
+		}
 	}
 
 	/** Handles camera placement */
 	public static strokeRect(x:number, y:number, width:number, height:number ): void {
-		Canvas.context.strokeRect(
-			x - GameManager.camera.position.x,
-			y - GameManager.camera.position.y,
-			width,
-			height
+		let camPos: Vector2 = GameManager.camera.position;
+		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+			Canvas.context.strokeRect(
+				x - GameManager.camera.position.x,
+				y - GameManager.camera.position.y,
+				width,
+				height
+			);
+		}
+	}
+
+	private static insideCameraBounds(camPos:Vector2, x:number, y:number, width:number, height:number): boolean {
+		let screenWidth: number = GameManager.options.screenWidth;
+		let screenHeight: number = GameManager.options.screenHeight;
+		return (
+			x + width > camPos.x - (GameManager.options.originCenter ? screenWidth/2 : screenWidth) &&
+			y + height > camPos.y - (GameManager.options.originCenter ? screenHeight/2 : screenHeight) &&
+			x < camPos.x + (GameManager.options.originCenter ? screenWidth/2 : screenWidth) &&
+			y < camPos.y + (GameManager.options.originCenter ? screenHeight/2 : screenHeight)
 		);
 	}
 }
