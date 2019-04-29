@@ -50,7 +50,7 @@ class Canvas {
 	public static drawImage(image:any, x:number, y:number, width:number, height:number ): void {
 		// if the entire image not outside the viewport
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+		if (this.insideCameraBounds(x, y, width, height)) {
 			this.context.drawImage(
 				image,
 				x - camPos.x,
@@ -100,7 +100,7 @@ class Canvas {
 		sHeight:number
 	): void {
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+		if (this.insideCameraBounds(x, y, width, height)) {
 			this.context.drawImage(
 				image,
 				sx,
@@ -118,7 +118,7 @@ class Canvas {
 	/** Handles camera placement */
 	public static fillRect(x:number, y:number, width:number, height:number ): void {
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+		if (this.insideCameraBounds(x, y, width, height)) {
 			Canvas.context.fillRect(
 				x - GameManager.camera.position.x,
 				y - GameManager.camera.position.y,
@@ -131,7 +131,7 @@ class Canvas {
 	/** Handles camera placement */
 	public static strokeRect(x:number, y:number, width:number, height:number ): void {
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(camPos, x, y, width, height)) {
+		if (this.insideCameraBounds(x, y, width, height)) {
 			Canvas.context.strokeRect(
 				x - GameManager.camera.position.x,
 				y - GameManager.camera.position.y,
@@ -141,9 +141,10 @@ class Canvas {
 		}
 	}
 
-	private static insideCameraBounds(camPos:Vector2, x:number, y:number, width:number, height:number): boolean {
+	private static insideCameraBounds(x:number, y:number, width:number, height:number): boolean {
 		let screenWidth: number = GameManager.options.screenWidth;
 		let screenHeight: number = GameManager.options.screenHeight;
+		let camPos: Vector2 = GameManager.camera.position;
 		return (
 			x + width > camPos.x - (GameManager.options.originCenter ? screenWidth/2 : screenWidth) &&
 			y + height > camPos.y - (GameManager.options.originCenter ? screenHeight/2 : screenHeight) &&
