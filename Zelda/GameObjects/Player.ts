@@ -9,7 +9,7 @@ class Player extends GameObject {
 	constructor(boundarySize:Vector2) {
 		super({
 			layer: 2,
-			imageSrc: "Zelda/Link.png",
+			imageSrc: "Zelda/Images/Link.png",
 		});
 
 		this.boundarySize = boundarySize.clone();
