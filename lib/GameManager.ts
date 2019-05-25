@@ -40,9 +40,8 @@ class GameManager {
 			this._options[key] = options[key];
 		}
 
-		if (!this.options.initialLevel  || !this.options.levelClasses[this.options.initialLevel]) {
-			console.error("You must define `levelClasses` and an `initialLevel` in the GameLauncher options");
-			return;
+		if (Object.keys(this._options.levelClasses).length == 0) {
+			console.error("You must provide at least one level in the `levelClasses` options.")
 		}
 
 		this._camera = new Camera();
@@ -59,7 +58,23 @@ class GameManager {
 		// calling gameLoop once will start it infinitely running
 		requestAnimationFrame(() => {
 			this.gameLoop.bind(this)();
-			this.loadLevel(this._options.initialLevel);
+
+			let firstDefinedLevel = null;
+			for (let level in this._options.levelClasses) {
+				firstDefinedLevel = level;
+				break;
+			}
+			if (!firstDefinedLevel) {
+				console.error('No `levelClasses` provided in options')
+				return;
+			}
+
+			if (this._options.initialLevel) {
+				this.loadLevel(this._options.initialLevel);
+			}
+			else {
+				this.loadLevel(firstDefinedLevel);
+			}
 		});
 
 	}
