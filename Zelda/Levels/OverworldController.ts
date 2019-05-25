@@ -23,8 +23,8 @@ class OverworldController extends GameObject {
 		GameManager.camera.follow(this.player);
 
 		for (let i=0; i<250; i++) {
-			this.enemies.push(new SoldierBlue(boundarySize));
 			this.enemies.push(new SoldierGreen(boundarySize));
+			this.enemies.push(new SoldierBlue(boundarySize));
 		}
 
 		Debug.track(this.background);

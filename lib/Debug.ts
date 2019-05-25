@@ -3,7 +3,7 @@ class Debug {
 	private static debugDom: {[k:string]: HTMLElement} = {};
 
 	/** miliseconds between display updates */
-	private static timeBetweenDisplayUpdates = 250;
+	private static timeBetweenDisplayUpdates = 125;
 	private static timeOfLastDisplayUpdate = 0;
 
 	private static trackedGameObjects = [];
@@ -130,9 +130,15 @@ class Debug {
 						<tr>
 							<td>${tracked.constructor.name}:</td>
 							<td style="white-space:pre-wrap;">`;
-					html += `position ${tracked.transform.position}\n`;
-					html += `size     ${tracked.transform.size}\n`;
-					html += `image    ${((tracked.image || {}).src) || ''}`
+					html += this.padEndNbsp("position", 12) + `${tracked.transform.position}<br>`;
+					html += this.padEndNbsp("size",     12) + `${tracked.transform.size}<br>`;
+					html += this.padEndNbsp("image",    12) + `${((tracked.image || {}).src) || ''}`;
+
+					let animationInfo = (<GameObject>tracked).getCurrentSpritesheetAnimationInfo();
+					if (animationInfo) {
+						html += "<br>" + this.padEndNbsp("anim name",  12) + animationInfo.name;
+						html += "<br>" + this.padEndNbsp("anim index", 12) + animationInfo.index;
+					}
 
 					html += `
 							</td>
@@ -143,5 +149,16 @@ class Debug {
 
 			this.debugDom['table_debug'].innerHTML = html;
 		}
+	}
+
+	private static padEndNbsp(str: string, num: number): string {
+		return this.padEnd(str, num, "&nbsp;");
+	}
+
+	private static padEnd(str:string, num:number, pad:string): string {
+		for (let i=str.length; i<num+1; i++) {
+			str += pad;
+		}
+		return str;
 	}
 }
