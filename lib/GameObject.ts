@@ -34,7 +34,10 @@ class GameObject {
 
 	constructor(options: object = {}) {
 		this.image = new Image();
-		this.image.addEventListener('load', () => { console.log(this._imageSrc); });
+		if (this.imageSrc) {
+			this.image.src = this.imageSrc;
+		}
+		this.image.addEventListener('load', () => { /* console.log(this._imageSrc); */ });
 
 		for (let key in options) {
 			this[key] = options[key];
