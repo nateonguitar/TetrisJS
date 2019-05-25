@@ -14,13 +14,14 @@ Import all lib files into the index.html
 ```
 <html>
 <head>
-	<!-- library import -->
 	<!-- YOU MUST IMPORT THESE-->
+	<script src="js/lib/Debug.js"></script>
 	<script src="js/lib/GameManager.js"></script>
 	<script src="js/lib/GameObject.js"></script>
 	<script src="js/lib/Transform.js"></script>
 	<script src="js/lib/Vector2.js"></script>
 	<script src="js/lib/Input.js"></script>
+	<script src="js/lib/Level.js"></script>
 	<script src="js/lib/Time.js"></script>
 	<script src="js/lib/SpritesheetAnimation.js"></script>
 	<script src="js/lib/SpritesheetAnimationSet.js"></script>
@@ -28,6 +29,7 @@ Import all lib files into the index.html
 	<script src="js/lib/Camera.js"></script>
 	<script src="js/lib/Canvas.js"></script>
 	<script src="js/lib/GameLauncher.js"></script>
+	<script src="js/lib/Utils.js"></script>
 	<!-- End required import-->
 
 	<!-- my own code imports -->
@@ -54,18 +56,19 @@ then in a script tag:
         // Note: HTML5 canvas runs much smoother without antialiasing
         new GameLauncher({
             // all parameters are optional, they have defaults
-            parentElementID: "game-holder", // default: null, directly to body if not provided or id not found
-            screenWidth: 1000,              // default: 800
-            screenHeight: 800,              // default: 600
-            imageAntiAliasing: false,       // default: false
-            layers: 4,                      // default: 1
-            showDebug: true,                // default: false
-            backgroundColor: "#001100",     // default: "#000000"
-            border: "1px solid #008800",    // default: "1px solid #444444"
-            originCenter: true,             // default: true, false == origin top left
-            onLoad: () => {
-                new ZeldaController();
-            }
+            parentElementID: "game-holder",    // default: null, directly to body if not provided or id not found
+            screenWidth: 1000,                 // default: 800
+            screenHeight: 800,                 // default: 600
+            imageAntiAliasing: false,          // default: false
+            layers: 4,                         // default: 1
+            showDebug: true,                   // default: false
+            backgroundColor: "#001100",        // default: "#000000"
+            border: "1px solid #008800",       // default: "1px solid #444444",
+            levelClasses: {                    // default: {} and will error if no entries defined
+                'Overworld': OverworldLevel,
+                'LinksHouse': LinksHouseLevel,
+            },
+            initialLevel: 'Overworld'          // default: null, first entry of levelClasses will be used if not set
         });
     }
 
@@ -77,13 +80,25 @@ to launch the game.
 
 -------
 
-It is recommended to then make a 
+Your Levels must inheret from `Level`, override the init() function, and provide a m
 
 ```
-class GameController extends GameObject {
-
+class OverworldLevel extends Level {
+	// override
+	public init(): void {
+		this.managingGameObject = new ZeldaController();
+		this.images = [
+			'Link.png',
+			'Overworld.png',
+			'SoldierBlue.png',
+			'SoldierGreenWalkDownSpritesheet.png',
+			'SoldierGreenWalkSideSpritesheet.png',
+		];
+	}
 }
+
 ```
+
 
 and do whatever you want.  Very similar to Unity.  Any class that extends from GameObject will automatically be registered with the GameManager and your `update()` and `draw()` functions will run if you override them.
 
