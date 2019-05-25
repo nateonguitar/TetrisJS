@@ -15,7 +15,10 @@ class Level {
 	}
 
 	// override this
-	public init(): void { }
+	public init(): void {
+		console.error("`" + this.constructor.name + "` did not override the init() function.");
+		console.error("- Note: You will need to set the this.managingGameObject variable in init().");
+	}
 
 	public get cachedImages(): any[] {
 		return this._cachedImages;
