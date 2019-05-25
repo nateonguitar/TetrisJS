@@ -28,6 +28,7 @@
 	<script src="js/Tetris/Shapes/LL.js"></script>
 	<script src="js/Tetris/Shapes/LR.js"></script>
 	<script src="js/Tetris/Grid.js"></script>
+	<script src="js/Tetris/TetrisLevel.js"></script>
 	<script src="js/Tetris/TetrisController.js"></script>
 
 	<!-- Zelda -->
@@ -54,9 +55,10 @@
 				showDebug: true,
 				backgroundColor: "#330000",
 				border: "1px solid red",
-				onLoad: () => {
-					new TetrisController();
-				}
+				levelClasses: {
+					'Tetris': TetrisLevel
+				},
+				initialLevel: 'Tetris'
 			});
 		}
 
@@ -77,8 +79,8 @@
 			});
 		}
 
-		// window.addEventListener('load', runTetris, false);
-		window.addEventListener('load', runZelda, false);
+		window.addEventListener('load', runTetris, false);
+		// window.addEventListener('load', runZelda, false);
 	</script>
 </head>
 

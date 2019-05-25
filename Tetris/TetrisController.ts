@@ -21,6 +21,7 @@ class TetrisController extends GameObject {
 		this.grid = new Grid();
 
 		Input.registerMouseDown(this, this.mousedown);
+		GameManager.camera.follow(this.grid);
 	}
 
 	public update() {
