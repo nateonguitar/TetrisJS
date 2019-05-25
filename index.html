@@ -3,11 +3,13 @@
 <head>
 	<!-- library import -->
 	<!-- YOU MUST IMPORT THESE-->
+	<script src="js/lib/Debug.js"></script>
 	<script src="js/lib/GameManager.js"></script>
 	<script src="js/lib/GameObject.js"></script>
 	<script src="js/lib/Transform.js"></script>
 	<script src="js/lib/Vector2.js"></script>
 	<script src="js/lib/Input.js"></script>
+	<script src="js/lib/Level.js"></script>
 	<script src="js/lib/Time.js"></script>
 	<script src="js/lib/SpritesheetAnimation.js"></script>
 	<script src="js/lib/SpritesheetAnimationSet.js"></script>
@@ -15,6 +17,7 @@
 	<script src="js/lib/Camera.js"></script>
 	<script src="js/lib/Canvas.js"></script>
 	<script src="js/lib/GameLauncher.js"></script>
+	<script src="js/lib/Utils.js"></script>
 	<!-- End required import-->
 
 	<!-- my own code imports -->
@@ -28,6 +31,7 @@
 	<script src="js/Tetris/TetrisController.js"></script>
 
 	<!-- Zelda -->
+	<script src="js/Zelda/levels/OverworldLevel.js"></script>
 	<script src="js/Zelda/ZeldaController.js"></script>
 	<script src="js/Zelda/Player.js"></script>
 	<script src="js/Zelda/Soldier.js"></script>
@@ -68,9 +72,10 @@
 				backgroundColor: "#001100",
 				border: "1px solid #008800",
 				originCenter: true,
-				onLoad: () => {
-					new ZeldaController();
-				}
+				levelClasses: {
+					'Overworld': OverworldLevel
+				},
+				initialLevel: 'Overworld'
 			});
 		}
 

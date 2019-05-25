@@ -5,6 +5,6 @@ class Background extends GameObject {
 			layer: 0,
 			imageSrc: "Zelda/Overworld.png",
 		});
-		this.transform.size = size;
+		this.transform.size = size.clone();
 	}
 }

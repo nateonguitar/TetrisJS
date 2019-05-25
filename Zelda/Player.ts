@@ -24,6 +24,7 @@ class Player extends GameObject {
 
 	// override
 	public update(): void {
+		console.log('player update');
 		this.handleMovement();
 		if (this.holdingMouse) {
 			this.transform.size.x += 1;
@@ -32,6 +33,9 @@ class Player extends GameObject {
 		if (Input.keys(Keys.Space) && this.transform.size.x > 20) {
 			this.transform.size.x -= 1;
 			this.transform.size.y -= 1;
+		}
+		if (Input.keys(Keys.KeyZ)) {
+			GameManager.loadLevel("Overworld");
 		}
 	}
 

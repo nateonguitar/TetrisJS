@@ -135,11 +135,7 @@ class Input {
 	private static mouseupListeners: Function[] = [];
 	private static mousePos: Vector2 = Vector2.zero;
 
-	/** The list of game objects handed to this class from GameManager */
-	private static gameObjects: GameObject[] = [];
-
-	public static init(gameObjects:GameObject[]): void {
-		Input.gameObjects = gameObjects;
+	public static init(): void {
 		document.onkeydown = Input.getKeyDown;
 		document.onkeyup = Input.getKeyUp;
 		Canvas.canvas.addEventListener('mousedown', this.mousedown);
@@ -174,7 +170,7 @@ class Input {
 		}
 
 		for (let i=0; i<listeners.length; i++) {
-			let clickedObjects: GameObject[] = Input.gameObjects.filter(obj => {
+			let clickedObjects: GameObject[] = GameManager.currentLevel.gameObjects.filter(obj => {
 				if (
 					clickPos.x >= obj.transform.position.x - cameraPos.x &&
 					clickPos.y >= obj.transform.position.y - cameraPos.y &&
