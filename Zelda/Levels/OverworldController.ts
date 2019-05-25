@@ -13,7 +13,7 @@ class OverworldController extends GameObject {
 			GameManager.options.screenWidth * 2,
 			GameManager.options.screenHeight * 2
 		);
-		GameManager.camera.position = boundarySize.clone().scale(0.5);
+		GameManager.camera.position = boundarySize.scale(0.5);
 
 		this.background = new Background(boundarySize);
 

@@ -20,9 +20,7 @@ class TetrisController extends GameObject {
 	constructor() {
 		super();
 		this.grid = new Grid();
-
 		Input.registerMouseDown(this, this.mousedown);
-		GameManager.camera.follow(this.grid);
 	}
 
 	public update() {
@@ -64,16 +62,16 @@ class TetrisController extends GameObject {
 		}
 
 		if (Input.keys(Keys.ControlLeft)) {
-			GameManager.camera.position = GameManager.camera.position.subtract(new Vector2(1, 0));
+			this.grid.transform.position = this.grid.transform.position.subtract(new Vector2(1, 0));
 		}
 		if (Input.keys(Keys.ControlRight)) {
-			GameManager.camera.position = GameManager.camera.position.add(new Vector2(1, 0));
+			this.grid.transform.position = this.grid.transform.position.add(new Vector2(1, 0));
 		}
 		if (Input.keys(Keys.ShiftLeft)) {
-			GameManager.camera.position = GameManager.camera.position.subtract(new Vector2(0, 1));
+			this.grid.transform.position = this.grid.transform.position.subtract(new Vector2(0, 1));
 		}
 		if (Input.keys(Keys.ShiftRight)) {
-			GameManager.camera.position = GameManager.camera.position.add(new Vector2(0, 1));
+			this.grid.transform.position = this.grid.transform.position.add(new Vector2(0, 1));
 		}
 
 		// swap levels to zelda

@@ -16,26 +16,29 @@ class VectorN {
     }
 
     public add(vector: VectorN): VectorN {
+		let v = this.clone();
         if (vector.values.length != this.values.length) {
             throw 'different dimensions';
         } else {
-            this.values = vector.values.map((value, index) => this.values[index] + value);
+            v.values = vector.values.map((value, index) => this.values[index] + value);
         }
-        return this;
+        return v;
     }
 
     public subtract(vector: VectorN): VectorN {
+		let v = this.clone();
         if (vector.values.length != this.values.length) {
             throw 'different dimensions';
         } else {
-            this.values = vector.values.map((value, index) => this.values[index] - value);
+            v.values = vector.values.map((value, index) => this.values[index] - value);
         }
-        return this;
+        return v;
     }
 
     public scaleBy(scaleValue): VectorN {
-        this.values = this.values.map(value => value * scaleValue);
-        return this;
+		let v = this.clone();
+        v.values = this.values.map(value => value * scaleValue);
+        return v;
     }
 
     public moveTowards(vector, t) {
@@ -59,13 +62,14 @@ class VectorN {
         return Math.sqrt(this.distanceSqr(vector));
     }
     public normalize(): VectorN {
+		let v = this.clone();
         const mag = this.magnitude();
         if (Math.abs(mag) < 1e-9) {
-            this.values = Array(this.values.length).fill(0);
+            v.values = Array(this.values.length).fill(0);
         } else {
-            this.values = this.values.map(value => value /= mag);
+            v.values = this.values.map(value => value /= mag);
         }
-        return this;
+        return v;
     }
     public dotProduct(vector) {
         return this.values.map((value, index) => this.values[index] * value).reduce((total, value) => total + value);

@@ -12,12 +12,11 @@ class Player extends GameObject {
 			imageSrc: "Zelda/Images/Link.png",
 		});
 
-		this.boundarySize = boundarySize.clone();
+		this.boundarySize = boundarySize;
 		this.transform.size = new Vector2(16,22).scale(2);
 
-		this.transform.position = this.boundarySize.clone();
-		this.transform.position.scale(0.5);
-		this.transform.position.subtract(this.transform.size.clone().scale(0.5));
+		// move player position to center of map
+		this.transform.position = this.boundarySize.scale(0.5).subtract(this.transform.size.scale(0.5));
 
 		Input.registerMouseDown(this, this.mousedown);
 		Input.registerMouseUp(this, this.mouseup);

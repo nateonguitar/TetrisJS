@@ -134,12 +134,6 @@ class GameManager {
 			return;
 		}
 
-		if (this.currentLevel) {
-			for (let gameObject of this.currentLevel.gameObjects) {
-				GameManager.destroy(gameObject);
-			}
-		}
-
 		this.currentLevel = new (<any> this.options.levelClasses[levelName])();
 		this.currentLevel.init();
 	}
