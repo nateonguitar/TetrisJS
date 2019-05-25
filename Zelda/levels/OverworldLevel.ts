@@ -1,6 +1,6 @@
 class OverworldLevel extends Level {
 	// override
-	public init() {
+	public init(): void {
 		this.managingGameObject = new ZeldaController();
 		this.images = [
 			'Link.png',
