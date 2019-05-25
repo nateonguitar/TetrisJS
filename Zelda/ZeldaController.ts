@@ -1,7 +1,6 @@
 class ZeldaController extends GameObject {
 	private player: Player = null;
 	private background: Background = null;
-	private background2: Background = null;
 
 	private enemies: Soldier[] = [];
 
@@ -17,18 +16,16 @@ class ZeldaController extends GameObject {
 		GameManager.camera.position = boundarySize.clone().scale(0.5);
 
 		this.background = new Background(boundarySize);
-		this.background2 = new Background(boundarySize);
 
 		this.player = new Player(boundarySize);
+
+		// camera follow
+		GameManager.camera.follow(this.player);
 
 		for (let i=0; i<25; i++) {
 			this.enemies.push(new SoldierBlue(boundarySize));
 			this.enemies.push(new SoldierGreen(boundarySize));
 		}
-
-
-		// camera follow
-		GameManager.camera.follow(this.player);
 	}
 
 	public update() {
