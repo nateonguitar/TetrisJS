@@ -56,7 +56,8 @@
 				backgroundColor: "#330000",
 				border: "1px solid red",
 				levelClasses: {
-					'Tetris': TetrisLevel
+					'Tetris': TetrisLevel,
+					'ZeldaOverworld': OverworldLevel,
 				},
 				initialLevel: 'Tetris'
 			});
@@ -73,14 +74,15 @@
 				backgroundColor: "#001100",
 				border: "1px solid #008800",
 				levelClasses: {
-					'Overworld': OverworldLevel
+					'ZeldaOverworld': OverworldLevel,
+					'Tetris': TetrisLevel,
 				},
-				initialLevel: 'Overworld'
+				initialLevel: 'ZeldaOverworld'
 			});
 		}
 
-		window.addEventListener('load', runTetris, false);
-		// window.addEventListener('load', runZelda, false);
+		// window.addEventListener('load', runTetris, false);
+		window.addEventListener('load', runZelda, false);
 	</script>
 </head>
 

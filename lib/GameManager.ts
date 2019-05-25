@@ -113,8 +113,8 @@ class GameManager {
 	public static loadLevel(levelName: string): void {
 		if (!this._options.levelClasses[levelName]) {
 			console.error(
-				`Level class of name ${levelName} was never defined.
-				Make sure you register it in your game launcher.`
+				`Level class of name ${levelName} was never defined. ` +
+				`Make sure you register it in your game launcher.`
 			);
 			return;
 		}

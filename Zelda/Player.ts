@@ -4,6 +4,7 @@ class Player extends GameObject {
 	private boundarySize: Vector2 = null;
 
 	private holdingMouse: boolean = false;
+	private zWasPressed: boolean = false;
 
 	constructor(boundarySize:Vector2) {
 		super({
@@ -24,7 +25,6 @@ class Player extends GameObject {
 
 	// override
 	public update(): void {
-		console.log('player update');
 		this.handleMovement();
 		if (this.holdingMouse) {
 			this.transform.size.x += 1;
@@ -34,8 +34,13 @@ class Player extends GameObject {
 			this.transform.size.x -= 1;
 			this.transform.size.y -= 1;
 		}
+
+		// swap levels to zelda
 		if (Input.keys(Keys.KeyZ)) {
-			GameManager.loadLevel("Overworld");
+			this.zWasPressed = true;
+		}
+		if (!Input.keys(Keys.KeyZ) && this.zWasPressed) {
+			GameManager.loadLevel("Tetris");
 		}
 	}
 

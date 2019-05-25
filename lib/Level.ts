@@ -22,7 +22,6 @@ class Level {
 	}
 
 	public update(): void {
-		console.log(this.gameObjects);
 		for (let gameObject of this.gameObjects) {
 			gameObject.update();
 		}
