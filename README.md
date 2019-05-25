@@ -80,27 +80,30 @@ to launch the game.
 
 -------
 
-Your Levels must inheret from `Level`, override the init() function, and provide a m
+Your Levels must inheret from `Level` and provide a `managingGameObjectClass` in the constructor => super params
 
 ```
 class OverworldLevel extends Level {
-	// override
-	public init(): void {
-		this.managingGameObject = new ZeldaController();
-		this.images = [
-			'Link.png',
-			'Overworld.png',
-			'SoldierBlue.png',
-			'SoldierGreenWalkDownSpritesheet.png',
-			'SoldierGreenWalkSideSpritesheet.png',
-		];
+	constructor() {
+		super(<LevelParams>{
+			managingGameObjectClass: ZeldaController,
+			imageSrcs: [
+				'Zelda/Images/Link.png',
+				'Zelda/Images/Overworld.png',
+				'Zelda/Images/SoldierBlue.png',
+				'Zelda/Images/SoldierGreenWalkDownSpritesheet.png',
+				'Zelda/Images/SoldierGreenWalkSideSpritesheet.png',
+			],
+		});
 	}
 }
-
 ```
 
 
-and do whatever you want.  Very similar to Unity.  Any class that extends from GameObject will automatically be registered with the GameManager and your `update()` and `draw()` functions will run if you override them.
+and do whatever you want.
+
+Very similar to Unity.  Any class that extends from GameObject will automatically be registered with the GameManager's currentLevel 
+and all GameObjects' `update()` and `draw()` functions will run if you override them.
 
 
 --------
