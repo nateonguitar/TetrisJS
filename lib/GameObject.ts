@@ -40,6 +40,18 @@ class GameObject {
 		GameManager.registerGameObject(this);
 	}
 
+	public getCurrentSpritesheetAnimationInfo(): any {
+		if (this.spritesheetAnimationSet) {
+			let name = this.spritesheetAnimationSet.currentAnimationName;
+			return {
+				name: name,
+				index: this.spritesheetAnimationSet.spritesheetAnimations[name].index,
+			};
+		}
+
+		return null;
+	}
+
 	public addChild(child: GameObject) {
 		this.children.push(child);
 	}
