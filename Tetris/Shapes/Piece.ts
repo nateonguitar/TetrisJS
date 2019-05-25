@@ -1,6 +1,10 @@
 class Piece extends GameObject {
 
+	// GameObject overrides
 	public arrangement: boolean[][] = [];
+	protected layer: number = 1;
+
+	// class speicific
 	protected innerColor: string = '#aaaaaa';
 	protected outerColor: string = '#000000';
 	protected movingDown: boolean = true;
@@ -14,7 +18,7 @@ class Piece extends GameObject {
 
 	// overriding GameObject's update()
 	public update(): void {
-		this.transform.position.y += 1;
+		this.transform.position.y += 3;
 	}
 
 	public draw(): void {
@@ -22,20 +26,20 @@ class Piece extends GameObject {
 	}
 
 	protected drawPart(): void {
-		GameManager.context.lineWidth = 1;
-		GameManager.context.strokeStyle = this.outerColor;
-		GameManager.context.fillStyle = this.innerColor;
+		Canvas.setLineWidth(1);
+		Canvas.setStrokeStyle(this.outerColor);
+		Canvas.setFillStyle(this.innerColor);
 		for (let i = 0; i < this.arrangement.length; i++) {
 			for (let j = 0; j < this.arrangement[i].length; j++) {
 				if (!this.arrangement[i][j]) continue;
 
-				GameManager.context.strokeRect(
+				Canvas.strokeRect(
 					this.transform.position.x + this.transform.size.x * j,
 					this.transform.position.y + this.transform.size.y * i,
 					this.transform.size.x,
 					this.transform.size.y
 				);
-				GameManager.context.fillRect(
+				Canvas.fillRect(
 					this.transform.position.x + 1 + this.transform.size.x * j,
 					this.transform.position.y + 1 + this.transform.size.y * i,
 					this.transform.size.x - 2,

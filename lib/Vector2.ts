@@ -29,7 +29,7 @@ class Vector2 {
 		return this;
 	}
 
-	public scale(scalar) {
+	public scale(scalar: number) {
 		this.x *= scalar;
 		this.y *= scalar;
 		return this;
@@ -58,14 +58,14 @@ class Vector2 {
 	}
 
 	public distanceSqr(vector: Vector2) {
-		var deltaX = this.x - vector.x;
-		var deltaY = this.y - vector.y;
+		let deltaX = this.x - vector.x;
+		let deltaY = this.y - vector.y;
 		return (deltaX * deltaX + deltaY * deltaY);
 	}
 
 	public normalize() {
-		var mag = this.magnitude();
-		var vector = this.clone();
+		let mag = this.magnitude();
+		let vector = this.clone();
 		if (Math.abs(mag) < 1e-9) {
 			vector.x = 0;
 			vector.y = 0;
@@ -80,10 +80,10 @@ class Vector2 {
 		return Math.atan2(this.y, this.x);
 	}
 
-	public rotate(alpha) {
-		var cos = Math.cos(alpha);
-		var sin = Math.sin(alpha);
-		var vector = new Vector2(0, 0);
+	public rotate(alpha: number) {
+		let cos = Math.cos(alpha);
+		let sin = Math.sin(alpha);
+		let vector = new Vector2(0, 0);
 		vector.x = this.x * cos - this.y * sin;
 		vector.y = this.x * sin + this.y * cos;
 		return vector;
@@ -94,6 +94,6 @@ class Vector2 {
 	}
 
 	public toString() {
-		return ("[" + this.x + "; " + this.y + "]");
+		return ("[" + this.x + ", " + this.y + "]");
 	}
 }

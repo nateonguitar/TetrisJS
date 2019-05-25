@@ -3,38 +3,91 @@
 <head>
 	<!-- library import -->
 	<!-- YOU MUST IMPORT THESE-->
+	<script src="js/lib/Camera.js"></script>
+	<script src="js/lib/Canvas.js"></script>
+	<script src="js/lib/Debug.js"></script>
+	<script src="js/lib/GameLauncher.js"></script>
 	<script src="js/lib/GameManager.js"></script>
 	<script src="js/lib/GameObject.js"></script>
+	<script src="js/lib/Input.js"></script>
+	<script src="js/lib/Level.js"></script>
+	<script src="js/lib/SpritesheetAnimation.js"></script>
+	<script src="js/lib/SpritesheetAnimationSet.js"></script>
+	<script src="js/lib/StressTestSquare.js"></script>
+	<script src="js/lib/Time.js"></script>
 	<script src="js/lib/Transform.js"></script>
+	<script src="js/lib/Utils.js"></script>
 	<script src="js/lib/Vector2.js"></script>
 	<script src="js/lib/VectorN.js"></script>
-	<script src="js/lib/GameLauncher.js"></script>
 	<!-- End required import-->
 
 	<!-- my own code imports -->
-	<script src="js/Shapes/Piece.js"></script>
-	<script src="js/Shapes/Cube.js"></script>
-	<script src="js/Shapes/Line.js"></script>
-	<script src="js/Shapes/LL.js"></script>
-	<script src="js/Shapes/LR.js"></script>
-	<script src="js/GameController.js"></script>
+	<!-- Tetris -->
+	<script src="js/Tetris/Shapes/Piece.js"></script>
+	<script src="js/Tetris/Shapes/Cube.js"></script>
+	<script src="js/Tetris/Shapes/Line.js"></script>
+	<script src="js/Tetris/Shapes/LL.js"></script>
+	<script src="js/Tetris/Shapes/LR.js"></script>
+	<script src="js/Tetris/Grid.js"></script>
+	<script src="js/Tetris/TetrisLevel.js"></script>
+	<script src="js/Tetris/TetrisController.js"></script>
 
-	<style type="text/css">
-		.canvas {
-			border: 1px solid black;
+	<!-- Zelda -->
+	<script src="js/Zelda/Levels/OverworldController.js"></script>
+	<script src="js/Zelda/Levels/OverworldLevel.js"></script>
+	<script src="js/Zelda/GameObjects/Background.js"></script>
+	<script src="js/Zelda/GameObjects/Player.js"></script>
+	<script src="js/Zelda/GameObjects/Soldier.js"></script>
+	<script src="js/Zelda/GameObjects/SoldierGreen.js"></script>
+	<script src="js/Zelda/GameObjects/SoldierBlue.js"></script>
+
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="text/JavaScript">
+
+		function runTetris() {
+			new GameLauncher({
+				parentElementID: "game-holder",
+				screenWidth: 250,
+				screenHeight: 450,
+				imageAntiAliasing: false,
+				layers: 3,
+				showDebug: true,
+				backgroundColor: "#330000",
+				border: "1px solid red",
+				levelClasses: {
+					'Tetris': TetrisLevel,
+					'ZeldaOverworld': OverworldLevel,
+				},
+			});
 		}
-	</style>
+
+		function runZelda() {
+			new GameLauncher({
+				parentElementID: "game-holder",
+				screenWidth: 1000,
+				screenHeight: 800,
+				imageAntiAliasing: false,
+				layers: 4,
+				showDebug: true,
+				backgroundColor: "#001100",
+				border: "1px solid #008800",
+				levelClasses: {
+					'ZeldaOverworld': OverworldLevel,
+					'Tetris': TetrisLevel,
+				},
+				initialLevel: 'ZeldaOverworld'
+			});
+		}
+
+		// window.addEventListener('load', runTetris, false);
+		window.addEventListener('load', runZelda, false);
+	</script>
 </head>
 
 <body>
-	<script type="text/JavaScript">
-		let options = {
-			screenWidth: 500,
-			screenHeight: 750,
-		}
-		let gameLauncher = new GameLauncher(options);
-		let gameController = new GameController();
-	</script>
+	<div id="game-holder">
+		<h1 style="color:white;">TypeScript Game Engine</h1>
+	</div>
 </body>
-
 </html>
