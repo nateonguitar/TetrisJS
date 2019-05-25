@@ -7,7 +7,7 @@ class Level {
 	// Inherit from this class.
 	// Leave your constructor empty.
 	// Override the init() function with the contents:
-	// - Set the managingGameObject like this.managingGameObject = ZeldaController
+	// - Set the managingGameObject like this.managingGameObject = OverworldController
 	// - set the images array for each image you will.
 	public gameObjects: GameObject[] = [];
 
@@ -30,7 +30,6 @@ class Level {
 				console.warn("- Source: " + src);
 			}
 			this._cachedImages[src] = img;
-			console.log(this._cachedImages);
 		}
 	}
 

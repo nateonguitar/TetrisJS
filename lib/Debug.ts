@@ -1,6 +1,7 @@
 class Debug {
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
+	private static separator: string = ' - ';
 
 	public static create(options:any): void {
 		let style = document.createElement('style');
@@ -34,12 +35,13 @@ class Debug {
 		this.debugDom["paraGameObjects"] = document.createElement("p");
 		this.debugDom.divOuter.appendChild(this.debugDom["paraGameObjects"]);
 
-		this.debugDom["paraFPS"] = document.createElement("p");
-		this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
+		this.debugDom["paraCachedImages"] = document.createElement("p");
+		this.debugDom.divOuter.appendChild(this.debugDom["paraCachedImages"]);
 	}
 
 	public static update(params): void {
-		this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + params.gameObjectsLength;
 		this.debugDom["paraFPS"].innerText = 'FPS: ' + Utils.fps().toFixed(1);
+		this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + params.gameObjectsLength;
+		this.debugDom["paraCachedImages"].innerText = 'Cached Images: \n' + this.separator + Object.keys(GameManager.currentLevel.cachedImages).join("\n" + this.separator);
 	}
 }

@@ -1,4 +1,4 @@
-class ZeldaController extends GameObject {
+class OverworldController extends GameObject {
 	private player: Player = null;
 	private background: Background = null;
 
@@ -22,7 +22,7 @@ class ZeldaController extends GameObject {
 		// camera follow
 		GameManager.camera.follow(this.player);
 
-		for (let i=0; i<25; i++) {
+		for (let i=0; i<250; i++) {
 			this.enemies.push(new SoldierBlue(boundarySize));
 			this.enemies.push(new SoldierGreen(boundarySize));
 		}
