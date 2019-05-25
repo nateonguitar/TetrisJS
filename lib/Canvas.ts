@@ -18,20 +18,13 @@ class Canvas {
 		el.appendChild(this.canvas);
 
 		this.context = this.canvas.getContext("2d");
-		if (GameManager.options.originCenter) {
-			this.context.translate(GameManager.options.screenWidth/2, GameManager.options.screenHeight/2);
-		}
+		this.context.translate(GameManager.options.screenWidth/2, GameManager.options.screenHeight/2);
 		this.context.imageSmoothingEnabled = GameManager.options.imageAntiAliasing;
 		this.context.shadowBlur = 0;
 	}
 
 	public static wipe(): void {
-		if (GameManager.options.originCenter) {
-			this.context.clearRect(-this.canvas.width/2, -this.canvas.height/2, this.canvas.width, this.canvas.height);
-		}
-		else {
-			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		}
+		this.context.clearRect(-this.canvas.width/2, -this.canvas.height/2, this.canvas.width, this.canvas.height);
 	}
 
 	public static setFillStyle(color:string): void {
@@ -231,10 +224,10 @@ class Canvas {
 		let screenHeight: number = GameManager.options.screenHeight;
 		let camPos: Vector2 = GameManager.camera.position;
 		return (
-			x + width > camPos.x - (GameManager.options.originCenter ? screenWidth/2 : screenWidth) &&
-			y + height > camPos.y - (GameManager.options.originCenter ? screenHeight/2 : screenHeight) &&
-			x < camPos.x + (GameManager.options.originCenter ? screenWidth/2 : screenWidth) &&
-			y < camPos.y + (GameManager.options.originCenter ? screenHeight/2 : screenHeight)
+			x + width > camPos.x - screenWidth/2 &&
+			y + height > camPos.y - screenHeight/2 &&
+			x < camPos.x + screenWidth/2 &&
+			y < camPos.y + screenHeight/2
 		);
 	}
 }

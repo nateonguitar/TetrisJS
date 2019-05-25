@@ -153,10 +153,8 @@ class Input {
 
 	private static mousemove(event:MouseEvent): void {
 		let cameraPos = GameManager.camera.position.clone();
-		if (GameManager.options.originCenter) {
-			cameraPos.x -= Canvas.canvas.width / 2;
-			cameraPos.y -= Canvas.canvas.height / 2;
-		}
+		cameraPos.x -= Canvas.canvas.width / 2;
+		cameraPos.y -= Canvas.canvas.height / 2;
 		Input.mousePos = new Vector2(event.layerX + cameraPos.x, event.layerY + cameraPos.y);
 	}
 
@@ -164,10 +162,8 @@ class Input {
 		let clickPos = new Vector2(event.layerX, event.layerY);
 
 		let cameraPos = GameManager.camera.position.clone();
-		if (GameManager.options.originCenter) {
-			cameraPos.x -= Canvas.canvas.width / 2;
-			cameraPos.y -= Canvas.canvas.height / 2;
-		}
+		cameraPos.x -= Canvas.canvas.width / 2;
+		cameraPos.y -= Canvas.canvas.height / 2;
 
 		for (let i=0; i<listeners.length; i++) {
 			let clickedObjects: GameObject[] = GameManager.currentLevel.gameObjects.filter(obj => {

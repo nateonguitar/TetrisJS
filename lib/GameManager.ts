@@ -9,7 +9,6 @@ interface Options {
 	showDebug: boolean;
 	backgroundColor: string;
 	border: string;
-	originCenter: boolean;
 	levelClasses: {[k:string]: Level},
 	initialLevel: string,
 }
@@ -29,7 +28,6 @@ class GameManager {
 		showDebug: false,
 		backgroundColor: "#000000",
 		border: "1px solid #444444",
-		originCenter: true,
 		levelClasses: {},
 		initialLevel: '',
 	};
