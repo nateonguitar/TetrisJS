@@ -1,13 +1,14 @@
 class OverworldLevel extends Level {
-	// override
-	public init(): void {
-		this.managingGameObject = new ZeldaController();
-		this.images = [
-			'Link.png',
-			'Overworld.png',
-			'SoldierBlue.png',
-			'SoldierGreenWalkDownSpritesheet.png',
-			'SoldierGreenWalkSideSpritesheet.png',
-		];
+	constructor() {
+		super(<LevelParams>{
+			managingGameObjectClass: OverworldController,
+			imageSrcs: [
+				'Zelda/Images/Link.png',
+				'Zelda/Images/Overworld.png',
+				'Zelda/Images/SoldierBlue.png',
+				'Zelda/Images/SoldierGreenWalkDownSpritesheet.png',
+				'Zelda/Images/SoldierGreenWalkSideSpritesheet.png',
+			],
+		});
 	}
 }

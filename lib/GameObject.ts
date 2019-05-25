@@ -21,26 +21,20 @@ class GameObject {
 	private image: any = null;
 
 	/** for single image objects, if this is set it won't use animations */
-	protected _imageSrc: string = null;
+	protected imageSrc: string = null;
 	/** for single image objects, if this is set it won't use animations. Set this to draw part of the image */
 	protected spritesheetBounds: { x:number, y:number, width:number, height:number } = null;
 
 	protected spritesheetAnimationSet: SpritesheetAnimationSet = null;
 
-	public set imageSrc(src:string) {
-		this._imageSrc = src;
-		this.image.src = src;
-	}
-
 	constructor(options: object = {}) {
-		this.image = new Image();
-		if (this.imageSrc) {
-			this.image.src = this.imageSrc;
-		}
-		this.image.addEventListener('load', () => { /* console.log(this._imageSrc); */ });
 
 		for (let key in options) {
 			this[key] = options[key];
+		}
+
+		if (this.imageSrc) {
+			this.image = GameManager.currentLevel.cachedImages[this.imageSrc];
 		}
 
 		GameManager.registerGameObject(this);
@@ -68,7 +62,7 @@ class GameObject {
 	// override this if you want anything else to happen
 	public draw(): void {
 		if (this.spritesheetAnimationSet) {
-			this.image.src = this.spritesheetAnimationSet.imageSrc;
+			this.image = GameManager.currentLevel.cachedImages[this.spritesheetAnimationSet.imageSrc];
 			let animationTransform = this.spritesheetAnimationSet.currentAnimationTransform;
 			Canvas.drawGameObjectPartialImage(
 				this.image,
@@ -79,7 +73,8 @@ class GameObject {
 				animationTransform.size.y
 			);
 		}
-		else if (this.image.src) {
+		else if (this.imageSrc) {
+			this.image = GameManager.currentLevel.cachedImages[this.imageSrc];
 			if (this.spritesheetBounds) {
 				Canvas.drawGameObjectPartialImage(
 					this.image,

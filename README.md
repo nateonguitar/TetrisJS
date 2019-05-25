@@ -3,7 +3,10 @@ This is a typescript project.
 Make sure you have Typescript installed.
 `npm install -g typescript`
 
-From a terminal, compile with `tsc`, run `tsc -w` if you want to auto-recompile on saving a file.
+From a terminal:
+- `tsc` to run once (won't watch for changes),
+- `tsc -w` if you want to auto-recompile on saving a file (just refresh your browser window after saving).
+- `rm -r js/ ; tsc -w` if you want to delete the build folder before running.
 
 ------
 
@@ -15,31 +18,31 @@ Import all lib files into the index.html
 <html>
 <head>
 	<!-- YOU MUST IMPORT THESE-->
+	<script src="js/lib/Camera.js"></script>
+	<script src="js/lib/Canvas.js"></script>
 	<script src="js/lib/Debug.js"></script>
+	<script src="js/lib/GameLauncher.js"></script>
 	<script src="js/lib/GameManager.js"></script>
 	<script src="js/lib/GameObject.js"></script>
-	<script src="js/lib/Transform.js"></script>
-	<script src="js/lib/Vector2.js"></script>
 	<script src="js/lib/Input.js"></script>
 	<script src="js/lib/Level.js"></script>
-	<script src="js/lib/Time.js"></script>
 	<script src="js/lib/SpritesheetAnimation.js"></script>
 	<script src="js/lib/SpritesheetAnimationSet.js"></script>
 	<script src="js/lib/StressTestSquare.js"></script>
-	<script src="js/lib/Camera.js"></script>
-	<script src="js/lib/Canvas.js"></script>
-	<script src="js/lib/GameLauncher.js"></script>
+	<script src="js/lib/Time.js"></script>
+	<script src="js/lib/Transform.js"></script>
 	<script src="js/lib/Utils.js"></script>
+	<script src="js/lib/Vector2.js"></script>
 	<!-- End required import-->
 
 	<!-- my own code imports -->
-	<script src="js/Zelda/ZeldaController.js"></script>
-	<script src="js/Zelda/Player.js"></script>
-	<script src="js/Zelda/Soldier.js"></script>
-	<script src="js/Zelda/SoldierGreen.js"></script>
-	<script src="js/Zelda/SoldierBlue.js"></script>
-	<script src="js/Zelda//Tree.js"></script>
-	<script src="js/Zelda/Background.js"></script>
+	<script src="js/Zelda/Levels/OverworldController.js"></script>
+	<script src="js/Zelda/Levels/OverworldLevel.js"></script>
+	<script src="js/Zelda/GameObjects/Background.js"></script>
+	<script src="js/Zelda/GameObjects/Player.js"></script>
+	<script src="js/Zelda/GameObjects/Soldier.js"></script>
+	<script src="js/Zelda/GameObjects/SoldierGreen.js"></script>
+	<script src="js/Zelda/GameObjects/SoldierBlue.js"></script>
 </head>
 
 ```
@@ -80,27 +83,30 @@ to launch the game.
 
 -------
 
-Your Levels must inheret from `Level`, override the init() function, and provide a m
+Your Levels must inheret from `Level` and provide a `managingGameObjectClass` in the constructor => super params
 
 ```
 class OverworldLevel extends Level {
-	// override
-	public init(): void {
-		this.managingGameObject = new ZeldaController();
-		this.images = [
-			'Link.png',
-			'Overworld.png',
-			'SoldierBlue.png',
-			'SoldierGreenWalkDownSpritesheet.png',
-			'SoldierGreenWalkSideSpritesheet.png',
-		];
+	constructor() {
+		super(<LevelParams>{
+			managingGameObjectClass: ZeldaController,
+			imageSrcs: [
+				'Zelda/Images/Link.png',
+				'Zelda/Images/Overworld.png',
+				'Zelda/Images/SoldierBlue.png',
+				'Zelda/Images/SoldierGreenWalkDownSpritesheet.png',
+				'Zelda/Images/SoldierGreenWalkSideSpritesheet.png',
+			],
+		});
 	}
 }
-
 ```
 
 
-and do whatever you want.  Very similar to Unity.  Any class that extends from GameObject will automatically be registered with the GameManager and your `update()` and `draw()` functions will run if you override them.
+and do whatever you want.
+
+Very similar to Unity.  Any class that extends from GameObject will automatically be registered with the GameManager's currentLevel 
+and all GameObjects' `update()` and `draw()` functions will run if you override them.
 
 
 --------
