@@ -1,52 +1,147 @@
 class Debug {
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
-	private static separator: string = ' - ';
+
+	/** miliseconds between display updates */
+	private static timeBetweenDisplayUpdates = 250;
+	private static timeOfLastDisplayUpdate = 0;
+
+	private static trackedGameObjects = [];
+
+	public static track(gameObject: GameObject): void {
+		this.trackedGameObjects.push(gameObject);
+	}
+
+	public static untrack(gameObject: GameObject): void {
+		for (let i=this.trackedGameObjects.length-1; i>=0; i--) {
+			if (this.trackedGameObjects[i] == gameObject) {
+				this.trackedGameObjects.splice(i, 1);
+			}
+		}
+	}
+
+	public static reset(): void {
+		this.trackedGameObjects = [];
+		this.timeOfLastDisplayUpdate = 0;
+	}
 
 	public static create(options:any): void {
 		let style = document.createElement('style');
 		style.type = 'text/css';
 		style.innerHTML = `
+			.debug-sub-header {
+				text-decoration: underline;
+			}
 			#game-debug {
 				padding: 3px;
-				font-size: 10pt;
-				width: ` +
-					// -6 for the padding
-					((options.screenWidth > 250 ? options.screenWidth : 250) - 6) +
-				`px;
+				font-family: Courier;
+				max-width: 600px;
+				overflow-x: scroll;
+				color: inherit !important;
 			}
-			#game-debug p {
-				margin-top: 0;
-				margin-bottom: 0;
+			#table-debug {
+				color: inherit !important;
+			}
+			#table-debug td {
+				vertical-align: top;
+				whitespace: no-wrap;
+			}
+			#table-debug td {
+				vertical-align: top;
+				whitespace: no-wrap;
+				padding-top: 1px;
+				padding-bottom: 1px;
+				white-space: pre-wrap;
+			}
+			#table-debug td:nth-child(1) {
+				font-weight: bold;
 			}
 		`;
 		document.getElementsByTagName('head')[0].appendChild(style);
 
-		this.debugDom["divOuter"] = document.createElement("div");
-		this.debugDom["divOuter"].id = "game-debug";
-		this.debugDom["divOuter"].style.whiteSpace = "nowrap";
+		this.debugDom["div_outer"] = document.createElement("div");
+		this.debugDom["div_outer"].id = "game-debug";
 		let parentElement = document.getElementById(options.parentElementID);
 
 		let el = parentElement ? parentElement : document.body;
-		el.appendChild(this.debugDom["divOuter"]);
+		el.appendChild(this.debugDom["div_outer"]);
 
-		this.debugDom["paraFPS"] = document.createElement("p");
-		this.debugDom.divOuter.appendChild(this.debugDom["paraFPS"]);
-
-		this.debugDom["paraGameObjects"] = document.createElement("p");
-		this.debugDom.divOuter.appendChild(this.debugDom["paraGameObjects"]);
-
-		this.debugDom["paraCameraFollowing"] = document.createElement("p");
-		this.debugDom.divOuter.appendChild(this.debugDom["paraCameraFollowing"]);
-
-		this.debugDom["paraCachedImages"] = document.createElement("p");
-		this.debugDom.divOuter.appendChild(this.debugDom["paraCachedImages"]);
+		this.debugDom["table_debug"] = document.createElement("table");
+		this.debugDom["table_debug"].id = 'table-debug';
+		this.debugDom["div_outer"].appendChild(this.debugDom["table_debug"]);
 	}
 
 	public static update(params): void {
-		this.debugDom["paraFPS"].innerText = 'FPS: ' + Utils.fps().toFixed(1);
-		this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + params.gameObjectsLength;
-		this.debugDom["paraCameraFollowing"].innerText = 'Camera Following: ' + GameManager.camera.following().constructor.name;
-		this.debugDom["paraCachedImages"].innerText = 'Cached Images: \n' + this.separator + Object.keys(GameManager.currentLevel.cachedImages).join("\n" + this.separator);
+		// update every x miliseconds
+		if (Time.time > this.timeBetweenDisplayUpdates + this.timeOfLastDisplayUpdate) {
+			this.timeOfLastDisplayUpdate = Time.time;
+
+			let separator = '<tr><td colspan="2"><hr></td></tr>';
+
+			let fps = Utils.fps().toFixed(1);
+			let gameObjectsLength = params.gameObjectsLength;
+			let cameraFollowing = GameManager.camera.following().constructor.name;
+			let cameraPosition = GameManager.camera.position;
+			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");
+
+			let html = `
+				<tr>
+					<td colspan="2" class="debug-sub-header">Game</td>
+				</tr>
+				<tr>
+					<td>FPS:</td>
+					<td>${fps}</td>
+				</tr>
+				<tr>
+					<td>Game Objects:</td>
+					<td>${gameObjectsLength}</td>
+				</tr>
+				${separator}
+				<tr>
+					<td colspan="2" class="debug-sub-header">Camera</td>
+				</tr>
+				<tr>
+					<td>Position:</td>
+					<td>${cameraPosition}</td>
+				</tr>
+				<tr>
+					<td>Following:</td>
+					<td>${cameraFollowing}</td>
+				</tr>
+				${separator}
+				<tr>
+					<td colspan="2" class="debug-sub-header">Cached</td>
+				</tr>
+				<tr>
+					<td>Images:</td>
+					<td style="white-space:pre-wrap;">${cachedImages}</td>
+				</tr>
+			`;
+
+			if (this.trackedGameObjects.length) {
+				html += `
+					${separator}
+					<tr>
+						<td colspan="2" class="debug-sub-header">Tracked GameObjects</td>
+					</tr>
+				`;
+				for (let tracked of this.trackedGameObjects) {
+					html += `
+						<tr>
+							<td>${tracked.constructor.name}:</td>
+							<td style="white-space:pre-wrap;">`;
+					html += `position ${tracked.transform.position}\n`;
+					html += `size     ${tracked.transform.size}\n`;
+					html += `image    ${((tracked.image || {}).src) || ''}`
+
+					html += `
+							</td>
+						</tr>
+					`;
+				}
+			}
+
+			this.debugDom['table_debug'].innerHTML = html;
+		}
 	}
 }

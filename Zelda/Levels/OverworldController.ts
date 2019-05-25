@@ -26,6 +26,9 @@ class OverworldController extends GameObject {
 			this.enemies.push(new SoldierBlue(boundarySize));
 			this.enemies.push(new SoldierGreen(boundarySize));
 		}
+
+		Debug.track(this.background);
+		Debug.track(this.enemies[0]);
 	}
 
 	public update() {
