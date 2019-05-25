@@ -1,5 +1,6 @@
 class GameObject {
 
+	public children: Array<GameObject> = [];
 	public transform: Transform = new Transform();
 	protected layer: number = 0;
 
@@ -41,6 +42,12 @@ class GameObject {
 
 		GameManager.registerGameObject(this);
 	}
+
+	public addChild(child: GameObject) {
+		this.children.push(child);
+	}
+
+
 
 	public getLayer(): number {
 		return this.layer;
