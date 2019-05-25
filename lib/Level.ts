@@ -1,28 +1,44 @@
+interface LevelParams {
+	managingGameObjectClass: Function,
+	imageSrcs?: string[],
+}
+
 class Level {
 	// Inherit from this class.
 	// Leave your constructor empty.
 	// Override the init() function with the contents:
 	// - Set the managingGameObject like this.managingGameObject = ZeldaController
 	// - set the images array for each image you will.
-	public managingGameObject: GameObject = null;
-	public images: string[] = [];
 	public gameObjects: GameObject[] = [];
 
-	private _cachedImages: any[] = [];
+	private _cachedImages: {[k:string]: any} = {};
+	private imageSrcs: string[] = [];
+	private managingGameObjectClass: Function;
+	private managingGameObject: GameObject = null;
 
-	constructor() {
+	constructor(params:LevelParams) {
+		for (let key in params) {
+			this[key] = params[key];
+		}
 
+		for (let src of this.imageSrcs) {
+			let img = new Image();
+			img.src = src;
+			if (this._cachedImages[src]) {
+				console.warn("Duplicate image source:");
+				console.warn("- Class:  " + this.constructor.name);
+				console.warn("- Source: " + src);
+			}
+			this._cachedImages[src] = img;
+			console.log(this._cachedImages);
+		}
 	}
 
-	// override this
 	public init(): void {
-		console.error("`" + this.constructor.name + "` did not override the init() function.");
-		console.error("- Note: You will need to set the this.managingGameObject variable in init().");
+		this.managingGameObject = new (<any>this.managingGameObjectClass)();
 	}
 
-	public get cachedImages(): any[] {
-		return this._cachedImages;
-	}
+	public get cachedImages(): {[k:string]: any} { return this._cachedImages; }
 
 	public update(): void {
 		for (let gameObject of this.gameObjects) {
