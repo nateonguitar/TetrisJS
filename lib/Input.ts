@@ -177,12 +177,12 @@ class Input {
 				}
 				return false;
 			});
-			listeners[i](clickPos.clone().subtract(cameraPos), clickedObjects);
+			listeners[i](clickPos.subtract(cameraPos), clickedObjects);
 		}
 	}
 
 	public static getMousePosition(): Vector2 {
-		return Input.mousePos.clone();
+		return Input.mousePos;
 	}
 
 	/** `Input.keys(Keys.UP)` will return `true` if key is pressed */

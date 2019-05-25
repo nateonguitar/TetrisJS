@@ -9,7 +9,7 @@ class Vector2 {
 		this.y = y;
 	}
 
-	static get zero(): Vector2 {
+	public static get zero(): Vector2 {
 		return new Vector2(0, 0);
 	}
 
@@ -18,21 +18,24 @@ class Vector2 {
 	}
 
 	public add(vector: Vector2) {
-		this.x += vector.x;
-		this.y += vector.y;
-		return this;
+		let v = this.clone();
+		v.x += vector.x;
+		v.y += vector.y;
+		return v;
 	}
 
 	public subtract(vector: Vector2) {
-		this.x -= vector.x;
-		this.y -= vector.y;
-		return this;
+		let v = this.clone();
+		v.x -= vector.x;
+		v.y -= vector.y;
+		return v;
 	}
 
 	public scale(scalar: number) {
-		this.x *= scalar;
-		this.y *= scalar;
-		return this;
+		let v = this.clone();
+		v.x *= scalar;
+		v.y *= scalar;
+		return v;
 	}
 
 	public dot(vector: Vector2) {
@@ -65,15 +68,15 @@ class Vector2 {
 
 	public normalize() {
 		let mag = this.magnitude();
-		let vector = this.clone();
+		let v = this.clone();
 		if (Math.abs(mag) < 1e-9) {
-			vector.x = 0;
-			vector.y = 0;
+			v.x = 0;
+			v.y = 0;
 		} else {
-			vector.x /= mag;
-			vector.y /= mag;
+			v.x /= mag;
+			v.y /= mag;
 		}
-		return vector;
+		return v;
 	}
 
 	public angle() {
@@ -83,10 +86,10 @@ class Vector2 {
 	public rotate(alpha: number) {
 		let cos = Math.cos(alpha);
 		let sin = Math.sin(alpha);
-		let vector = new Vector2(0, 0);
-		vector.x = this.x * cos - this.y * sin;
-		vector.y = this.x * sin + this.y * cos;
-		return vector;
+		let v = new Vector2(0, 0);
+		v.x = this.x * cos - this.y * sin;
+		v.y = this.x * sin + this.y * cos;
+		return v;
 	}
 
 	public equals(vector: Vector2) {

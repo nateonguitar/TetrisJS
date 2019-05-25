@@ -6,6 +6,7 @@ class Grid extends GameObject {
 		super();
 		let o = GameManager.options;
 		this.transform.size = new Vector2(o.screenWidth, o.screenHeight);
+		GameManager.camera.follow(this);
 	}
 
 	// override

@@ -24,6 +24,7 @@ class Debug {
 
 		this.debugDom["divOuter"] = document.createElement("div");
 		this.debugDom["divOuter"].id = "game-debug";
+		this.debugDom["divOuter"].style.whiteSpace = "nowrap";
 		let parentElement = document.getElementById(options.parentElementID);
 
 		let el = parentElement ? parentElement : document.body;
@@ -35,6 +36,9 @@ class Debug {
 		this.debugDom["paraGameObjects"] = document.createElement("p");
 		this.debugDom.divOuter.appendChild(this.debugDom["paraGameObjects"]);
 
+		this.debugDom["paraCameraFollowing"] = document.createElement("p");
+		this.debugDom.divOuter.appendChild(this.debugDom["paraCameraFollowing"]);
+
 		this.debugDom["paraCachedImages"] = document.createElement("p");
 		this.debugDom.divOuter.appendChild(this.debugDom["paraCachedImages"]);
 	}
@@ -42,6 +46,7 @@ class Debug {
 	public static update(params): void {
 		this.debugDom["paraFPS"].innerText = 'FPS: ' + Utils.fps().toFixed(1);
 		this.debugDom["paraGameObjects"].innerText = 'GameObjects: ' + params.gameObjectsLength;
+		this.debugDom["paraCameraFollowing"].innerText = 'Camera Following: ' + GameManager.camera.following().constructor.name;
 		this.debugDom["paraCachedImages"].innerText = 'Cached Images: \n' + this.separator + Object.keys(GameManager.currentLevel.cachedImages).join("\n" + this.separator);
 	}
 }
