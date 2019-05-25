@@ -133,7 +133,8 @@ class GameManager {
 			);
 			return;
 		}
-
+		Debug.reset();
+		this.camera.follow(null);
 		this.currentLevel = new (<any> this.options.levelClasses[levelName])();
 		this.currentLevel.init();
 	}
