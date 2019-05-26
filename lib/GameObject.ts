@@ -13,11 +13,10 @@ class GameObject {
 
 	protected shape: string = null;
 
-	/**
-	 * Will be an instance of `Image` but TypeScript doesn't like using that type for some reason.
-	 *
-	 * Will be used for both single image GameObjects and recycled if this game object has a SpriteSheetAnimationSet
-	 **/
+	/** Can be any type of collider, Collider is the parent class each collider type inherets from */
+	public collider: Collider = null;
+
+	/* Will be an instance of `Image` but TypeScript doesn't like to type anything with Image. **/
 	private image: any = null;
 
 	/** for single image objects, if this is set it won't use animations */
