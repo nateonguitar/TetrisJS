@@ -80,7 +80,7 @@ class Debug {
 
 			let fps = Utils.fps().toFixed(1);
 			let gameObjectsLength = params.gameObjectsLength;
-			let cameraFollowing = GameManager.camera.following().constructor.name;
+			let cameraFollowing = (((GameManager.camera.following() || <any>{}).constructor || <any>{}).name) || '';
 			let cameraPosition = GameManager.camera.position;
 			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");
 
