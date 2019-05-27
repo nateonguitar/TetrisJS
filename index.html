@@ -5,6 +5,8 @@
 	<!-- YOU MUST IMPORT THESE-->
 	<script src="js/lib/Camera.js"></script>
 	<script src="js/lib/Canvas.js"></script>
+	<script src="js/lib/Collider.js"></script>
+	<script src="js/lib/SquareCollider.js"></script>
 	<script src="js/lib/Debug.js"></script>
 	<script src="js/lib/GameLauncher.js"></script>
 	<script src="js/lib/GameManager.js"></script>
@@ -33,13 +35,22 @@
 	<script src="js/Tetris/TetrisController.js"></script>
 
 	<!-- Zelda -->
-	<script src="js/Zelda/Levels/OverworldController.js"></script>
-	<script src="js/Zelda/Levels/OverworldLevel.js"></script>
-	<script src="js/Zelda/GameObjects/Background.js"></script>
-	<script src="js/Zelda/GameObjects/Player.js"></script>
-	<script src="js/Zelda/GameObjects/Soldier.js"></script>
-	<script src="js/Zelda/GameObjects/SoldierGreen.js"></script>
-	<script src="js/Zelda/GameObjects/SoldierBlue.js"></script>
+	<script src="js/Zelda/Levels/ZeldaOverworldController.js"></script>
+	<script src="js/Zelda/Levels/ZeldaOverworldLevel.js"></script>
+	<script src="js/Zelda/GameObjects/ZeldaOverworldBackground.js"></script>
+	<script src="js/Zelda/GameObjects/ZeldaPlayer.js"></script>
+	<script src="js/Zelda/GameObjects/ZeldaSoldier.js"></script>
+	<script src="js/Zelda/GameObjects/ZeldaSoldierGreen.js"></script>
+	<script src="js/Zelda/GameObjects/ZeldaSoldierBlue.js"></script>
+
+	<!-- Frogger -->
+	<script src="js/Frogger/Levels/FroggerMainLevel.js"></script>
+	<script src="js/Frogger/Levels/FroggerMainLevelController.js"></script>
+	<script src="js/Frogger/GameObjects/FroggerPlayer.js"></script>
+	<script src="js/Frogger/GameObjects/FroggerRiver.js"></script>
+	<script src="js/Frogger/GameObjects/FroggerLandingObject.js"></script>
+	<script src="js/Frogger/GameObjects/FroggerLogSmall.js"></script>
+
 
 	<link rel="stylesheet" href="styles.css">
 
@@ -57,7 +68,7 @@
 				border: "1px solid red",
 				levelClasses: {
 					'Tetris': TetrisLevel,
-					'ZeldaOverworld': OverworldLevel,
+					'ZeldaOverworld': ZeldaOverworldLevel,
 				},
 			});
 		}
@@ -73,15 +84,34 @@
 				backgroundColor: "#001100",
 				border: "1px solid #008800",
 				levelClasses: {
-					'ZeldaOverworld': OverworldLevel,
+					'ZeldaOverworld': ZeldaOverworldLevel,
 					'Tetris': TetrisLevel,
 				},
 				initialLevel: 'ZeldaOverworld'
 			});
 		}
 
+		function runFrogger() {
+			new GameLauncher({
+				parentElementID: "game-holder",
+				screenWidth: 1000,
+				screenHeight: 800,
+				imageAntiAliasing: false,
+				layers: 3,
+				showDebug: true,
+				backgroundColor: "#000011",
+				border: "1px solid #000088",
+				drawTransforms: true,
+				drawColliders: true,
+				levelClasses: {
+					'FroggerMainLevel': FroggerMainLevel,
+				},
+			});
+		}
+
 		// window.addEventListener('load', runTetris, false);
-		window.addEventListener('load', runZelda, false);
+		// window.addEventListener('load', runZelda, false);
+		window.addEventListener('load', runFrogger, false);
 	</script>
 </head>
 

@@ -1,8 +1,13 @@
 class GameObject {
+	public layer: number = 0;
 
 	public children: Array<GameObject> = [];
+
 	public transform: Transform = new Transform();
-	protected layer: number = 0;
+	private drawTransform: boolean = false;
+	private drawTransformColor: string = null;
+
+	public currentCollidingObjects: GameObject[] = [];
 
 
 	/** basic shape fill color */
@@ -13,12 +18,13 @@ class GameObject {
 
 	protected shape: string = null;
 
-	/**
-	 * Will be an instance of `Image` but TypeScript doesn't like using that type for some reason.
-	 *
-	 * Will be used for both single image GameObjects and recycled if this game object has a SpriteSheetAnimationSet
-	 **/
-	private image: any = null;
+	/** Can be any type of collider, Collider is the parent class each collider type inherets from */
+	public collider: Collider = null;
+	private drawCollider: boolean = false;
+	private drawColliderColor: string = null;
+
+	/* Will be an instance of `Image` but TypeScript doesn't like to type anything with Image. **/
+	public image: any = null;
 
 	/** for single image objects, if this is set it won't use animations */
 	protected imageSrc: string = null;
@@ -115,6 +121,22 @@ class GameObject {
 				}
 			}
 		}
+
+		if (GameManager.options.drawTransforms || this.drawTransform) {
+			Canvas.setStrokeStyle(this.drawTransformColor || "#FF0000");
+			let pos = this.transform.position;
+			let size = this.transform.size;
+			Canvas.strokeRect(pos.x - size.x/2, pos.y - size.y/2, size.x, size.y);
+		}
+
+		if (this.collider && (GameManager.options.drawColliders || this.drawCollider)) {
+			Canvas.setStrokeStyle(this.drawColliderColor || "#00FF00");
+			let size = this.collider.transform.size;
+			let pos = this.transform.position
+				.subtract(size.scale(0.5))
+				.add(this.collider.transform.position);
+			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
+		}
 	}
 
 	public removeAllReferencesToGameObject(gameObject: GameObject) {
@@ -147,5 +169,13 @@ class GameObject {
 				}
 			}
 		}
+	}
+
+	public onCollisionEnter(other: GameObject): void {
+		console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);
+	}
+
+	public onCollisionLeave(other: GameObject): void {
+		console.warn("Collision leave with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
 }

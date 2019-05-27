@@ -59,11 +59,11 @@ class Canvas {
 		let t: Transform = gameObject.transform;
 		// if the entire image not outside the viewport
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+		if (this.insideCameraBounds(t.position.x - t.size.x/2, t.position.y - t.size.y/2, t.size.x, t.size.y)) {
 			this.context.drawImage(
 				image,
-				t.position.x - camPos.x,
-				t.position.y - camPos.y,
+				t.position.x - t.size.x/2 - camPos.x,
+				t.position.y - t.size.y/2 - camPos.y,
 				t.size.x,
 				t.size.y
 			);
@@ -152,15 +152,15 @@ class Canvas {
 	): void {
 		let t: Transform = gameObject.transform;
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+		if (this.insideCameraBounds(t.position.x - t.size.x/2, t.position.y - t.size.y/2, t.size.x, t.size.y)) {
 			this.context.drawImage(
 				image,
 				sx,
 				sy,
 				sWidth,
 				sHeight,
-				t.position.x - camPos.x,
-				t.position.y - camPos.y,
+				t.position.x - t.size.x/2 - camPos.x,
+				t.position.y - t.size.y/2 - camPos.y,
 				t.size.x,
 				t.size.y
 			);

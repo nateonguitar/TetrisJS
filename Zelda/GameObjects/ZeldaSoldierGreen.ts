@@ -1,4 +1,4 @@
-class SoldierGreen extends Soldier {
+class ZeldaSoldierGreen extends ZeldaSoldier {
 
 	private currentAnimationName: string = null;
 	private holdingMouse: boolean = false;

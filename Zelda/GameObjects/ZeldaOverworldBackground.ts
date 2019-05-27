@@ -1,4 +1,4 @@
-class Background extends GameObject {
+class ZeldaOverworldBackground extends GameObject {
 
 	constructor(boundarySize: Vector2) {
 		super({
@@ -6,5 +6,6 @@ class Background extends GameObject {
 			imageSrc: "Zelda/Images/Overworld.png",
 		});
 		this.transform.size = boundarySize.clone();
+		this.transform.position = this.transform.size.scale(0.5);
 	}
 }

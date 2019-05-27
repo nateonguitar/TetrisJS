@@ -1,4 +1,4 @@
-class Player extends GameObject {
+class ZeldaPlayer extends GameObject {
 
 	private speed = 4;
 	private boundarySize: Vector2 = null;

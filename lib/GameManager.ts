@@ -11,6 +11,8 @@ interface Options {
 	border: string;
 	levelClasses: {[k:string]: Level},
 	initialLevel: string,
+	drawTransforms: boolean,
+	drawColliders: boolean
 }
 
 class GameManager {
@@ -30,6 +32,8 @@ class GameManager {
 		border: "1px solid #444444",
 		levelClasses: {},
 		initialLevel: '',
+		drawTransforms: false,
+		drawColliders: false,
 	};
 
 
@@ -120,8 +124,55 @@ class GameManager {
 		// might have a game object its following
 		this.camera.update();
 
+		this.handleCollisions();
+
 		if (this._options.showDebug) {
 			Debug.update({ gameObjectsLength: this.currentLevel.gameObjects.length });
+		}
+	}
+
+	private static handleCollisions(): void {
+		let objs = this.currentLevel.gameObjects;
+		for (let i=0; i<objs.length; i++) {
+			let obj = objs[i];
+			if (!obj.collider) continue;
+
+			// detect collisions
+			for (let j=0; j<objs.length; j++) {
+				let other = objs[j];
+				if (!other.collider) continue;
+				if (obj == other) continue;
+
+
+				let aPos = obj.transform.position.add(obj.collider.transform.position)
+				let aSize = obj.collider.transform.size;
+				let bPos = other.transform.position.add(other.collider.transform.position);
+				let bSize = other.collider.transform.size;
+				// if collision
+				if (
+					aPos.x < bPos.x + bSize.x &&
+					aPos.x + aSize.x > bPos.x &&
+					aPos.y < bPos.y + bSize.y &&
+					aPos.y + aSize.y > bPos.y
+				) {
+					// if not currently known to be colliding
+					if (obj.currentCollidingObjects.indexOf(other) == -1) {
+						obj.currentCollidingObjects.push(other);
+						obj.onCollisionEnter(other);
+					}
+				}
+				else {
+					// if we aren't colliding any more
+					if (obj.currentCollidingObjects.indexOf(other) != -1) {
+						for (let k=obj.currentCollidingObjects.length-1; k>=0; k--) {
+							if (obj.currentCollidingObjects[k] == other) {
+								obj.currentCollidingObjects.splice(k, 1);
+								obj.onCollisionLeave(other);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

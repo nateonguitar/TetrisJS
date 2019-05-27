@@ -1,8 +1,8 @@
-class OverworldController extends GameObject {
-	private player: Player = null;
-	private background: Background = null;
+class ZeldaOverworldController extends GameObject {
+	private player: ZeldaPlayer = null;
+	private background: ZeldaOverworldBackground = null;
 
-	private enemies: Soldier[] = [];
+	private enemies: ZeldaSoldier[] = [];
 
 	constructor() {
 		super({
@@ -15,16 +15,16 @@ class OverworldController extends GameObject {
 		);
 		GameManager.camera.position = boundarySize.scale(0.5);
 
-		this.background = new Background(boundarySize);
+		this.background = new ZeldaOverworldBackground(boundarySize);
 
-		this.player = new Player(boundarySize);
+		this.player = new ZeldaPlayer(boundarySize);
 
 		// camera follow
 		GameManager.camera.follow(this.player);
 
 		for (let i=0; i<250; i++) {
-			this.enemies.push(new SoldierGreen(boundarySize));
-			this.enemies.push(new SoldierBlue(boundarySize));
+			this.enemies.push(new ZeldaSoldierGreen(boundarySize));
+			this.enemies.push(new ZeldaSoldierBlue(boundarySize));
 		}
 
 		Debug.track(this.background);

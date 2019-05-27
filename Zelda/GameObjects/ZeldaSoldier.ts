@@ -1,4 +1,4 @@
-class Soldier extends GameObject {
+class ZeldaSoldier extends GameObject {
 	protected speedX: number = 0;
 	protected speedY: number = 0;
 
