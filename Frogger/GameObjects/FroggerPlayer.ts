@@ -43,7 +43,7 @@ class FroggerPlayer extends GameObject {
 		this.transform.size.y = Math.floor(this.transform.size.y);
 
 		// position
-		let x = GameManager.options.screenWidth/2
+		let x = GameManager.options.screenWidth/2 + this.transform.size.x/2;
 		let y = levelHeight - spriteSize.y/2;
 		this.transform.position = new Vector2(x, y).subtract(this.transform.size.scale(0.5));
 		// so our snapping is right on

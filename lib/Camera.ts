@@ -18,8 +18,7 @@ class Camera {
 	public update(): void {
 		if (this.gameObjectToFollow) {
 			let o = this.gameObjectToFollow;
-			this.position = o.transform.position.add(o.transform.size.scale(0.5));
-			this.position.add(o.transform.size.scale(0.5));
+			this.position = o.transform.position
 		}
 	}
 }
