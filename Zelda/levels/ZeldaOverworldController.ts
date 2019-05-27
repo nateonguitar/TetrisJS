@@ -22,8 +22,10 @@ class ZeldaOverworldController extends GameObject {
 		// camera follow
 		GameManager.camera.follow(this.player);
 
-		for (let i=0; i<30; i++) {
+		for (let i=0; i<25; i++) {
 			this.enemies.push(new ZeldaSoldierGreen(boundarySize));
+			this.enemies.push(new ZeldaSoldierBlue(boundarySize));
+			this.enemies.push(new ZeldaSoldierBlue(boundarySize));
 			this.enemies.push(new ZeldaSoldierBlue(boundarySize));
 		}
 
