@@ -1,4 +1,5 @@
 class Collider {
-	public transform: Transform = new Transform();
+	public position: Vector2;
+	public size: Vector2;
 	constructor() { }
 }

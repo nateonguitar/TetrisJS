@@ -55,13 +55,13 @@ class FroggerPlayer extends GameObject {
 		// collider
 		let colliderPosition = new Vector2(
 			0,
-			-(this.transform.size.y/8)
+			-25
 		);
 		let colliderSize = new Vector2(
 			this.transform.size.x*0.8,
 			this.transform.size.y*0.5
 		);
-		this.collider = new SquareCollider( new Transform(colliderPosition, colliderSize) );
+		this.collider = new SquareCollider(colliderPosition, colliderSize);
 
 		GameManager.camera.follow(this);
 	}
@@ -70,7 +70,7 @@ class FroggerPlayer extends GameObject {
 	public update(): void {
 		this.handleInput();
 		if (this.targetDestination) {
-			this.transform.position = this.transform.position.moveTowards(this.targetDestination, 4);
+			this.transform.position = this.transform.position.moveTowards(this.targetDestination, 0.5 );
 			let atTargetDestination = this.transform.position.subtract(this.targetDestination).magnitude() == 0;
 			if (atTargetDestination) {
 				this.targetDestination = null;
@@ -85,6 +85,21 @@ class FroggerPlayer extends GameObject {
 	private handleInput(): void {
 		if (Input.keys(Keys.Space) && !this.jumping) {
 			this.pressedSpace = true;
+		}
+
+		let speed = 2;
+		if (Input.keys(Keys.ArrowUp)) {
+			this.transform.position.y -= speed;
+		}
+		if (Input.keys(Keys.ArrowDown)) {
+			this.transform.position.y += speed;
+		}
+
+		if (Input.keys(Keys.ArrowLeft)) {
+			this.transform.position.x -= speed;
+		}
+		if (Input.keys(Keys.ArrowRight)) {
+			this.transform.position.x += speed;
 		}
 
 		// space keyup

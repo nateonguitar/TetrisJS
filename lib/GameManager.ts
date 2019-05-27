@@ -144,16 +144,18 @@ class GameManager {
 				if (obj == other) continue;
 
 
-				let aPos = obj.transform.position.add(obj.collider.transform.position)
-				let aSize = obj.collider.transform.size;
-				let bPos = other.transform.position.add(other.collider.transform.position);
-				let bSize = other.collider.transform.size;
+				let objSize = obj.collider.size;
+				let otherSize = other.collider.size;
+
+				let objPos = obj.transform.position.add(obj.collider.position).subtract(objSize.scale(0.5));
+				let otherPos = other.transform.position.add(other.collider.position).subtract(otherSize.scale(0.5));
+
 				// if collision
 				if (
-					aPos.x < bPos.x + bSize.x &&
-					aPos.x + aSize.x > bPos.x &&
-					aPos.y < bPos.y + bSize.y &&
-					aPos.y + aSize.y > bPos.y
+					objPos.x < otherPos.x + otherSize.x &&
+					objPos.x + objSize.x > otherPos.x &&
+					objPos.y < otherPos.y + otherSize.y &&
+					objPos.y + objSize.y > otherPos.y
 				) {
 					// if not currently known to be colliding
 					if (obj.currentCollidingObjects.indexOf(other) == -1) {
