@@ -18,6 +18,8 @@ class ZeldaPlayer extends GameObject {
 		// move player position to center of map
 		this.transform.position = this.boundarySize.scale(0.5).subtract(this.transform.size.scale(0.5));
 
+		this.setDefaultCollider();
+
 		Input.registerMouseDown(this, this.mousedown);
 		Input.registerMouseUp(this, this.mouseup);
 	}
@@ -87,5 +89,9 @@ class ZeldaPlayer extends GameObject {
 
 	private mouseup(coords:Vector2, gameObjects:GameObject[]): void {
 		this.holdingMouse = false;
+	}
+
+	public onCollisionEnter(other): void {
+
 	}
 }

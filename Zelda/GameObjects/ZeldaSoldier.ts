@@ -16,9 +16,11 @@ class ZeldaSoldier extends GameObject {
 		this.transform.size = new Vector2(13, 18).scale(3 + Math.random());
 
 		this.transform.position = new Vector2(
-			this.boundarySize.x/2 - this.transform.size.x / 2,
-			this.boundarySize.y/2 - this.transform.size.y / 2
+			Math.random() * (this.boundarySize.x - this.transform.size.x),
+			Math.random() * (this.boundarySize.y - this.transform.size.y),
 		);
+
+		this.setDefaultCollider();
 	}
 
 	// override

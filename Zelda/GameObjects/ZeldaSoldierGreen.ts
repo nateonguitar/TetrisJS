@@ -73,4 +73,23 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 	private mouseup(coords:Vector2, gameObjects:GameObject[]): void {
 		this.holdingMouse = false;
 	}
+
+	public onCollisionEnter(other): void {
+		// greens destroy blues
+		if (other.constructor == ZeldaSoldierBlue) {
+			GameManager.destroy(other);
+			return;
+		}
+
+		// greens bounce off of other greens
+		let overlapX = Math.abs(this.transform.position.x - other.transform.position.x + other.transform.size.x);
+		let overlapY = Math.abs(this.transform.position.y - other.transform.position.y + other.transform.size.y);
+
+		if (overlapX > overlapY) {
+			this.speedY *= -1;
+		}
+		else {
+			this.speedX *= -1;
+		}
+	}
 }
