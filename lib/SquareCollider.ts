@@ -1,5 +1,6 @@
 class SquareCollider extends Collider {
-	constructor() {
+	constructor(transform: Transform) {
 		super();
+		this.transform = new Transform(transform.position.clone(), transform.size.clone());
 	}
 }

@@ -3,7 +3,7 @@ class FroggerMainLevelController extends GameObject {
 	private player: FroggerPlayer = null;
 	private river: FroggerRiver = null;
 
-	public static unitHeight: number = 100;
+	public static unitHeight: number = 115;
 
 	constructor() {
 		super({

@@ -8,7 +8,11 @@ class FroggerPlayer extends GameObject {
 	private targetDestination: Vector2 = null;
 
 	constructor(levelHeight:number) {
-		super({ layer: 2 });
+		super({
+			layer: 2,
+			drawTransform: true,
+			drawCollider: true,
+		});
 
 		let spriteSize = new Vector2(57, 77);
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
@@ -34,7 +38,13 @@ class FroggerPlayer extends GameObject {
 			},
 			"idle" // start animation name
 		)
+
+		// size
 		this.transform.size = spriteSize.scale(1.5);
+		this.transform.size.x = Math.floor(this.transform.size.x);
+		this.transform.size.y = Math.floor(this.transform.size.y);
+
+		// position
 		let x = GameManager.options.screenWidth/2
 		let y = levelHeight - spriteSize.y/2;
 		this.transform.position = new Vector2(x, y).subtract(this.transform.size.scale(0.5));
@@ -43,6 +53,18 @@ class FroggerPlayer extends GameObject {
 			Math.floor(this.transform.position.x),
 			Math.floor(this.transform.position.y)
 		);
+
+		// collider
+		let colliderPosition = new Vector2(
+			0,
+			-(this.transform.size.y/8)
+		);
+		let colliderSize = new Vector2(
+			this.transform.size.x*0.8,
+			this.transform.size.y*0.5
+		);
+		this.collider = new SquareCollider( new Transform(colliderPosition, colliderSize) );
+
 		GameManager.camera.follow(this);
 	}
 
@@ -57,7 +79,6 @@ class FroggerPlayer extends GameObject {
 				// snap to spaces
 				let unitHeight = FroggerMainLevelController.unitHeight;
 				let y = this.transform.position.y;
-				debugger;
 				this.transform.position.y = Math.floor(y / unitHeight) * unitHeight;
 			}
 		}

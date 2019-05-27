@@ -6,7 +6,7 @@ class Debug {
 	private static timeBetweenDisplayUpdates = 125;
 	private static timeOfLastDisplayUpdate = 0;
 
-	private static trackedGameObjects = [];
+	private static trackedGameObjects: GameObject[] = [];
 
 	public static track(gameObject: GameObject): void {
 		this.trackedGameObjects.push(gameObject);
@@ -138,6 +138,11 @@ class Debug {
 					if (animationInfo) {
 						html += "<br>" + this.padEndNbsp("anim name",  12) + animationInfo.name;
 						html += "<br>" + this.padEndNbsp("anim index", 12) + animationInfo.index;
+					}
+
+					if (tracked.collider) {
+						html += "<br>" + this.padEndNbsp("col pos", 12)  + tracked.collider.transform.position;
+						html += "<br>" + this.padEndNbsp("col size", 12) + tracked.collider.transform.size;
 					}
 
 					html += `
