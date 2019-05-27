@@ -9,6 +9,8 @@ class ZeldaOverworldLevel extends Level {
 				'Zelda/Images/SoldierGreenWalkDownSpritesheet.png',
 				'Zelda/Images/SoldierGreenWalkSideSpritesheet.png',
 			],
+			// allow half the viewport size around the viewport to update off screen
+			extraViewportPadding: new Vector2(GameManager.options.screenWidth, GameManager.options.screenHeight)
 		});
 	}
 }

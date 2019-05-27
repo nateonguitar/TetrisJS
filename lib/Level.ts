@@ -1,7 +1,12 @@
 interface LevelParams {
 	managingGameObjectClass: Function,
 	imageSrcs?: string[],
-	updateOutOfView?: boolean,
+	/**
+	 * Additional space to update around viewport.
+	 * Vector2(10, 10) will give a 5 pixel bounding addition all the way around the viewport.
+	 * null is the same as Vector2(0, 0)
+	 **/
+	extraViewportPadding?: Vector2,
 }
 
 class Level {
@@ -17,7 +22,9 @@ class Level {
 	private managingGameObjectClass: Function;
 	private managingGameObject: GameObject = null;
 
-	private updateOutOfView: boolean = false;
+	public updatesSkipped: number = 0;
+
+	public extraViewportPadding: Vector2 = null;
 
 	constructor(params:LevelParams) {
 		for (let key in params) {
@@ -43,11 +50,14 @@ class Level {
 	public get cachedImages(): {[k:string]: any} { return this._cachedImages; }
 
 	public update(): void {
-		let updatedOutOfView = this.updateOutOfView || false;
 		let camera = GameManager.camera;
+		this.updatesSkipped = 0;
 		for (let gameObject of this.gameObjects) {
-			if (updatedOutOfView || camera.inViewOf(gameObject)) {
+			if (camera.inViewOf(gameObject, this.extraViewportPadding)) {
 				gameObject.update();
+			}
+			else {
+				this.updatesSkipped++;
 			}
 		}
 	}
