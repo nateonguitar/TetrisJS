@@ -41,11 +41,12 @@ class FroggerPlayer extends GameObject {
 		this.transform.size = spriteSize.scale(1.5);
 		this.transform.size.x = Math.floor(this.transform.size.x);
 		this.transform.size.y = Math.floor(this.transform.size.y);
+		let tSize = this.transform.size;
 
 		// position
-		let x = GameManager.options.screenWidth/2 + this.transform.size.x/2;
-		let y = levelHeight - spriteSize.y/2;
-		this.transform.position = new Vector2(x, y).subtract(this.transform.size.scale(0.5));
+		let x = GameManager.options.screenWidth/2 + tSize.x/2;
+		let y = levelHeight;
+		this.transform.position = new Vector2(x, y).subtract(tSize.scale(0.5));
 		// so our snapping is right on
 		this.transform.position = new Vector2(
 			Math.floor(this.transform.position.x),
@@ -53,16 +54,9 @@ class FroggerPlayer extends GameObject {
 		);
 
 		// collider
-		let colliderPosition = new Vector2(
-			0,
-			-25
-		);
-		let colliderSize = new Vector2(
-			this.transform.size.x*0.8,
-			this.transform.size.y*0.5
-		);
+		let colliderPosition = new Vector2(0, -tSize.y/8);
+		let colliderSize = new Vector2(tSize.x*0.8, tSize.y*0.5);
 		this.collider = new SquareCollider(colliderPosition, colliderSize);
-
 		GameManager.camera.follow(this);
 	}
 
@@ -70,14 +64,14 @@ class FroggerPlayer extends GameObject {
 	public update(): void {
 		this.handleInput();
 		if (this.targetDestination) {
-			this.transform.position = this.transform.position.moveTowards(this.targetDestination, 0.5 );
+			this.transform.position = this.transform.position.moveTowards(this.targetDestination, 4 );
 			let atTargetDestination = this.transform.position.subtract(this.targetDestination).magnitude() == 0;
 			if (atTargetDestination) {
 				this.targetDestination = null;
 				// snap to spaces
 				let unitHeight = FroggerMainLevelController.unitHeight;
 				let y = this.transform.position.y;
-				this.transform.position.y = Math.floor(y / unitHeight) * unitHeight;
+				this.transform.position.y = Math.floor(y / unitHeight) * unitHeight + this.transform.size.y/2;
 			}
 		}
 	}
