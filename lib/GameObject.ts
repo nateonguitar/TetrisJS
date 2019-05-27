@@ -58,11 +58,13 @@ class GameObject {
 		return null;
 	}
 
-	public addChild(child: GameObject) {
+	public addChild(child: GameObject): void {
 		this.children.push(child);
 	}
 
-
+	public setDefaultCollider(): void {
+		this.collider = new SquareCollider(Vector2.zero, this.transform.size);
+	}
 
 	public getLayer(): number {
 		return this.layer;

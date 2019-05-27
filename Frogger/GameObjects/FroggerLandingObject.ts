@@ -4,8 +4,4 @@ class FroggerLandingObject extends GameObject {
 		this.transform.position = position.clone();
 		this.transform.size.y = FroggerMainLevelController.unitHeight;
 	}
-
-	public setCollider(): void {
-		this.collider = new SquareCollider(Vector2.zero, this.transform.size);
-	}
 }
