@@ -1,4 +1,4 @@
-class SoldierBlue extends Soldier {
+class ZeldaSoldierBlue extends ZeldaSoldier {
 
 	constructor(boundarySize:Vector2) {
 		super();

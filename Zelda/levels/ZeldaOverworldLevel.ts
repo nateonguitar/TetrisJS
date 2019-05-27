@@ -1,7 +1,7 @@
-class OverworldLevel extends Level {
+class ZeldaOverworldLevel extends Level {
 	constructor() {
 		super(<LevelParams>{
-			managingGameObjectClass: OverworldController,
+			managingGameObjectClass: ZeldaOverworldController,
 			imageSrcs: [
 				'Zelda/Images/Link.png',
 				'Zelda/Images/Overworld.png',

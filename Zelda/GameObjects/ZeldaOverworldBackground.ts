@@ -1,4 +1,4 @@
-class Background extends GameObject {
+class ZeldaOverworldBackground extends GameObject {
 
 	constructor(boundarySize: Vector2) {
 		super({
