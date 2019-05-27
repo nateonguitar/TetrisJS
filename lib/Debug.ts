@@ -80,6 +80,7 @@ class Debug {
 
 			let fps = Utils.fps().toFixed(1);
 			let gameObjectsLength = GameManager.currentLevel.gameObjects.length;
+			let updatesSkipped = GameManager.currentLevel.updatesSkipped;
 			let cameraFollowing = (((GameManager.camera.following() || <any>{}).constructor || <any>{}).name) || '';
 			let cameraPosition = GameManager.camera.position;
 			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");
@@ -95,6 +96,10 @@ class Debug {
 				<tr>
 					<td>Game Objects:</td>
 					<td>${gameObjectsLength}</td>
+				</tr>
+				<tr>
+					<td>Updates Skipped:</td>
+					<td>${updatesSkipped}</td>
 				</tr>
 				${separator}
 				<tr>
