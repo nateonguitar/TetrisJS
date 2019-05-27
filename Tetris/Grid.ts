@@ -1,6 +1,6 @@
 class Grid extends GameObject {
 	// override
-	protected layer: number = 0;
+	public layer: number = 0;
 
 	constructor() {
 		super();

@@ -6,8 +6,6 @@ class FroggerLandingObject extends GameObject {
 	}
 
 	public setCollider(): void {
-		this.collider = new SquareCollider(
-			new Transform(Vector2.zero, this.transform.size)
-		);
+		this.collider = new SquareCollider(Vector2.zero, this.transform.size);
 	}
 }

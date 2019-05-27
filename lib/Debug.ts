@@ -143,8 +143,8 @@ class Debug {
 					}
 
 					if (tracked.collider) {
-						html += "<br>" + this.padEndNbsp("col pos",    padSize) + tracked.collider.transform.position;
-						html += "<br>" + this.padEndNbsp("col size",   padSize) + tracked.collider.transform.size;
+						html += "<br>" + this.padEndNbsp("col pos",    padSize) + tracked.collider.position;
+						html += "<br>" + this.padEndNbsp("col size",   padSize) + tracked.collider.size;
 						if (tracked.currentCollidingObjects.length == 0) {
 							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[]';
 						}

@@ -2,7 +2,7 @@ class Piece extends GameObject {
 
 	// GameObject overrides
 	public arrangement: boolean[][] = [];
-	protected layer: number = 1;
+	public layer: number = 1;
 
 	// class speicific
 	protected innerColor: string = '#aaaaaa';

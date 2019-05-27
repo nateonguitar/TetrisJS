@@ -131,10 +131,10 @@ class GameObject {
 
 		if (this.collider && (GameManager.options.drawColliders || this.drawCollider)) {
 			Canvas.setStrokeStyle(this.drawColliderColor || "#00FF00");
-			let size = this.collider.transform.size;
+			let size = this.collider.size;
 			let pos = this.transform.position
 				.subtract(size.scale(0.5))
-				.add(this.collider.transform.position);
+				.add(this.collider.position);
 			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
 		}
 	}

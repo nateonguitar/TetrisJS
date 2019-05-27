@@ -12,22 +12,33 @@ class FroggerMainLevelController extends GameObject {
 			layer: 0,
 		});
 
-		this.player = new FroggerPlayer(FroggerMainLevelController.unitHeight * 10);
-		this.river = new FroggerRiver(FroggerMainLevelController.unitHeight * 10);
+		let unitHeight = FroggerMainLevelController.unitHeight;
 
-
-		let log = new FroggerLogSmall(new Vector2(this.player.transform.position.x, 0));
-		log.setCollider();
-		log.transform.position.y = this.river.transform.size.y/2;
-		this.logs.push(log);
+		this.player = new FroggerPlayer(unitHeight * 10);
+		this.river = new FroggerRiver(unitHeight * 10);
 
 		Debug.track(this.player);
-		Debug.track(this.logs[0]);
+		this.buildLogs();
 
 	}
 
 	// override
 	public update(): void {
 
+	}
+
+	private buildLogs(): void {
+		let unitHeight = FroggerMainLevelController.unitHeight;
+
+		for (let i=0; i<3; i++) {
+			let log = new FroggerLogSmall(new Vector2(this.player.transform.position.x, 0));
+			log.transform.position.y = this.river.transform.position.y + unitHeight*i*2 + unitHeight*4 - log.transform.size.y/2;
+			this.logs.push(log);
+		}
+
+		for (let l of this.logs) {
+			l.setCollider();
+			Debug.track(l);
+		}
 	}
 }
