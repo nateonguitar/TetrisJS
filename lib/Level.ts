@@ -1,7 +1,7 @@
 interface LevelParams {
 	managingGameObjectClass: Function,
 	imageSrcs?: string[],
-	updateOutOfView: boolean,
+	updateOutOfView?: boolean,
 }
 
 class Level {
