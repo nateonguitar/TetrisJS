@@ -59,7 +59,7 @@ class Canvas {
 		let t: Transform = gameObject.transform;
 		// if the entire image not outside the viewport
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(t.position.x - t.size.x/2, t.position.y - t.size.y/2, t.size.x, t.size.y)) {
+		if (GameManager.camera.inViewOf(gameObject)) {
 			this.context.drawImage(
 				image,
 				t.position.x - t.size.x/2 - camPos.x,
@@ -152,7 +152,7 @@ class Canvas {
 	): void {
 		let t: Transform = gameObject.transform;
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(t.position.x - t.size.x/2, t.position.y - t.size.y/2, t.size.x, t.size.y)) {
+		if (GameManager.camera.inViewOf(gameObject)) {
 			this.context.drawImage(
 				image,
 				sx,
@@ -183,7 +183,7 @@ class Canvas {
 	public static fillGameObjectRect(gameObject:GameObject): void {
 		let t: Transform = gameObject.transform;
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+		if (GameManager.camera.inViewOf(gameObject)) {
 			Canvas.context.fillRect(
 				t.position.x - camPos.x,
 				t.position.y - camPos.y,
@@ -205,11 +205,12 @@ class Canvas {
 			);
 		}
 	}
+
 	/** Handles camera placement, won't draw if outside visible rect */
 	public static strokeGameObjectRect(gameObject:GameObject): void {
 		let t: Transform = gameObject.transform;
 		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(t.position.x, t.position.y, t.size.x, t.size.y)) {
+		if (GameManager.camera.inViewOf(gameObject)) {
 			Canvas.context.strokeRect(
 				t.position.x - camPos.x,
 				t.position.y - camPos.y,
