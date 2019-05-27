@@ -139,7 +139,6 @@ class GameManager {
 
 			// detect collisions
 			for (let j=0; j<objs.length; j++) {
-				debugger;
 				let other = objs[j];
 				if (!other.collider) continue;
 				if (obj == other) continue;
@@ -163,6 +162,7 @@ class GameManager {
 					}
 				}
 				else {
+					// if we aren't colliding any more
 					if (obj.currentCollidingObjects.indexOf(other) != -1) {
 						for (let k=obj.currentCollidingObjects.length-1; k>=0; k--) {
 							if (obj.currentCollidingObjects[k] == other) {
