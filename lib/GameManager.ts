@@ -92,9 +92,12 @@ class GameManager {
 
 	/** Will set all references to the GameObject from any other GameObject to null and de-register it from the GameManager */
 	public static destroy(gameObject: GameObject): void {
-		// remove all references to the game object from other game objects
+		// remove all references to collisions
 		for (let obj of this.currentLevel.gameObjects) {
-			obj.removeAllReferencesToGameObject(gameObject);
+			let removeIndex = obj.currentCollidingObjects.indexOf(gameObject);
+			if (removeIndex != -1) {
+				obj.currentCollidingObjects.splice(removeIndex, 1);
+			}
 		}
 
 		// remove reference to the game object from here in this class
@@ -103,6 +106,13 @@ class GameManager {
 				this.currentLevel.gameObjects.splice(i, 1);
 				break;
 			}
+		}
+
+
+
+		// remove all references to the game object from other game objects
+		for (let obj of this.currentLevel.gameObjects) {
+			obj.removeAllReferencesToGameObject(gameObject);
 		}
 	}
 
@@ -127,7 +137,7 @@ class GameManager {
 		this.handleCollisions();
 
 		if (this._options.showDebug) {
-			Debug.update({ gameObjectsLength: this.currentLevel.gameObjects.length });
+			Debug.update();
 		}
 	}
 

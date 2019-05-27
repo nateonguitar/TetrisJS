@@ -71,7 +71,7 @@ class Debug {
 		this.debugDom["div_outer"].appendChild(this.debugDom["table_debug"]);
 	}
 
-	public static update(params): void {
+	public static update(): void {
 		// update every x miliseconds
 		if (Time.time > this.timeBetweenDisplayUpdates + this.timeOfLastDisplayUpdate) {
 			this.timeOfLastDisplayUpdate = Time.time;
@@ -79,7 +79,7 @@ class Debug {
 			let separator = '<tr><td colspan="2"><hr></td></tr>';
 
 			let fps = Utils.fps().toFixed(1);
-			let gameObjectsLength = params.gameObjectsLength;
+			let gameObjectsLength = GameManager.currentLevel.gameObjects.length;
 			let cameraFollowing = (((GameManager.camera.following() || <any>{}).constructor || <any>{}).name) || '';
 			let cameraPosition = GameManager.camera.position;
 			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");

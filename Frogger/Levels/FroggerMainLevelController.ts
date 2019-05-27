@@ -37,7 +37,7 @@ class FroggerMainLevelController extends GameObject {
 		}
 
 		for (let l of this.logs) {
-			l.setCollider();
+			l.setDefaultCollider();
 			Debug.track(l);
 		}
 	}
