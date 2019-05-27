@@ -120,14 +120,14 @@ class GameObject {
 			}
 		}
 
-		if (this.drawTransform) {
+		if (GameManager.options.drawTransforms || this.drawTransform) {
 			Canvas.setStrokeStyle(this.drawTransformColor || "#FF0000");
 			let pos = this.transform.position;
 			let size = this.transform.size;
 			Canvas.strokeRect(pos.x - size.x/2, pos.y - size.y/2, size.x, size.y);
 		}
 
-		if (this.collider && this.drawCollider) {
+		if (this.collider && (GameManager.options.drawColliders || this.drawCollider)) {
 			Canvas.setStrokeStyle(this.drawColliderColor || "#00FF00");
 			let size = this.collider.transform.size;
 			let pos = this.transform.position

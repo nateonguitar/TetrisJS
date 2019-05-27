@@ -10,8 +10,6 @@ class FroggerPlayer extends GameObject {
 	constructor(levelHeight:number) {
 		super({
 			layer: 2,
-			drawTransform: true,
-			drawCollider: true,
 		});
 
 		let spriteSize = new Vector2(57, 77);

@@ -11,6 +11,8 @@ interface Options {
 	border: string;
 	levelClasses: {[k:string]: Level},
 	initialLevel: string,
+	drawTransforms: boolean,
+	drawColliders: boolean
 }
 
 class GameManager {
@@ -30,6 +32,8 @@ class GameManager {
 		border: "1px solid #444444",
 		levelClasses: {},
 		initialLevel: '',
+		drawTransforms: false,
+		drawColliders: false,
 	};
 
 
