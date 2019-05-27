@@ -1,6 +1,7 @@
 interface LevelParams {
 	managingGameObjectClass: Function,
 	imageSrcs?: string[],
+	updateOutOfView: boolean,
 }
 
 class Level {
@@ -15,6 +16,8 @@ class Level {
 	private imageSrcs: string[] = [];
 	private managingGameObjectClass: Function;
 	private managingGameObject: GameObject = null;
+
+	private updateOutOfView: boolean = false;
 
 	constructor(params:LevelParams) {
 		for (let key in params) {
@@ -40,8 +43,12 @@ class Level {
 	public get cachedImages(): {[k:string]: any} { return this._cachedImages; }
 
 	public update(): void {
+		let updatedOutOfView = this.updateOutOfView || false;
+		let camera = GameManager.camera;
 		for (let gameObject of this.gameObjects) {
-			gameObject.update();
+			if (updatedOutOfView || camera.inViewOf(gameObject)) {
+				gameObject.update();
+			}
 		}
 	}
 
