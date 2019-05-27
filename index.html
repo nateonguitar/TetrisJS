@@ -5,6 +5,8 @@
 	<!-- YOU MUST IMPORT THESE-->
 	<script src="js/lib/Camera.js"></script>
 	<script src="js/lib/Canvas.js"></script>
+	<script src="js/lib/Collider.js"></script>
+	<script src="js/lib/SquareCollider.js"></script>
 	<script src="js/lib/Debug.js"></script>
 	<script src="js/lib/GameLauncher.js"></script>
 	<script src="js/lib/GameManager.js"></script>
@@ -40,6 +42,13 @@
 	<script src="js/Zelda/GameObjects/Soldier.js"></script>
 	<script src="js/Zelda/GameObjects/SoldierGreen.js"></script>
 	<script src="js/Zelda/GameObjects/SoldierBlue.js"></script>
+
+	<!-- Frogger -->
+	<script src="js/Frogger/Levels/FroggerMainLevel.js"></script>
+	<script src="js/Frogger/Levels/FroggerMainLevelController.js"></script>
+	<script src="js/Frogger/GameObjects/FroggerPlayer.js"></script>
+	<script src="js/Frogger/GameObjects/FroggerRiver.js"></script>
+
 
 	<link rel="stylesheet" href="styles.css">
 
@@ -80,8 +89,25 @@
 			});
 		}
 
+		function runFrogger() {
+			new GameLauncher({
+				parentElementID: "game-holder",
+				screenWidth: 1000,
+				screenHeight: 800,
+				imageAntiAliasing: false,
+				layers: 3,
+				showDebug: true,
+				backgroundColor: "#000011",
+				border: "1px solid #000088",
+				levelClasses: {
+					'FroggerMainLevel': FroggerMainLevel,
+				},
+			});
+		}
+
 		// window.addEventListener('load', runTetris, false);
-		window.addEventListener('load', runZelda, false);
+		// window.addEventListener('load', runZelda, false);
+		window.addEventListener('load', runFrogger, false);
 	</script>
 </head>
 

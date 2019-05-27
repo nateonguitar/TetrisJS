@@ -42,10 +42,35 @@ class Vector2 {
 		return (this.x * vector.x + this.y + vector.y);
 	}
 
-	public moveTowards(vector: Vector2, t) {
-		t = Math.min(t, 1);
-		var diff = vector.subtract(this);
-		return this.add(diff.scale(t));
+	/**
+	 * step == magnitude
+	 * Example 1:
+	 *   v1 = ----->
+	 *   v2 = ------------>
+	 *   step = 1
+	 *   v1.moveTowards(v2) =
+	 *        ------>
+	 *   notice 1 extra dash
+	 *
+	 * example2:
+	 *   v1 = ----->
+	 *   v2 = ------------>
+	 *   step = 3
+	 *   v1.moveTowards(v2) =
+	 *        -------->
+	 *   notice 3 extra dashes
+	 **/
+	public moveTowards(targetVector: Vector2, step: number) {
+		if (step <= 0) {
+			console.warn("Vector2().moveTowards() called with step <= 0");
+			return this;
+		}
+		let direction = targetVector.subtract(this).normalize();
+		let destination = this.add(direction.scale(step));
+		if (destination.subtract(this).magnitude() < step) {
+			return targetVector;
+		}
+		return destination;
 	}
 
 	public magnitude() {
