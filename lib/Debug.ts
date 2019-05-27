@@ -125,24 +125,36 @@ class Debug {
 						<td colspan="2" class="debug-sub-header">Tracked GameObjects</td>
 					</tr>
 				`;
+				let padSize = 12;
 				for (let tracked of this.trackedGameObjects) {
 					html += `
 						<tr>
 							<td>${tracked.constructor.name}:</td>
 							<td style="white-space:pre-wrap;">`;
-					html += this.padEndNbsp("position", 12) + `${tracked.transform.position}<br>`;
-					html += this.padEndNbsp("size",     12) + `${tracked.transform.size}<br>`;
-					html += this.padEndNbsp("image",    12) + `${((tracked.image || {}).src) || ''}`;
+					html += this.padEndNbsp("layer",    padSize) + `${tracked.layer}<br>`;
+					html += this.padEndNbsp("position", padSize) + `${tracked.transform.position}<br>`;
+					html += this.padEndNbsp("size",     padSize) + `${tracked.transform.size}<br>`;
+					html += this.padEndNbsp("image",    padSize) + `${((tracked.image || {}).src) || ''}`;
 
 					let animationInfo = (<GameObject>tracked).getCurrentSpritesheetAnimationInfo();
 					if (animationInfo) {
-						html += "<br>" + this.padEndNbsp("anim name",  12) + animationInfo.name;
-						html += "<br>" + this.padEndNbsp("anim index", 12) + animationInfo.index;
+						html += "<br>" + this.padEndNbsp("anim name",  padSize) + animationInfo.name;
+						html += "<br>" + this.padEndNbsp("anim index", padSize) + animationInfo.index;
 					}
 
 					if (tracked.collider) {
-						html += "<br>" + this.padEndNbsp("col pos", 12)  + tracked.collider.transform.position;
-						html += "<br>" + this.padEndNbsp("col size", 12) + tracked.collider.transform.size;
+						html += "<br>" + this.padEndNbsp("col pos",    padSize) + tracked.collider.transform.position;
+						html += "<br>" + this.padEndNbsp("col size",   padSize) + tracked.collider.transform.size;
+						if (tracked.currentCollidingObjects.length == 0) {
+							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[]';
+						}
+						else {
+							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[';
+							for (let col of tracked.currentCollidingObjects) {
+								html += "<br>" + this.padEndNbsp("", padSize + 2) + col.constructor.name;
+							}
+							html += "<br>" + this.padEndNbsp("", padSize) + ']';
+						}
 					}
 
 					html += `

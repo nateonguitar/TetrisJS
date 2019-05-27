@@ -1,11 +1,13 @@
 class GameObject {
-	protected layer: number = 0;
+	public layer: number = 0;
 
 	public children: Array<GameObject> = [];
 
 	public transform: Transform = new Transform();
 	private drawTransform: boolean = false;
 	private drawTransformColor: string = null;
+
+	public currentCollidingObjects: GameObject[] = [];
 
 
 	/** basic shape fill color */
@@ -167,5 +169,13 @@ class GameObject {
 				}
 			}
 		}
+	}
+
+	public onCollisionEnter(other: GameObject): void {
+		console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);
+	}
+
+	public onCollisionLeave(other: GameObject): void {
+		console.warn("Collision leave with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
 }
