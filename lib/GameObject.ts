@@ -9,6 +9,7 @@ class GameObject {
 
 	public currentCollidingObjects: GameObject[] = [];
 
+	public name: string = '';
 
 	/** basic shape fill color */
 	protected fillStyle: string = null;

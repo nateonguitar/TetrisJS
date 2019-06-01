@@ -13,6 +13,7 @@ class FroggerPlayer extends GameObject {
 	constructor(levelHeight:number) {
 		super({
 			layer: 2,
+			name: null
 		});
 
 		this.levelHeight = levelHeight;
