@@ -1,123 +1,23 @@
 <html>
 
 <head>
-	<!-- library import -->
-	<!-- YOU MUST IMPORT THESE-->
-	<script src="js/lib/Camera.js"></script>
-	<script src="js/lib/Canvas.js"></script>
-	<script src="js/lib/Collider.js"></script>
-	<script src="js/lib/SquareCollider.js"></script>
-	<script src="js/lib/Debug.js"></script>
-	<script src="js/lib/GameLauncher.js"></script>
-	<script src="js/lib/GameManager.js"></script>
-	<script src="js/lib/GameObject.js"></script>
-	<script src="js/lib/Level.js"></script>
-	<script src="js/lib/SpritesheetAnimation.js"></script>
-	<script src="js/lib/SpritesheetAnimationSet.js"></script>
-	<script src="js/lib/StressTestSquare.js"></script>
-	<script src="js/lib/Time.js"></script>
-	<script src="js/lib/Transform.js"></script>
-	<script src="js/lib/Utils.js"></script>
-	<script src="js/lib/Vector2.js"></script>
-	<script src="js/lib/VectorN.js"></script>
-	<script src="js/lib/Input.js"></script>
-	<!-- End required import-->
-
-	<!-- my own code imports -->
-	<!-- Tetris -->
-	<script src="js/Tetris/Shapes/Piece.js"></script>
-	<script src="js/Tetris/Shapes/Cube.js"></script>
-	<script src="js/Tetris/Shapes/Line.js"></script>
-	<script src="js/Tetris/Shapes/LL.js"></script>
-	<script src="js/Tetris/Shapes/LR.js"></script>
-	<script src="js/Tetris/Grid.js"></script>
-	<script src="js/Tetris/TetrisLevel.js"></script>
-	<script src="js/Tetris/TetrisController.js"></script>
-
-	<!-- Zelda -->
-	<script src="js/Zelda/Levels/ZeldaOverworldController.js"></script>
-	<script src="js/Zelda/Levels/ZeldaOverworldLevel.js"></script>
-	<script src="js/Zelda/GameObjects/ZeldaOverworldBackground.js"></script>
-	<script src="js/Zelda/GameObjects/ZeldaPlayer.js"></script>
-	<script src="js/Zelda/GameObjects/ZeldaSoldier.js"></script>
-	<script src="js/Zelda/GameObjects/ZeldaSoldierGreen.js"></script>
-	<script src="js/Zelda/GameObjects/ZeldaSoldierBlue.js"></script>
-
-	<!-- Frogger -->
-	<script src="js/Frogger/Levels/FroggerMainLevel.js"></script>
-	<script src="js/Frogger/Levels/FroggerMainLevelController.js"></script>
-	<script src="js/Frogger/GameObjects/FroggerPlayer.js"></script>
-	<script src="js/Frogger/GameObjects/FroggerRiver.js"></script>
-	<script src="js/Frogger/GameObjects/FroggerLandingObject.js"></script>
-	<script src="js/Frogger/GameObjects/FroggerLogSmall.js"></script>
-
-
 	<link rel="stylesheet" href="styles.css">
-
-	<script type="text/JavaScript">
-
-		function runTetris() {
-			new GameLauncher({
-				parentElementID: "game-holder",
-				screenWidth: 250,
-				screenHeight: 450,
-				imageAntiAliasing: false,
-				layers: 3,
-				showDebug: true,
-				backgroundColor: "#330000",
-				border: "1px solid red",
-				levelClasses: {
-					'Tetris': TetrisLevel,
-					'ZeldaOverworld': ZeldaOverworldLevel,
-				},
-			});
-		}
-
-		function runZelda() {
-			new GameLauncher({
-				parentElementID: "game-holder",
-				screenWidth: 1000,
-				screenHeight: 800,
-				imageAntiAliasing: false,
-				layers: 4,
-				showDebug: true,
-				backgroundColor: "#001100",
-				border: "1px solid #008800",
-				drawColliders: true,
-				levelClasses: {
-					'ZeldaOverworld': ZeldaOverworldLevel,
-					'Tetris': TetrisLevel,
-				},
-				initialLevel: 'ZeldaOverworld'
-			});
-		}
-
-		function runFrogger() {
-			new GameLauncher({
-				parentElementID: "game-holder",
-				screenWidth: 1000,
-				screenHeight: 800,
-				imageAntiAliasing: false,
-				layers: 3,
-				showDebug: true,
-				backgroundColor: "#000011",
-				border: "1px solid #000088",
-				drawTransforms: true,
-				drawColliders: true,
-				levelClasses: {
-					'FroggerMainLevel': FroggerMainLevel,
-				},
-			});
-		}
-
-		// window.addEventListener('load', runTetris, false);
-		window.addEventListener('load', runZelda, false);
-		// window.addEventListener('load', runFrogger, false);
-	</script>
 </head>
 
 <body>
 	<h1 class="title">TypeScript Game Engine</h1>
-	<div id="game-holder"></div>
+	<ul id="game-list">
+		<li>
+			<a href="GameZelda.html">Zelda</a>
+		</li>
+
+		<li>
+			<a href="GameTetris.html">Tetris</a>
+		</li>
+
+		<li>
+			<a href="GameFrogger.html">Frogger</a>
+		</li>
+	</ul>
 </body>
 </html>
