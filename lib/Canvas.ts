@@ -40,7 +40,8 @@ class Canvas {
 	}
 
 	/** Handles camera placement, won't draw if outside visible rect */
-	public static drawGameObjectImage(image:any, gameObject:GameObject,): void {
+	public static drawGameObjectImage(gameObject:GameObject,): void {
+		let image = gameObject.image;
 		let t: Transform = gameObject.transform;
 		// if the entire image not outside the viewport
 		let camPos: Vector2 = GameManager.camera.position;
@@ -53,7 +54,7 @@ class Canvas {
 				t.size.x,
 				t.size.y
 			);
-			this.flipCanvas(t.size);
+			this.context.restore();
 		}
 	}
 
@@ -76,7 +77,6 @@ class Canvas {
 	 * The height of the sub-rectangle of the source image to draw into the destination context.
 	 **/
 	public static drawGameObjectPartialImage(
-		image:any,
 		gameObject:GameObject,
 		sx:number,
 		sy:number,
@@ -84,6 +84,7 @@ class Canvas {
 		sHeight:number
 	): void {
 		if (GameManager.camera.inViewOf(gameObject)) {
+			let image = gameObject.image;
 			if (gameObject.constructor.name == 'FroggerPlayer') debugger;
 			let t: Transform = gameObject.transform;
 			let s: Vector2 = t.size;
@@ -101,7 +102,65 @@ class Canvas {
 				s.x,
 				s.y
 			);
-			this.flipCanvas(t.size);
+			this.context.restore();
+		}
+	}
+
+
+	public static drawGameObject(gameObject): void {
+		if (gameObject.spritesheetAnimationSet) {
+			gameObject.image = GameManager.currentLevel.cachedImages[gameObject.spritesheetAnimationSet.imageSrc];
+			let animationTransform = gameObject.spritesheetAnimationSet.currentAnimationTransform;
+			Canvas.drawGameObjectPartialImage(
+				gameObject,
+				animationTransform.position.x,
+				animationTransform.position.y,
+				animationTransform.size.x,
+				animationTransform.size.y
+			);
+		}
+		else if (gameObject.imageSrc) {
+			gameObject.image = GameManager.currentLevel.cachedImages[gameObject.imageSrc];
+			if (gameObject.spritesheetBounds) {
+				Canvas.drawGameObjectPartialImage(
+					gameObject,
+					gameObject.spritesheetBounds.x,
+					gameObject.spritesheetBounds.y,
+					gameObject.spritesheetBounds.width,
+					gameObject.spritesheetBounds.height
+				);
+			}
+			else {
+				Canvas.drawGameObjectImage(gameObject);
+			}
+		}
+		else {
+			if (gameObject.fillStyle) {
+				Canvas.setFillStyle(gameObject.fillStyle);
+				if (gameObject.shape == "square") {
+					Canvas.fillGameObjectRect(gameObject);
+				}
+			}
+			if (gameObject.strokeStyle) {
+				Canvas.setStrokeStyle(gameObject.strokeStyle);
+				if (gameObject.shape == "square") {
+					Canvas.strokeGameObjectRect(gameObject);
+				}
+			}
+		}
+
+		if (GameManager.options.drawTransforms || gameObject.drawTransform) {
+			Canvas.setStrokeStyle(gameObject.drawTransformColor || "#FF0000");
+			let pos = gameObject.transform.position;
+			let size = gameObject.transform.size;
+			Canvas.strokeRect(pos.x - size.x/2, pos.y - size.y/2, size.x, size.y);
+		}
+
+		if (gameObject.collider && (GameManager.options.drawColliders || gameObject.drawCollider)) {
+			Canvas.setStrokeStyle(gameObject.drawColliderColor || "#00FF00");
+			let size = gameObject.colliderSize();
+			let pos = gameObject.colliderPosition();
+			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
 		}
 	}
 

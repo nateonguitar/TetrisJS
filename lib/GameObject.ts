@@ -100,62 +100,7 @@ class GameObject {
 
 	// override this if you want anything else to happen
 	public draw(): void {
-		if (this.spritesheetAnimationSet) {
-			this.image = GameManager.currentLevel.cachedImages[this.spritesheetAnimationSet.imageSrc];
-			let animationTransform = this.spritesheetAnimationSet.currentAnimationTransform;
-			Canvas.drawGameObjectPartialImage(
-				this.image,
-				this,
-				animationTransform.position.x,
-				animationTransform.position.y,
-				animationTransform.size.x,
-				animationTransform.size.y
-			);
-		}
-		else if (this.imageSrc) {
-			this.image = GameManager.currentLevel.cachedImages[this.imageSrc];
-			if (this.spritesheetBounds) {
-				Canvas.drawGameObjectPartialImage(
-					this.image,
-					this,
-					this.spritesheetBounds.x,
-					this.spritesheetBounds.y,
-					this.spritesheetBounds.width,
-					this.spritesheetBounds.height
-				);
-			}
-			else {
-				Canvas.drawGameObjectImage(this.image, this);
-			}
-		}
-		else {
-			if (this.fillStyle) {
-				Canvas.setFillStyle(this.fillStyle);
-				if (this.shape == "square") {
-					Canvas.fillGameObjectRect(this);
-				}
-			}
-			if (this.strokeStyle) {
-				Canvas.setStrokeStyle(this.strokeStyle);
-				if (this.shape == "square") {
-					Canvas.strokeGameObjectRect(this);
-				}
-			}
-		}
-
-		if (GameManager.options.drawTransforms || this.drawTransform) {
-			Canvas.setStrokeStyle(this.drawTransformColor || "#FF0000");
-			let pos = this.transform.position;
-			let size = this.transform.size;
-			Canvas.strokeRect(pos.x - size.x/2, pos.y - size.y/2, size.x, size.y);
-		}
-
-		if (this.collider && (GameManager.options.drawColliders || this.drawCollider)) {
-			Canvas.setStrokeStyle(this.drawColliderColor || "#00FF00");
-			let size = this.colliderSize();
-			let pos = this.colliderPosition();
-			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
-		}
+		Canvas.drawGameObject(this);
 	}
 
 	public removeAllReferencesToGameObject(gameObject: GameObject) {
