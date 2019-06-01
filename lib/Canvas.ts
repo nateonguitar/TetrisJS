@@ -40,21 +40,6 @@ class Canvas {
 	}
 
 	/** Handles camera placement, won't draw if outside visible rect */
-	public static drawImage(image:any, x:number, y:number, width:number, height:number ): void {
-		// if the entire image not outside the viewport
-		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(x, y, width, height)) {
-			this.context.drawImage(
-				image,
-				x - camPos.x,
-				y - camPos.y,
-				width,
-				height
-			);
-		}
-	}
-
-	/** Handles camera placement, won't draw if outside visible rect */
 	public static drawGameObjectImage(image:any, gameObject:GameObject,): void {
 		let t: Transform = gameObject.transform;
 		// if the entire image not outside the viewport
@@ -66,60 +51,6 @@ class Canvas {
 				t.position.y - t.size.y/2 - camPos.y,
 				t.size.x,
 				t.size.y
-			);
-		}
-	}
-
-	/**
-	 * Handles camera placement, won't draw if outside visible rect
-	 *
-	 * `x`
-	 * The x-axis coordinate in the destination canvas at which to place the top-left corner of the source image.
-	 *
-	 * `y`
-	 * The y-axis coordinate in the destination canvas at which to place the top-left corner of the source image.
-	 *
-	 * `width`
-	 * The width to draw the image in the destination canvas.
-	 *
-	 * `height`
-	 * The height to draw the image in the destination canvas.
-	 *
-	 * `sx`
-	 * The x-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
-	 *
-	 * `sy`
-	 * The y-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
-	 *
-	 * `sWidth`
-	 * The width of the sub-rectangle of the source image to draw into the destination context.
-	 *
-	 * `sHeight`
-	 * The height of the sub-rectangle of the source image to draw into the destination context.
-	 **/
-	public static drawPartialImage(
-		image:any,
-		x:number,
-		y:number,
-		width:number,
-		height:number,
-		sx:number,
-		sy:number,
-		sWidth:number,
-		sHeight:number
-	): void {
-		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(x, y, width, height)) {
-			this.context.drawImage(
-				image,
-				sx,
-				sy,
-				sWidth,
-				sHeight,
-				x - camPos.x,
-				y - camPos.y,
-				width,
-				height
 			);
 		}
 	}
