@@ -11,6 +11,9 @@ body, html {
 }
 .back-button {
 	text-align: center;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 1em;
 }
 .back-button a {
 	color: white;

@@ -38,6 +38,13 @@ class Vector2 {
 		return v;
 	}
 
+	public abs(): Vector2 {
+		let v = this.clone();
+		v.x = Math.abs(v.x);
+		v.y = Math.abs(v.y);
+		return v;
+	}
+
 	public dot(vector: Vector2) {
 		return (this.x * vector.x + this.y + vector.y);
 	}

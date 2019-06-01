@@ -81,8 +81,14 @@ class Debug {
 			let fps = Utils.fps().toFixed(1);
 			let gameObjectsLength = GameManager.currentLevel.gameObjects.length;
 			let updatesSkipped = GameManager.currentLevel.updatesSkipped;
-			let cameraFollowing = (((GameManager.camera.following() || <any>{}).constructor || <any>{}).name) || '';
+
+			let following = GameManager.camera.following();
+			let cameraFollowing = (((following || <any>{}).constructor || <any>{}).name) || '';
+			if ((following || <any>{}).name) {
+				cameraFollowing += ' ' + following.name;
+			}
 			let cameraPosition = GameManager.camera.position;
+
 			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");
 
 			let html = `
@@ -134,7 +140,7 @@ class Debug {
 				for (let tracked of this.trackedGameObjects) {
 					html += `
 						<tr>
-							<td>${tracked.constructor.name}:</td>
+							<td>${tracked.constructor.name + (tracked.name ? ' ' + tracked.name : '')}:</td>
 							<td style="white-space:pre-wrap;">`;
 					html += this.padEndNbsp("layer",    padSize) + `${tracked.layer}<br>`;
 					html += this.padEndNbsp("position", padSize) + `${tracked.transform.position}<br>`;
@@ -156,7 +162,7 @@ class Debug {
 						else {
 							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[';
 							for (let col of tracked.currentCollidingObjects) {
-								html += "<br>" + this.padEndNbsp("", padSize + 2) + col.constructor.name;
+								html += "<br>" + this.padEndNbsp("", padSize + 2) + col.constructor.name + (col.name ? ' ' + col.name : '');
 							}
 							html += "<br>" + this.padEndNbsp("", padSize) + ']';
 						}

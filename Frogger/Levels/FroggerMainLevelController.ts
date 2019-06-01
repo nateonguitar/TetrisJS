@@ -31,7 +31,7 @@ class FroggerMainLevelController extends GameObject {
 		let unitHeight = FroggerMainLevelController.unitHeight;
 
 		for (let i=0; i<3; i++) {
-			let log = new FroggerLogSmall(new Vector2(this.player.transform.position.x, 0));
+			let log = new FroggerLogSmall(new Vector2(this.player.transform.position.x, 0), i.toString());
 			log.transform.position.y = this.river.transform.position.y + unitHeight*i*2 + unitHeight*4 - log.transform.size.y/2;
 			this.logs.push(log);
 		}

@@ -13,6 +13,7 @@ class FroggerPlayer extends GameObject {
 	constructor(levelHeight:number) {
 		super({
 			layer: 2,
+			name: null
 		});
 
 		this.levelHeight = levelHeight;
@@ -73,9 +74,10 @@ class FroggerPlayer extends GameObject {
 	}
 
 	private setInitialSize(): void {
-		this.transform.size = this.spriteSize.scale(1.5);
-		this.transform.size.x = Math.floor(this.transform.size.x);
-		this.transform.size.y = Math.floor(this.transform.size.y);
+		let t = this.transform;
+		t.size = this.spriteSize.scale(1.5);
+		t.size.x = Math.floor(t.size.x);
+		t.size.y = Math.floor(t.size.y);
 	}
 
 	private setInitialPosition(): void {
@@ -92,8 +94,8 @@ class FroggerPlayer extends GameObject {
 
 	private setCollider(): void {
 		let tSize = this.transform.size;
-		let colliderPosition = new Vector2(0, -tSize.y/8);
-		let colliderSize = new Vector2(tSize.x*0.8, tSize.y*0.5);
+		let colliderPosition = new Vector2(0, 0.1);
+		let colliderSize = new Vector2(0.8, 0.5);
 		this.collider = new SquareCollider(colliderPosition, colliderSize);
 	}
 
@@ -115,6 +117,19 @@ class FroggerPlayer extends GameObject {
 		}
 		if (Input.keys(Keys.ArrowRight)) {
 			this.transform.position.x += speed;
+		}
+
+		if (Input.keys(Keys.KeyA)) {
+			this.transform.size.x -= speed;
+		}
+		if (Input.keys(Keys.KeyD)) {
+			this.transform.size.x += speed;
+		}
+		if (Input.keys(Keys.KeyW)) {
+			this.transform.size.y += speed;
+		}
+		if (Input.keys(Keys.KeyS)) {
+			this.transform.size.y -= speed;
 		}
 
 		// space keyup
