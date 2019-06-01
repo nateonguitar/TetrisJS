@@ -45,6 +45,7 @@ class Canvas {
 		// if the entire image not outside the viewport
 		let camPos: Vector2 = GameManager.camera.position;
 		if (GameManager.camera.inViewOf(gameObject)) {
+			this.flipCanvas(t.size);
 			this.context.drawImage(
 				image,
 				t.position.x - t.size.x/2 - camPos.x,
@@ -52,6 +53,7 @@ class Canvas {
 				t.size.x,
 				t.size.y
 			);
+			this.flipCanvas(t.size);
 		}
 	}
 
@@ -81,20 +83,25 @@ class Canvas {
 		sWidth:number,
 		sHeight:number
 	): void {
-		let t: Transform = gameObject.transform;
-		let camPos: Vector2 = GameManager.camera.position;
 		if (GameManager.camera.inViewOf(gameObject)) {
+			if (gameObject.constructor.name == 'FroggerPlayer') debugger;
+			let t: Transform = gameObject.transform;
+			let s: Vector2 = t.size;
+			let pos: Vector2 = t.position;
+			let camPos: Vector2 = GameManager.camera.position;
+			this.flipCanvas(t.size);
 			this.context.drawImage(
 				image,
 				sx,
 				sy,
 				sWidth,
 				sHeight,
-				t.position.x - t.size.x/2 - camPos.x,
-				t.position.y - t.size.y/2 - camPos.y,
-				t.size.x,
-				t.size.y
+				pos.x - s.x/2 - camPos.x,
+				pos.y - s.y/2 - camPos.y,
+				s.x,
+				s.y
 			);
+			this.flipCanvas(t.size);
 		}
 	}
 
@@ -149,6 +156,17 @@ class Canvas {
 				t.size.y
 			);
 		}
+	}
+
+	/** There is no way to draw an image backwards or upside-down in JavaScript / Html5 canvas.  Instead you flip the canvas, draw, then flip the canvas back the way it was. */
+	private static flipCanvas(size: Vector2) {
+		let x = size.x < 0;
+		let y = size.y < 0;
+		if (!x && !y) return;
+		this.context.scale(
+			x ? -1 : 1,
+			y ? -1 : 1
+		);
 	}
 
 	private static insideCameraBounds(x:number, y:number, width:number, height:number): boolean {

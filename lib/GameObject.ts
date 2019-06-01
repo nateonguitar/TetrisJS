@@ -174,6 +174,12 @@ class GameObject {
 		}
 	}
 
+	public colliderPosition(): Vector2 {
+		return this.transform.position
+			.subtract(this.collider.size.scale(0.5).abs())
+			.add(this.collider.position);
+	}
+
 	public onCollisionEnter(other: GameObject): void {
 		console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
