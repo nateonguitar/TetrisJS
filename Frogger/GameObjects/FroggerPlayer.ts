@@ -42,9 +42,10 @@ class FroggerPlayer extends GameObject {
 			"idle" // start animation name
 		)
 
-		this.setInitialSize();
+		this.transform.size = this.spriteSize.scale(1.5);
+		this.collider = new SquareCollider(new Vector2(0, 0.1), new Vector2(0.8, 0.5));
+
 		this.setInitialPosition();
-		this.setCollider();
 
 		GameManager.camera.follow(this);
 	}
@@ -73,13 +74,6 @@ class FroggerPlayer extends GameObject {
 		}
 	}
 
-	private setInitialSize(): void {
-		let t = this.transform;
-		t.size = this.spriteSize.scale(1.5);
-		t.size.x = Math.floor(t.size.x);
-		t.size.y = Math.floor(t.size.y);
-	}
-
 	private setInitialPosition(): void {
 		let tSize = this.transform.size;
 		let x = GameManager.options.screenWidth/2 + tSize.x/2;
@@ -90,13 +84,6 @@ class FroggerPlayer extends GameObject {
 			Math.floor(this.transform.position.x),
 			Math.floor(this.transform.position.y)
 		);
-	}
-
-	private setCollider(): void {
-		let tSize = this.transform.size;
-		let colliderPosition = new Vector2(0, 0.1);
-		let colliderSize = new Vector2(0.8, 0.5);
-		this.collider = new SquareCollider(colliderPosition, colliderSize);
 	}
 
 	private handleInput(): void {
