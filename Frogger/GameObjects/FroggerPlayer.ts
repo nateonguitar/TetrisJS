@@ -94,8 +94,8 @@ class FroggerPlayer extends GameObject {
 
 	private setCollider(): void {
 		let tSize = this.transform.size;
-		let colliderPosition = new Vector2(0, -tSize.y/8);
-		let colliderSize = new Vector2(tSize.x*0.8, tSize.y*0.5);
+		let colliderPosition = new Vector2(0, 0.1);
+		let colliderSize = new Vector2(0.8, 0.5);
 		this.collider = new SquareCollider(colliderPosition, colliderSize);
 	}
 
@@ -131,7 +131,6 @@ class FroggerPlayer extends GameObject {
 		if (Input.keys(Keys.KeyS)) {
 			this.transform.size.y -= speed;
 		}
-		this.setCollider();
 
 		// space keyup
 		if (this.pressedSpace && !Input.keys(Keys.Space)) {

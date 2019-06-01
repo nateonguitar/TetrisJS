@@ -153,8 +153,8 @@ class GameManager {
 				if (!other.collider) continue;
 				if (obj == other) continue;
 
-				let objColSize = obj.collider.size.abs();
-				let otherColSize = other.collider.size.abs();
+				let objColSize = obj.colliderSize();
+				let otherColSize = other.colliderSize();
 
 				let objColPos = obj.colliderPosition();
 				let otherColPos = other.colliderPosition();

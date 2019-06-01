@@ -64,7 +64,25 @@ class GameObject {
 	}
 
 	public setDefaultCollider(): void {
-		this.collider = new SquareCollider(Vector2.zero, this.transform.size);
+		this.collider = new SquareCollider(Vector2.zero, new Vector2(1, 1));
+	}
+
+	public colliderPosition(): Vector2 {
+		let t = this.transform;
+		let colPos = this.collider.position.clone();
+		colPos.x *= t.size.x;
+		colPos.y *= -t.size.y; // negative because y++ goes down
+		return t.position
+			.subtract(this.colliderSize().scale(0.5))
+			.add(colPos);
+	}
+
+	public colliderSize(): Vector2 {
+		let tSize = this.transform.size.abs();
+		let colSize = this.collider.size.abs();
+		colSize.x *= tSize.x;
+		colSize.y *= tSize.y;
+		return colSize;
 	}
 
 	public getLayer(): number {
@@ -134,10 +152,8 @@ class GameObject {
 
 		if (this.collider && (GameManager.options.drawColliders || this.drawCollider)) {
 			Canvas.setStrokeStyle(this.drawColliderColor || "#00FF00");
-			let size = this.collider.size;
-			let pos = this.transform.position
-				.subtract(size.scale(0.5))
-				.add(this.collider.position);
+			let size = this.colliderSize();
+			let pos = this.colliderPosition();
 			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
 		}
 	}
@@ -172,12 +188,6 @@ class GameObject {
 				}
 			}
 		}
-	}
-
-	public colliderPosition(): Vector2 {
-		return this.transform.position
-			.subtract(this.collider.size.scale(0.5).abs())
-			.add(this.collider.position);
 	}
 
 	public onCollisionEnter(other: GameObject): void {
