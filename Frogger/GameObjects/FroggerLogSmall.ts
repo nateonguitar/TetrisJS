@@ -13,7 +13,6 @@ class FroggerLogSmall extends FroggerLandingObject {
 			},
 			"idle" // start animation name
 		);
-
 		this.transform.size.x = FroggerMainLevelController.unitHeight * 2;
 	}
 }

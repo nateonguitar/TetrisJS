@@ -6,8 +6,8 @@ class StressTestSquare extends GameObject {
 	private useImage: boolean = false;
 
 	// overrides
-	protected fillStyle: string = '#';
-	protected shape: string = 'square';
+	public fillStyle: string = '#';
+	public shape: string = 'square';
 
 	constructor(imageSrc: string = null) {
 		super({ imageSrc: imageSrc });

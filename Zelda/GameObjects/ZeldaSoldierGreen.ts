@@ -60,6 +60,8 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 		else if (this.speedX == 0) {
 			this.setRandomDirection();
 		}
+
+		this.transform.rotation += this.dr;
 	}
 
 	private mousedown(coords:Vector2, gameObjects:GameObject[]): void {

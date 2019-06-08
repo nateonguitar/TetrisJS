@@ -5,6 +5,7 @@ class FroggerMainLevel extends Level {
 			imageSrcs: [
 				'Frogger/Images/FroggerSpritesheet.png',
 			],
+			extraViewportPadding: new Vector2(GameManager.options.screenWidth*2, GameManager.options.screenHeight*2)
 		});
 	}
 }

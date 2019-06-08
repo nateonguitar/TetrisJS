@@ -15,11 +15,12 @@ class TetrisController extends GameObject {
 
 	private currentPiece: Piece = null;
 	private grid: Grid = null;
-	private zWasPressed: boolean = false;
 
 	constructor() {
 		super();
 		this.grid = new Grid();
+		this.grid.transform.position = GameManager.screenSize.scale(0.5);
+
 		Input.registerMouseDown(this, this.mousedown);
 	}
 
@@ -72,14 +73,6 @@ class TetrisController extends GameObject {
 		}
 		if (Input.keys(Keys.ShiftRight)) {
 			this.grid.transform.position = this.grid.transform.position.add(new Vector2(0, 1));
-		}
-
-		// swap levels to zelda
-		if (Input.keys(Keys.KeyZ)) {
-			this.zWasPressed = true;
-		}
-		if (!Input.keys(Keys.KeyZ) && this.zWasPressed) {
-			GameManager.loadLevel("ZeldaOverworld");
 		}
 	}
 

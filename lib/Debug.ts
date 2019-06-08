@@ -154,8 +154,10 @@ class Debug {
 					}
 
 					if (tracked.collider) {
-						html += "<br>" + this.padEndNbsp("col pos",    padSize) + tracked.collider.position;
-						html += "<br>" + this.padEndNbsp("col size",   padSize) + tracked.collider.size;
+						html += "<br>" + this.padEndNbsp("col pos",      padSize) + tracked.collider.position;
+						html += "<br>" + this.padEndNbsp("col pos rel",  padSize) + tracked.colliderPosition();
+						html += "<br>" + this.padEndNbsp("col size",     padSize) + tracked.collider.size;
+						html += "<br>" + this.padEndNbsp("col size rel", padSize) + tracked.colliderSize();
 						if (tracked.currentCollidingObjects.length == 0) {
 							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[]';
 						}

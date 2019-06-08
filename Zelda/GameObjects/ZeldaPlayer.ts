@@ -4,7 +4,6 @@ class ZeldaPlayer extends GameObject {
 	private boundarySize: Vector2 = null;
 
 	private holdingMouse: boolean = false;
-	private zWasPressed: boolean = false;
 
 	constructor(boundarySize:Vector2) {
 		super({
@@ -35,14 +34,6 @@ class ZeldaPlayer extends GameObject {
 			this.transform.size.x -= 1;
 			this.transform.size.y -= 1;
 		}
-
-		// swap levels to zelda
-		if (Input.keys(Keys.KeyZ)) {
-			this.zWasPressed = true;
-		}
-		if (!Input.keys(Keys.KeyZ) && this.zWasPressed) {
-			GameManager.loadLevel("Tetris");
-		}
 	}
 
 	private handleMovement(): void {
@@ -71,11 +62,11 @@ class ZeldaPlayer extends GameObject {
 		if (this.transform.position.y < 0) {
 			this.transform.position.y = 0;
 		}
-		if (this.transform.position.x > this.boundarySize.x - this.transform.size.x) {
-			this.transform.position.x = this.boundarySize.x - this.transform.size.x;
+		if (this.transform.position.x > this.boundarySize.x) {
+			this.transform.position.x = this.boundarySize.x;
 		}
-		if (this.transform.position.y > this.boundarySize.y - this.transform.size.y) {
-			this.transform.position.y = this.boundarySize.y - this.transform.size.y;
+		if (this.transform.position.y > this.boundarySize.y) {
+			this.transform.position.y = this.boundarySize.y;
 		}
 	}
 

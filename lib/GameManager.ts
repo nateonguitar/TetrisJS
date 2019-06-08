@@ -12,13 +12,16 @@ interface Options {
 	levelClasses: {[k:string]: Level},
 	initialLevel: string,
 	drawTransforms: boolean,
-	drawColliders: boolean
+	drawColliders: boolean,
+	drawCenteredCross: boolean,
 }
 
 class GameManager {
 	public static _camera: Camera = null;
 
 	public static currentLevel: Level = null;
+
+	public static screenSize: Vector2 = null;
 
 	private static _options: Options = {
 		parentElementID: null,
@@ -34,6 +37,7 @@ class GameManager {
 		initialLevel: '',
 		drawTransforms: false,
 		drawColliders: false,
+		drawCenteredCross: false,
 	};
 
 
@@ -42,6 +46,14 @@ class GameManager {
 		// if an option is passed in override our defaults
 		for (let key in options) {
 			this._options[key] = options[key];
+		}
+
+		this.screenSize = Vector2.zero;
+		if (this.options.screenWidth) {
+			this.screenSize.x = this.options.screenWidth;
+		}
+		if (this.options.screenHeight) {
+			this.screenSize.y = this.options.screenHeight;
 		}
 
 		if (Object.keys(this._options.levelClasses).length == 0) {
@@ -123,7 +135,11 @@ class GameManager {
 		this.update();
 		if (this.currentLevel) {
 			this.currentLevel.updateAnimations();
+			Canvas.wipe();
 			this.currentLevel.draw();
+			if (this.options.drawCenteredCross) {
+				Canvas.drawCenteredCross();
+			}
 		}
 	}
 
@@ -153,18 +169,18 @@ class GameManager {
 				if (!other.collider) continue;
 				if (obj == other) continue;
 
-				let objColSize = obj.colliderSize();
-				let otherColSize = other.colliderSize();
+				let objSize = obj.colliderSize();
+				let otherSize = other.colliderSize();
 
-				let objColPos = obj.colliderPosition();
-				let otherColPos = other.colliderPosition();
+				let objPos = obj.colliderPosition().subtract(objSize.scale(0.5));
+				let otherPos = other.colliderPosition().subtract(otherSize.scale(0.5));
 
 				// if collision
 				if (
-					objColPos.x < otherColPos.x + otherColSize.x &&
-					objColPos.x + objColSize.x > otherColPos.x &&
-					objColPos.y < otherColPos.y + otherColSize.y &&
-					objColPos.y + objColSize.y > otherColPos.y
+					objPos.x < otherPos.x + otherSize.x &&
+					objPos.x + objSize.x > otherPos.x &&
+					objPos.y < otherPos.y + otherSize.y &&
+					objPos.y + objSize.y > otherPos.y
 				) {
 					// if not currently known to be colliding
 					if (obj.currentCollidingObjects.indexOf(other) == -1) {

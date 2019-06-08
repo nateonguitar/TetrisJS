@@ -18,13 +18,13 @@ class Canvas {
 		el.appendChild(this.canvas);
 
 		this.context = this.canvas.getContext("2d");
-		this.context.translate(GameManager.options.screenWidth/2, GameManager.options.screenHeight/2);
 		this.context.imageSmoothingEnabled = GameManager.options.imageAntiAliasing;
 		this.context.shadowBlur = 0;
 	}
 
 	public static wipe(): void {
-		this.context.clearRect(-this.canvas.width/2, -this.canvas.height/2, this.canvas.width, this.canvas.height);
+		this.context.setTransform(1, 0, 0, 1, 0, 0);
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	public static setFillStyle(color:string): void {
@@ -42,19 +42,25 @@ class Canvas {
 	/** Handles camera placement, won't draw if outside visible rect */
 	public static drawGameObjectImage(gameObject:GameObject,): void {
 		let image = gameObject.image;
+		let camera: Camera = GameManager.camera;
 		let t: Transform = gameObject.transform;
-		// if the entire image not outside the viewport
-		let camPos: Vector2 = GameManager.camera.position;
-		if (GameManager.camera.inViewOf(gameObject)) {
+		let s: Vector2 = t.size;
+		let r: number = t.rotation;
+
+		if (camera.inViewOfGameObject(gameObject)) {
+			let relativePos = camera.relativePosition(t.position);
+			let screenSize = GameManager.screenSize;
+			this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
+			this.rotate(-r);
 			this.flipCanvas(t.size);
 			this.context.drawImage(
 				image,
-				t.position.x - t.size.x/2 - camPos.x,
-				t.position.y - t.size.y/2 - camPos.y,
-				t.size.x,
-				t.size.y
+				-s.x/2,
+				-s.y/2,
+				s.x,
+				s.y
 			);
-			this.context.restore();
+			this.flipCanvas(t.size);
 		}
 	}
 
@@ -83,31 +89,41 @@ class Canvas {
 		sWidth:number,
 		sHeight:number
 	): void {
-		if (GameManager.camera.inViewOf(gameObject)) {
+		if (GameManager.camera.inViewOfGameObject(gameObject)) {
 			let image = gameObject.image;
-			if (gameObject.constructor.name == 'FroggerPlayer') debugger;
+			let camera = GameManager.camera;
 			let t: Transform = gameObject.transform;
 			let s: Vector2 = t.size;
-			let pos: Vector2 = t.position;
-			let camPos: Vector2 = GameManager.camera.position;
-			this.flipCanvas(t.size);
-			this.context.drawImage(
-				image,
-				sx,
-				sy,
-				sWidth,
-				sHeight,
-				pos.x - s.x/2 - camPos.x,
-				pos.y - s.y/2 - camPos.y,
-				s.x,
-				s.y
-			);
-			this.context.restore();
+			let r: number = t.rotation;
+
+			if (camera.inViewOfGameObject(gameObject)) {
+				let relativePos = camera.relativePosition(t.position);
+				let screenSize = GameManager.screenSize;
+				this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
+				this.rotate(-r);
+				this.flipCanvas(t.size);
+				this.context.drawImage(
+					image,
+					sx,
+					sy,
+					sWidth,
+					sHeight,
+					-s.x/2,
+					-s.y/2,
+					s.x,
+					s.y
+				);
+				this.flipCanvas(t.size);
+			}
 		}
 	}
 
+	public static rotate(r: number): void {
+		this.context.rotate(r);
+	}
 
 	public static drawGameObject(gameObject): void {
+		let r: number = gameObject.transform.rotation;
 		if (gameObject.spritesheetAnimationSet) {
 			gameObject.image = GameManager.currentLevel.cachedImages[gameObject.spritesheetAnimationSet.imageSrc];
 			let animationTransform = gameObject.spritesheetAnimationSet.currentAnimationTransform;
@@ -149,72 +165,72 @@ class Canvas {
 			}
 		}
 
+		let t = gameObject.transform;
 		if (GameManager.options.drawTransforms || gameObject.drawTransform) {
-			Canvas.setStrokeStyle(gameObject.drawTransformColor || "#FF0000");
-			let pos = gameObject.transform.position;
-			let size = gameObject.transform.size;
-			Canvas.strokeRect(pos.x - size.x/2, pos.y - size.y/2, size.x, size.y);
+			Canvas.strokeGameObjectRect(gameObject);
 		}
 
 		if (gameObject.collider && (GameManager.options.drawColliders || gameObject.drawCollider)) {
-			Canvas.setStrokeStyle(gameObject.drawColliderColor || "#00FF00");
-			let size = gameObject.colliderSize();
-			let pos = gameObject.colliderPosition();
-			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
+			this.strokeGameObjectCollider(gameObject);
 		}
 	}
 
+
 	/** Handles camera placement, won't draw if outside visible rect */
-	public static fillRect(x:number, y:number, width:number, height:number): void {
-		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(x, y, width, height)) {
+	public static strokeRect(position: Vector2, size: Vector2, color:string, r:number=0): void {
+		let camera: Camera = GameManager.camera;
+		if (camera.inViewOf(position, size)) {
+			Canvas.setStrokeStyle(color);
+			let relativePos: Vector2 = camera.relativePosition(position);
+			this.setTransform(relativePos);
+			Canvas.rotate(-r);
+			Canvas.context.strokeRect(
+				-size.x/2,
+				-size.y/2,
+				size.x,
+				size.y
+			);
+		}
+	}
+	/** Handles camera placement, won't draw if outside visible rect */
+	public static strokeGameObjectRect(gameObject:GameObject): void {
+		let t = gameObject.transform;
+		let color = gameObject.drawTransformColor || "#FF0000";
+		this.strokeRect(t.position, t.size, color, t.rotation);
+	}
+
+
+	/** Handles camera placement, won't draw if outside visible rect */
+	public static fillRect(position: Vector2, size: Vector2, color:string, r: number=0): void {
+		let camera: Camera = GameManager.camera;
+		if (camera.inViewOf(position, size)) {
+			Canvas.setFillStyle(color);
+			let relativePos: Vector2 = camera.relativePosition(position);
+			this.setTransform(relativePos);
+			Canvas.rotate(-r);
 			Canvas.context.fillRect(
-				x - camPos.x,
-				y - camPos.y,
-				width,
-				height
+				-size.x/2,
+				-size.y/2,
+				size.x,
+				size.y
 			);
 		}
 	}
 	/** Handles camera placement, won't draw if outside visible rect */
 	public static fillGameObjectRect(gameObject:GameObject): void {
 		let t: Transform = gameObject.transform;
-		let camPos: Vector2 = GameManager.camera.position;
-		if (GameManager.camera.inViewOf(gameObject)) {
-			Canvas.context.fillRect(
-				t.position.x - camPos.x,
-				t.position.y - camPos.y,
-				t.size.x,
-				t.size.y
-			);
-		}
+		this.fillRect(t.position, t.size, gameObject.fillStyle);
 	}
 
-	/** Handles camera placement, won't draw if outside visible rect */
-	public static strokeRect(x:number, y:number, width:number, height:number ): void {
-		let camPos: Vector2 = GameManager.camera.position;
-		if (this.insideCameraBounds(x, y, width, height)) {
-			Canvas.context.strokeRect(
-				x - camPos.x,
-				y - camPos.y,
-				width,
-				height
-			);
-		}
+
+	private static setTransform(position:Vector2): void {
+		let screenSize: Vector2 = GameManager.screenSize;
+		this.context.setTransform(1, 0, 0, 1, position.x + screenSize.x/2, position.y + screenSize.y/2);
 	}
 
-	/** Handles camera placement, won't draw if outside visible rect */
-	public static strokeGameObjectRect(gameObject:GameObject): void {
-		let t: Transform = gameObject.transform;
-		let camPos: Vector2 = GameManager.camera.position;
-		if (GameManager.camera.inViewOf(gameObject)) {
-			Canvas.context.strokeRect(
-				t.position.x - camPos.x,
-				t.position.y - camPos.y,
-				t.size.x,
-				t.size.y
-			);
-		}
+	public static strokeGameObjectCollider(gameObject): void {
+		let color = gameObject.drawColliderColor || "#00FF00"
+		this.strokeRect(gameObject.colliderPosition(), gameObject.colliderSize(), color)
 	}
 
 	/** There is no way to draw an image backwards or upside-down in JavaScript / Html5 canvas.  Instead you flip the canvas, draw, then flip the canvas back the way it was. */
@@ -228,15 +244,12 @@ class Canvas {
 		);
 	}
 
-	private static insideCameraBounds(x:number, y:number, width:number, height:number): boolean {
-		let screenWidth: number = GameManager.options.screenWidth;
-		let screenHeight: number = GameManager.options.screenHeight;
-		let camPos: Vector2 = GameManager.camera.position;
-		return (
-			x + width > camPos.x - screenWidth/2 &&
-			y + height > camPos.y - screenHeight/2 &&
-			x < camPos.x + screenWidth/2 &&
-			y < camPos.y + screenHeight/2
-		);
+	public static drawCenteredCross(color:string="#FFFFFF33"): void {
+		this.setFillStyle(color);
+		let lineWidth = 2;
+		let screenSize = GameManager.screenSize;
+		this.context.resetTransform();
+		this.context.fillRect(screenSize.x/2 - lineWidth/2, 0, lineWidth, screenSize.y);
+		this.context.fillRect(0, screenSize.y/2 - lineWidth/2, screenSize.x, lineWidth);
 	}
 }

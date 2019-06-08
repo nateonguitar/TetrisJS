@@ -53,7 +53,7 @@ class Level {
 		let camera = GameManager.camera;
 		this.updatesSkipped = 0;
 		for (let gameObject of this.gameObjects) {
-			if (camera.inViewOf(gameObject, this.extraViewportPadding)) {
+			if (camera.inViewOfGameObject(gameObject, this.extraViewportPadding)) {
 				gameObject.update();
 			}
 			else {
@@ -63,7 +63,6 @@ class Level {
 	}
 
 	public draw(): void {
-		Canvas.wipe();
 		let drawnObjects: GameObject[] = [];
 
 		// loop through our layers

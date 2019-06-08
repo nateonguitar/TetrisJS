@@ -4,25 +4,25 @@ class GameObject {
 	public children: Array<GameObject> = [];
 
 	public transform: Transform = new Transform();
-	private drawTransform: boolean = false;
-	private drawTransformColor: string = null;
+	public drawTransform: boolean = false;
+	public drawTransformColor: string = null;
 
 	public currentCollidingObjects: GameObject[] = [];
 
 	public name: string = '';
 
 	/** basic shape fill color */
-	protected fillStyle: string = null;
+	public fillStyle: string = null;
 
 	/** basic shape stroke color */
-	protected strokeStyle: string = null;
+	public strokeStyle: string = null;
 
-	protected shape: string = null;
+	public shape: string = null;
 
 	/** Can be any type of collider, Collider is the parent class each collider type inherets from */
 	public collider: Collider = null;
-	private drawCollider: boolean = false;
-	private drawColliderColor: string = null;
+	public drawCollider: boolean = false;
+	public drawColliderColor: string = null;
 
 	/* Will be an instance of `Image` but TypeScript doesn't like to type anything with Image. **/
 	public image: any = null;
@@ -70,11 +70,9 @@ class GameObject {
 	public colliderPosition(): Vector2 {
 		let t = this.transform;
 		let colPos = this.collider.position.clone();
-		colPos.x *= t.size.x;
-		colPos.y *= -t.size.y; // negative because y++ goes down
-		return t.position
-			.subtract(this.colliderSize().scale(0.5))
-			.add(colPos);
+		colPos.x *= -t.size.x;
+		colPos.y *= -t.size.y;
+		return t.position.add(colPos);
 	}
 
 	public colliderSize(): Vector2 {

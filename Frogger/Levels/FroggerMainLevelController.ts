@@ -20,6 +20,7 @@ class FroggerMainLevelController extends GameObject {
 		Debug.track(this.player);
 		this.buildLogs();
 
+		GameManager.camera.follow(this.player);
 	}
 
 	// override
@@ -32,13 +33,8 @@ class FroggerMainLevelController extends GameObject {
 
 		for (let i=0; i<3; i++) {
 			let log = new FroggerLogSmall(new Vector2(this.player.transform.position.x, 0), i.toString());
-			log.transform.position.y = this.river.transform.position.y + unitHeight*i*2 + unitHeight*4 - log.transform.size.y/2;
+			log.transform.position.y = this.river.transform.position.y - this.river.transform.size.y/2 + unitHeight*i*2 + unitHeight*4 - log.transform.size.y/2;
 			this.logs.push(log);
-		}
-
-		for (let l of this.logs) {
-			l.setDefaultCollider();
-			Debug.track(l);
 		}
 	}
 }
