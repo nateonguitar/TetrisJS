@@ -17,23 +17,29 @@ class Camera {
 
 	public update(): void {
 		if (this.gameObjectToFollow) {
-			let o = this.gameObjectToFollow;
-			this.position = o.transform.position
+			this.position = this.gameObjectToFollow.transform.position.clone();
 		}
 	}
 
-	public inViewOf(gameObject: GameObject, extraPadding:Vector2=null): boolean {
-		let camSize = new Vector2(GameManager.options.screenWidth, GameManager.options.screenHeight);
+	public inViewOfGameObject(gameObject: GameObject, extraPadding:Vector2=null): boolean {
+		return this.inViewOf(gameObject.transform.position, gameObject.transform.size, extraPadding);
+	}
+
+	public inViewOf(position: Vector2, size: Vector2, extraPadding:Vector2=null): boolean {
+		let camSize = GameManager.screenSize.clone();
 		if (extraPadding) {
 			camSize = camSize.add(extraPadding);
 		}
-		let pos = gameObject.transform.position;
-		let offset = gameObject.transform.size.scale(0.5);
+		let offset = size.scale(0.5);
 		return (
-			pos.x + offset.x > this.position.x - camSize.x/2 &&
-			pos.y + offset.y > this.position.y - camSize.y/2 &&
-			pos.x - offset.x < this.position.x + camSize.x/2 &&
-			pos.y - offset.y < this.position.y + camSize.y/2
+			position.x + offset.x > this.position.x - camSize.x/2 &&
+			position.y + offset.y > this.position.y - camSize.y/2 &&
+			position.x - offset.x < this.position.x + camSize.x/2 &&
+			position.y - offset.y < this.position.y + camSize.y/2
 		);
+	}
+
+	public relativePosition(v: Vector2): Vector2 {
+		return v.subtract(this.position);
 	}
 }

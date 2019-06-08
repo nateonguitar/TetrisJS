@@ -4,6 +4,8 @@ class ZeldaSoldier extends GameObject {
 
 	protected boundarySize: Vector2;
 
+	protected dr = Math.random()/8;
+
 	constructor() {
 		super({
 			layer: 1,
@@ -26,6 +28,7 @@ class ZeldaSoldier extends GameObject {
 	// override
 	public update(): void {
 		this.handleMovement();
+		this.transform.rotation += this.dr;
 	}
 
 	protected setRandomDirection(): void {

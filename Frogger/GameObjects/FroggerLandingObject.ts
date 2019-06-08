@@ -3,5 +3,6 @@ class FroggerLandingObject extends GameObject {
 		super({layer: 1, name: name});
 		this.transform.position = position.clone();
 		this.transform.size.y = FroggerMainLevelController.unitHeight;
+		this.setDefaultCollider();
 	}
 }

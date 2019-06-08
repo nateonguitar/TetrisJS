@@ -4,25 +4,25 @@ class GameObject {
 	public children: Array<GameObject> = [];
 
 	public transform: Transform = new Transform();
-	private drawTransform: boolean = false;
-	private drawTransformColor: string = null;
+	public drawTransform: boolean = false;
+	public drawTransformColor: string = null;
 
 	public currentCollidingObjects: GameObject[] = [];
 
 	public name: string = '';
 
 	/** basic shape fill color */
-	protected fillStyle: string = null;
+	public fillStyle: string = null;
 
 	/** basic shape stroke color */
-	protected strokeStyle: string = null;
+	public strokeStyle: string = null;
 
-	protected shape: string = null;
+	public shape: string = null;
 
 	/** Can be any type of collider, Collider is the parent class each collider type inherets from */
 	public collider: Collider = null;
-	private drawCollider: boolean = false;
-	private drawColliderColor: string = null;
+	public drawCollider: boolean = false;
+	public drawColliderColor: string = null;
 
 	/* Will be an instance of `Image` but TypeScript doesn't like to type anything with Image. **/
 	public image: any = null;
@@ -70,11 +70,9 @@ class GameObject {
 	public colliderPosition(): Vector2 {
 		let t = this.transform;
 		let colPos = this.collider.position.clone();
-		colPos.x *= t.size.x;
-		colPos.y *= -t.size.y; // negative because y++ goes down
-		return t.position
-			.subtract(this.colliderSize().scale(0.5))
-			.add(colPos);
+		colPos.x *= -t.size.x;
+		colPos.y *= -t.size.y;
+		return t.position.add(colPos);
 	}
 
 	public colliderSize(): Vector2 {
@@ -100,62 +98,7 @@ class GameObject {
 
 	// override this if you want anything else to happen
 	public draw(): void {
-		if (this.spritesheetAnimationSet) {
-			this.image = GameManager.currentLevel.cachedImages[this.spritesheetAnimationSet.imageSrc];
-			let animationTransform = this.spritesheetAnimationSet.currentAnimationTransform;
-			Canvas.drawGameObjectPartialImage(
-				this.image,
-				this,
-				animationTransform.position.x,
-				animationTransform.position.y,
-				animationTransform.size.x,
-				animationTransform.size.y
-			);
-		}
-		else if (this.imageSrc) {
-			this.image = GameManager.currentLevel.cachedImages[this.imageSrc];
-			if (this.spritesheetBounds) {
-				Canvas.drawGameObjectPartialImage(
-					this.image,
-					this,
-					this.spritesheetBounds.x,
-					this.spritesheetBounds.y,
-					this.spritesheetBounds.width,
-					this.spritesheetBounds.height
-				);
-			}
-			else {
-				Canvas.drawGameObjectImage(this.image, this);
-			}
-		}
-		else {
-			if (this.fillStyle) {
-				Canvas.setFillStyle(this.fillStyle);
-				if (this.shape == "square") {
-					Canvas.fillGameObjectRect(this);
-				}
-			}
-			if (this.strokeStyle) {
-				Canvas.setStrokeStyle(this.strokeStyle);
-				if (this.shape == "square") {
-					Canvas.strokeGameObjectRect(this);
-				}
-			}
-		}
-
-		if (GameManager.options.drawTransforms || this.drawTransform) {
-			Canvas.setStrokeStyle(this.drawTransformColor || "#FF0000");
-			let pos = this.transform.position;
-			let size = this.transform.size;
-			Canvas.strokeRect(pos.x - size.x/2, pos.y - size.y/2, size.x, size.y);
-		}
-
-		if (this.collider && (GameManager.options.drawColliders || this.drawCollider)) {
-			Canvas.setStrokeStyle(this.drawColliderColor || "#00FF00");
-			let size = this.colliderSize();
-			let pos = this.colliderPosition();
-			Canvas.strokeRect(pos.x, pos.y, size.x, size.y);
-		}
+		Canvas.drawGameObject(this);
 	}
 
 	public removeAllReferencesToGameObject(gameObject: GameObject) {

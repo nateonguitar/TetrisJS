@@ -10,8 +10,8 @@ class ZeldaOverworldController extends GameObject {
 		});
 
 		let boundarySize = new Vector2(
-			GameManager.options.screenWidth * 3,
-			GameManager.options.screenHeight * 3
+			2000,
+			2000
 		);
 		GameManager.camera.position = boundarySize.scale(0.5);
 
@@ -30,6 +30,7 @@ class ZeldaOverworldController extends GameObject {
 		}
 
 		Debug.track(this.player);
+		Debug.track(this.background);
 	}
 
 	public update() {

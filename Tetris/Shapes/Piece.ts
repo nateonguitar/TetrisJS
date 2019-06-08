@@ -28,22 +28,31 @@ class Piece extends GameObject {
 	protected drawPart(): void {
 		Canvas.setLineWidth(1);
 		Canvas.setStrokeStyle(this.outerColor);
-		Canvas.setFillStyle(this.innerColor);
 		for (let i = 0; i < this.arrangement.length; i++) {
 			for (let j = 0; j < this.arrangement[i].length; j++) {
 				if (!this.arrangement[i][j]) continue;
 
 				Canvas.strokeRect(
-					this.transform.position.x + this.transform.size.x * j,
-					this.transform.position.y + this.transform.size.y * i,
-					this.transform.size.x,
-					this.transform.size.y
+					new Vector2(
+						this.transform.position.x + this.transform.size.x * j,
+						this.transform.position.y + this.transform.size.y * i
+					),
+					new Vector2(
+						this.transform.size.x,
+						this.transform.size.y
+					),
+					this.innerColor
 				);
 				Canvas.fillRect(
-					this.transform.position.x + 1 + this.transform.size.x * j,
-					this.transform.position.y + 1 + this.transform.size.y * i,
-					this.transform.size.x - 2,
-					this.transform.size.y - 2
+					new Vector2(
+						this.transform.position.x + 1 + this.transform.size.x * j,
+						this.transform.position.y + 1 + this.transform.size.y * i
+					),
+					new Vector2(
+						this.transform.size.x - 2,
+						this.transform.size.y - 2
+					),
+					this.innerColor
 				);
 			}
 		}

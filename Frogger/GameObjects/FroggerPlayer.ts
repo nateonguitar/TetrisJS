@@ -47,7 +47,7 @@ class FroggerPlayer extends GameObject {
 
 		this.setInitialPosition();
 
-		GameManager.camera.follow(this);
+		// GameManager.camera.follow(this);
 	}
 
 
@@ -117,6 +117,14 @@ class FroggerPlayer extends GameObject {
 		}
 		if (Input.keys(Keys.KeyS)) {
 			this.transform.size.y -= speed;
+		}
+
+
+		if (Input.keys(Keys.KeyQ)) {
+			this.transform.rotation += 0.1;
+		}
+		if (Input.keys(Keys.KeyE)) {
+			this.transform.rotation -= 0.1;
 		}
 
 		// space keyup
