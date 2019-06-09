@@ -1,5 +1,5 @@
 class TetrisController extends GameObject {
-	private shapes = [
+	private pieceTypes = [
 		Cube,
 		Line,
 		LL,
@@ -19,31 +19,43 @@ class TetrisController extends GameObject {
 	constructor() {
 		super();
 		this.grid = new Grid();
-		this.grid.transform.position = GameManager.screenSize.scale(0.5);
-
 		Input.registerMouseDown(this, this.mousedown);
 	}
 
 	public update() {
 		// drop a new piece
 		if (this.currentPiece == null) {
-			let randomIndex = Math.floor(Math.random() * this.shapes.length);
-			let Shape = this.shapes[randomIndex];
-			this.currentPiece = new Shape();
-			this.currentPiece.transform.position.x = 100;
+			let randomIndex = Math.floor(Math.random() * this.pieceTypes.length);
+			let _Piece = this.pieceTypes[randomIndex];
+			this.currentPiece = new _Piece();
 
+			let p  = new Vector2(
+				-Math.floor(this.currentPiece.arrangement[0].length/2),
+				-this.grid.transform.size.y/2
+			);
+			if (this.grid.transform.size.x % 2 != 0) {
+				p.x -= 0.5;
+			}
+			this.currentPiece.transform.position = p;
 		}
 
 		// control the falling piece
-		else {
-			this.handleMovement();
-			if (this.currentPiece.transform.position.y > GameManager.options.screenHeight) {
+		if (this.currentPiece) {
+			this.handleInput();
+			if (this.currentPiece.transform.position.y > this.grid.transform.size.y/2) {
 				GameManager.destroy(this.currentPiece);
 			}
 		}
+
+		if (Input.keys(Keys.Key1) && GameManager.unitSize > 5) {
+			GameManager.currentLevel.unitSize -= 0.5;
+		}
+		if (Input.keys(Keys.Key2) && GameManager.unitSize < 500) {
+			GameManager.currentLevel.unitSize += 0.5;
+		}
 	}
 
-	private handleMovement(): void {
+	private handleInput(): void {
 		// don't allow repeat moves, have to press the button again
 		// left
 		if (Input.keys(Keys.ArrowLeft) && !this.keys.left) {
@@ -61,36 +73,22 @@ class TetrisController extends GameObject {
 		if (!Input.keys(Keys.ArrowRight) && this.keys.right) {
 			this.keys.right = false;
 		}
-
-		if (Input.keys(Keys.ControlLeft)) {
-			this.grid.transform.position = this.grid.transform.position.subtract(new Vector2(1, 0));
-		}
-		if (Input.keys(Keys.ControlRight)) {
-			this.grid.transform.position = this.grid.transform.position.add(new Vector2(1, 0));
-		}
-		if (Input.keys(Keys.ShiftLeft)) {
-			this.grid.transform.position = this.grid.transform.position.subtract(new Vector2(0, 1));
-		}
-		if (Input.keys(Keys.ShiftRight)) {
-			this.grid.transform.position = this.grid.transform.position.add(new Vector2(0, 1));
-		}
 	}
 
 	private movePieceLeft(): void {
 		if (this.currentPiece) {
-			this.currentPiece.transform.position.x -= Piece.size;
-			if (this.currentPiece.transform.position.x < 0) {
-				this.currentPiece.transform.position.x = 0;
+			if (this.currentPiece.transform.position.x > -this.grid.transform.size.x/2) {
+				this.currentPiece.transform.position.x--;
 			}
 		}
 	}
 
 	private movePieceRight(): void {
+
 		if (this.currentPiece) {
-			this.currentPiece.transform.position.x += Piece.size;
-			let totalWidth = this.currentPiece.transform.size.x * this.currentPiece.arrangement[0].length;
-			if (this.currentPiece.transform.position.x > this.grid.transform.size.x - totalWidth) {
-				this.currentPiece.transform.position.x = this.grid.transform.size.x - totalWidth;
+			let pieceWidth = this.currentPiece.arrangement[0].length;
+			if (this.currentPiece.transform.position.x + pieceWidth < this.grid.transform.size.x/2) {
+				this.currentPiece.transform.position.x++;
 			}
 		}
 	}

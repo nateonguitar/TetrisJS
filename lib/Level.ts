@@ -7,6 +7,7 @@ interface LevelParams {
 	 * null is the same as Vector2(0, 0)
 	 **/
 	extraViewportPadding?: Vector2,
+	unitSize?: number,
 }
 
 class Level {
@@ -25,6 +26,8 @@ class Level {
 	public updatesSkipped: number = 0;
 
 	public extraViewportPadding: Vector2 = null;
+
+	public unitSize: number = 50;
 
 	constructor(params:LevelParams) {
 		for (let key in params) {
@@ -45,6 +48,7 @@ class Level {
 
 	public init(): void {
 		this.managingGameObject = new (<any>this.managingGameObjectClass)();
+		this.managingGameObject.neverSkipUpdate = true;
 	}
 
 	public get cachedImages(): {[k:string]: any} { return this._cachedImages; }
@@ -53,7 +57,7 @@ class Level {
 		let camera = GameManager.camera;
 		this.updatesSkipped = 0;
 		for (let gameObject of this.gameObjects) {
-			if (camera.inViewOfGameObject(gameObject, this.extraViewportPadding)) {
+			if (gameObject.neverSkipUpdate || camera.inViewOfGameObject(gameObject, this.extraViewportPadding)) {
 				gameObject.update();
 			}
 			else {

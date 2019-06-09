@@ -40,15 +40,16 @@ class Canvas {
 	}
 
 	/** Handles camera placement, won't draw if outside visible rect */
-	public static drawGameObjectImage(gameObject:GameObject,): void {
+	public static drawGameObjectImage(gameObject:GameObject): void {
 		let image = gameObject.image;
 		let camera: Camera = GameManager.camera;
 		let t: Transform = gameObject.transform;
-		let s: Vector2 = t.size;
+		let p: Vector2 = gameObject.absolutePosition;
+		let s: Vector2 = gameObject.absoluteSize;
 		let r: number = t.rotation;
 
 		if (camera.inViewOfGameObject(gameObject)) {
-			let relativePos = camera.relativePosition(t.position);
+			let relativePos = camera.relativePosition(p);
 			let screenSize = GameManager.screenSize;
 			this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
 			this.rotate(-r);
@@ -64,50 +65,28 @@ class Canvas {
 		}
 	}
 
-	/**
-	 * Handles camera placement, won't draw if outside visible rect
-	 *
-	 * `gameObject`
-	 * The GameObject you'd like to draw
-	 *
-	 * `sx`
-	 * The x-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
-	 *
-	 * `sy`
-	 * The y-axis coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context.
-	 *
-	 * `sWidth`
-	 * The width of the sub-rectangle of the source image to draw into the destination context.
-	 *
-	 * `sHeight`
-	 * The height of the sub-rectangle of the source image to draw into the destination context.
-	 **/
-	public static drawGameObjectPartialImage(
-		gameObject:GameObject,
-		sx:number,
-		sy:number,
-		sWidth:number,
-		sHeight:number
-	): void {
+	public static drawGameObjectPartialImage(gameObject:GameObject, sheetPosition:Vector2, sheetSize:Vector2): void {
 		if (GameManager.camera.inViewOfGameObject(gameObject)) {
 			let image = gameObject.image;
 			let camera = GameManager.camera;
 			let t: Transform = gameObject.transform;
-			let s: Vector2 = t.size;
+			let p: Vector2 = gameObject.absolutePosition;
+			let s: Vector2 = t.size.scale(GameManager.unitSize);
 			let r: number = t.rotation;
 
 			if (camera.inViewOfGameObject(gameObject)) {
-				let relativePos = camera.relativePosition(t.position);
+				let relativePos = camera.relativePosition(p);
 				let screenSize = GameManager.screenSize;
 				this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
+
 				this.rotate(-r);
 				this.flipCanvas(t.size);
 				this.context.drawImage(
 					image,
-					sx,
-					sy,
-					sWidth,
-					sHeight,
+					sheetPosition.x,
+					sheetPosition.y,
+					sheetSize.x,
+					sheetSize.y,
 					-s.x/2,
 					-s.y/2,
 					s.x,
@@ -123,27 +102,30 @@ class Canvas {
 	}
 
 	public static drawGameObject(gameObject): void {
-		let r: number = gameObject.transform.rotation;
 		if (gameObject.spritesheetAnimationSet) {
 			gameObject.image = GameManager.currentLevel.cachedImages[gameObject.spritesheetAnimationSet.imageSrc];
 			let animationTransform = gameObject.spritesheetAnimationSet.currentAnimationTransform;
 			Canvas.drawGameObjectPartialImage(
 				gameObject,
-				animationTransform.position.x,
-				animationTransform.position.y,
-				animationTransform.size.x,
-				animationTransform.size.y
+				animationTransform.position,
+				animationTransform.size,
 			);
 		}
 		else if (gameObject.imageSrc) {
 			gameObject.image = GameManager.currentLevel.cachedImages[gameObject.imageSrc];
 			if (gameObject.spritesheetBounds) {
-				Canvas.drawGameObjectPartialImage(
-					gameObject,
+				let boundsPos = new Vector2(
 					gameObject.spritesheetBounds.x,
-					gameObject.spritesheetBounds.y,
+					gameObject.spritesheetBounds.y
+				);
+				let boundsSize = new Vector2(
 					gameObject.spritesheetBounds.width,
 					gameObject.spritesheetBounds.height
+				);
+				Canvas.drawGameObjectPartialImage(
+					gameObject,
+					boundsPos,
+					boundsSize
 				);
 			}
 			else {
@@ -152,13 +134,11 @@ class Canvas {
 		}
 		else {
 			if (gameObject.fillStyle) {
-				Canvas.setFillStyle(gameObject.fillStyle);
 				if (gameObject.shape == "square") {
 					Canvas.fillGameObjectRect(gameObject);
 				}
 			}
 			if (gameObject.strokeStyle) {
-				Canvas.setStrokeStyle(gameObject.strokeStyle);
 				if (gameObject.shape == "square") {
 					Canvas.strokeGameObjectRect(gameObject);
 				}
@@ -166,53 +146,60 @@ class Canvas {
 		}
 
 		let t = gameObject.transform;
-		if (GameManager.options.drawTransforms || gameObject.drawTransform) {
+		if (GameManager.showingDebug || gameObject.drawTransform) {
 			Canvas.strokeGameObjectRect(gameObject);
 		}
 
-		if (gameObject.collider && (GameManager.options.drawColliders || gameObject.drawCollider)) {
+		if (gameObject.collider && (GameManager.showingDebug || gameObject.drawCollider)) {
 			this.strokeGameObjectCollider(gameObject);
 		}
 	}
 
 
-	/** Handles camera placement, won't draw if outside visible rect */
+	/** Handles camera placement, scaling, and won't draw if outside visible rect */
 	public static strokeRect(position: Vector2, size: Vector2, color:string, r:number=0): void {
 		let camera: Camera = GameManager.camera;
-		if (camera.inViewOf(position, size)) {
+		let absolutePosition = position.scale(GameManager.unitSize);
+		let absoluteSize = size.scale(GameManager.unitSize);
+		if (camera.inViewOf(absolutePosition, absoluteSize)) {
 			Canvas.setStrokeStyle(color);
-			let relativePos: Vector2 = camera.relativePosition(position);
+			let relativePos: Vector2 = camera.relativePosition(absolutePosition);
 			this.setTransform(relativePos);
 			Canvas.rotate(-r);
 			Canvas.context.strokeRect(
-				-size.x/2,
-				-size.y/2,
-				size.x,
-				size.y
+				-absoluteSize.x/2,
+				-absoluteSize.y/2,
+				absoluteSize.x,
+				absoluteSize.y
 			);
 		}
 	}
 	/** Handles camera placement, won't draw if outside visible rect */
 	public static strokeGameObjectRect(gameObject:GameObject): void {
 		let t = gameObject.transform;
-		let color = gameObject.drawTransformColor || "#FF0000";
-		this.strokeRect(t.position, t.size, color, t.rotation);
+		let p = t.position;
+		let s = t.size;
+		let color = gameObject.strokeStyle;
+		if (!color) color = gameObject.drawTransformColor || "#FF0000";
+		if (color) this.strokeRect(p, s, color, t.rotation);
 	}
 
 
-	/** Handles camera placement, won't draw if outside visible rect */
+	/** Handles camera placement, scaling, and won't draw if outside visible rect */
 	public static fillRect(position: Vector2, size: Vector2, color:string, r: number=0): void {
 		let camera: Camera = GameManager.camera;
-		if (camera.inViewOf(position, size)) {
+		let absolutePosition = position.scale(GameManager.unitSize);
+		let absoluteSize = size.scale(GameManager.unitSize);
+		if (camera.inViewOf(absolutePosition, absoluteSize)) {
 			Canvas.setFillStyle(color);
-			let relativePos: Vector2 = camera.relativePosition(position);
+			let relativePos: Vector2 = camera.relativePosition(absolutePosition);
 			this.setTransform(relativePos);
 			Canvas.rotate(-r);
 			Canvas.context.fillRect(
-				-size.x/2,
-				-size.y/2,
-				size.x,
-				size.y
+				-absoluteSize.x/2,
+				-absoluteSize.y/2,
+				absoluteSize.x,
+				absoluteSize.y
 			);
 		}
 	}

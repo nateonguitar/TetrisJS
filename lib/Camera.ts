@@ -17,12 +17,12 @@ class Camera {
 
 	public update(): void {
 		if (this.gameObjectToFollow) {
-			this.position = this.gameObjectToFollow.transform.position.clone();
+			this.position = this.gameObjectToFollow.absolutePosition;
 		}
 	}
 
 	public inViewOfGameObject(gameObject: GameObject, extraPadding:Vector2=null): boolean {
-		return this.inViewOf(gameObject.transform.position, gameObject.transform.size, extraPadding);
+		return this.inViewOf(gameObject.absolutePosition, gameObject.absoluteSize, extraPadding);
 	}
 
 	public inViewOf(position: Vector2, size: Vector2, extraPadding:Vector2=null): boolean {

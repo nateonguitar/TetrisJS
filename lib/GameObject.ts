@@ -1,5 +1,6 @@
 class GameObject {
 	public layer: number = 0;
+	public neverSkipUpdate: boolean = false;
 
 	public children: Array<GameObject> = [];
 
@@ -132,6 +133,10 @@ class GameObject {
 			}
 		}
 	}
+
+	public get absoluteSize(): Vector2 { return this.transform.size.scale(GameManager.unitSize); }
+	public get absolutePosition(): Vector2 { return this.transform.position.scale(GameManager.unitSize); }
+	public get unitSize(): number { return GameManager.unitSize; }
 
 	public onCollisionEnter(other: GameObject): void {
 		console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);

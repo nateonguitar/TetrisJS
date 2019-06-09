@@ -9,15 +9,16 @@ class ZeldaOverworldController extends GameObject {
 			layer: 0
 		});
 
-		let boundarySize = new Vector2(
-			2000,
-			2000
-		);
-		GameManager.camera.position = boundarySize.scale(0.5);
+		let boundarySize = new Vector2(60, 60);
 
 		this.background = new ZeldaOverworldBackground(boundarySize);
+		Debug.track(this.background);
 
 		this.player = new ZeldaPlayer(boundarySize);
+
+		// move player position to center of map
+		this.player.transform.position = this.background.transform.position.clone();
+		Debug.track(this.player);
 
 		// camera follow
 		GameManager.camera.follow(this.player);
@@ -29,11 +30,14 @@ class ZeldaOverworldController extends GameObject {
 			this.enemies.push(new ZeldaSoldierBlue(boundarySize));
 		}
 
-		Debug.track(this.player);
-		Debug.track(this.background);
 	}
 
 	public update() {
-
+		if (Input.keys(Keys.Key1) && GameManager.unitSize > 5) {
+			GameManager.currentLevel.unitSize -= 0.5;
+		}
+		if (Input.keys(Keys.Key2) && GameManager.unitSize < 500) {
+			GameManager.currentLevel.unitSize += 0.5;
+		}
 	}
 }

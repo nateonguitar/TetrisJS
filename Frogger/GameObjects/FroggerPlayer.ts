@@ -1,7 +1,6 @@
 class FroggerPlayer extends GameObject {
 
 	private spriteSize: Vector2 = new Vector2(57, 77);
-	private levelHeight: number = 0;
 
 	// jumping
 	private jumping: boolean = false;
@@ -9,14 +8,13 @@ class FroggerPlayer extends GameObject {
 	private jumpStartTime: number = 0;
 	private jumpDuration: number = 450;
 	private targetDestination: Vector2 = null;
+	private initialPosition: Vector2 = null;
 
-	constructor(levelHeight:number) {
+	constructor() {
 		super({
 			layer: 2,
 			name: null
 		});
-
-		this.levelHeight = levelHeight;
 
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
@@ -42,12 +40,8 @@ class FroggerPlayer extends GameObject {
 			"idle" // start animation name
 		)
 
-		this.transform.size = this.spriteSize.scale(1.5);
 		this.collider = new SquareCollider(new Vector2(0, 0.1), new Vector2(0.8, 0.5));
-
-		this.setInitialPosition();
-
-		// GameManager.camera.follow(this);
+		this.transform.size.x = 0.75;
 	}
 
 
@@ -56,34 +50,31 @@ class FroggerPlayer extends GameObject {
 	public update(): void {
 		this.handleInput();
 		if (this.targetDestination) {
-			this.transform.position = this.transform.position.moveTowards(this.targetDestination, 4 );
-			let atTargetDestination = this.transform.position.subtract(this.targetDestination).magnitude() == 0;
-			if (atTargetDestination) {
+			this.transform.position = this.transform.position.moveTowards(this.targetDestination, 0.05);
+
+			if (this.transform.position.equals(this.targetDestination)) {
 				this.targetDestination = null;
-				// snap to spaces
-				let unitHeight = FroggerMainLevelController.unitHeight;
-				let y = this.transform.position.y;
-				this.transform.position.y = Math.floor(y / unitHeight) * unitHeight + this.transform.size.y/2;
+				this.spritesheetAnimationSet.currentAnimationName = "idle";
 			}
 		}
 
-		if (this.transform.position.y < 0) {
-			this.targetDestination = null;
-			this.spritesheetAnimationSet.currentAnimationName = "idle";
-			this.setInitialPosition();
+		// if (this.transform.position.y < -this.initialPosition.y) {
+		// 	this.targetDestination = null;
+		// 	this.goToInitialPosition();
+		// }
+
+		if (this.jumping && this.jumpStartTime + this.jumpDuration <= Time.time) {
+			this.jumping = false;
 		}
 	}
 
-	private setInitialPosition(): void {
-		let tSize = this.transform.size;
-		let x = GameManager.options.screenWidth/2 + tSize.x/2;
-		let y = this.levelHeight;
-		this.transform.position = new Vector2(x, y).subtract(tSize.scale(0.5));
-		// so our snapping is right on
-		this.transform.position = new Vector2(
-			Math.floor(this.transform.position.x),
-			Math.floor(this.transform.position.y)
-		);
+	public setInitialPosition(position: Vector2): void {
+		this.initialPosition = position;
+	}
+
+	public goToInitialPosition(): void {
+		this.transform.position = this.initialPosition.clone();
+		this.spritesheetAnimationSet.currentAnimationName = "idle";
 	}
 
 	private handleInput(): void {
@@ -91,7 +82,7 @@ class FroggerPlayer extends GameObject {
 			this.pressedSpace = true;
 		}
 
-		let speed = 2;
+		let speed = 0.1;
 		if (Input.keys(Keys.ArrowUp)) {
 			this.transform.position.y -= speed;
 		}
@@ -133,12 +124,8 @@ class FroggerPlayer extends GameObject {
 			this.pressedSpace = false;
 			this.jumping = true;
 			this.jumpStartTime = Time.time;
-			this.targetDestination = this.transform.position.subtract(new Vector2(0, FroggerMainLevelController.unitHeight));
-		}
-
-		if (this.jumping && this.jumpStartTime + this.jumpDuration <= Time.time) {
-			this.jumping = false;
-			this.spritesheetAnimationSet.currentAnimationName = 'idle';
+			this.targetDestination = this.transform.position.clone();
+			this.targetDestination.y -= 1;
 		}
 	}
 }

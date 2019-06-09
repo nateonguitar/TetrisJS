@@ -6,7 +6,11 @@ class Debug {
 	private static timeBetweenDisplayUpdates = 125;
 	private static timeOfLastDisplayUpdate = 0;
 
+	private static style: any = null;
+
 	private static trackedGameObjects: GameObject[] = [];
+
+	private static debugWindowParentElement: any = null;
 
 	public static track(gameObject: GameObject): void {
 		this.trackedGameObjects.push(gameObject);
@@ -25,10 +29,10 @@ class Debug {
 		this.timeOfLastDisplayUpdate = 0;
 	}
 
-	public static create(options:any): void {
-		let style = document.createElement('style');
-		style.type = 'text/css';
-		style.innerHTML = `
+	public static start(options:any): void {
+		this.style = document.createElement('style');
+		this.style.type = 'text/css';
+		this.style.innerHTML = `
 			.debug-sub-header {
 				text-decoration: underline;
 			}
@@ -57,23 +61,29 @@ class Debug {
 				font-weight: bold;
 			}
 		`;
-		document.getElementsByTagName('head')[0].appendChild(style);
+		document.getElementsByTagName('head')[0].appendChild(this.style);
 
 		this.debugDom["div_outer"] = document.createElement("div");
 		this.debugDom["div_outer"].id = "game-debug";
 		let parentElement = document.getElementById(options.parentElementID);
 
-		let el = parentElement ? parentElement : document.body;
-		el.appendChild(this.debugDom["div_outer"]);
+		this.debugWindowParentElement = parentElement ? parentElement : document.body;
+		this.debugWindowParentElement.appendChild(this.debugDom["div_outer"]);
 
 		this.debugDom["table_debug"] = document.createElement("table");
 		this.debugDom["table_debug"].id = 'table-debug';
 		this.debugDom["div_outer"].appendChild(this.debugDom["table_debug"]);
 	}
 
+	public static stop(): void {
+		document.getElementsByTagName('head')[0].removeChild(this.style);
+		this.debugWindowParentElement.removeChild(this.debugDom["div_outer"]);
+	}
+
 	public static update(): void {
 		// update every x miliseconds
 		if (Time.time > this.timeBetweenDisplayUpdates + this.timeOfLastDisplayUpdate) {
+			let padSizeOuter = 18;
 			this.timeOfLastDisplayUpdate = Time.time;
 
 			let separator = '<tr><td colspan="2"><hr></td></tr>';
@@ -96,15 +106,15 @@ class Debug {
 					<td colspan="2" class="debug-sub-header">Game</td>
 				</tr>
 				<tr>
-					<td>FPS:</td>
+					<td>${this.padEndNbsp('FPS:', padSizeOuter)}</td>
 					<td>${fps}</td>
 				</tr>
 				<tr>
-					<td>Game Objects:</td>
+					<td>${this.padEndNbsp('Game Objects:', padSizeOuter)}</td>
 					<td>${gameObjectsLength}</td>
 				</tr>
 				<tr>
-					<td>Updates Skipped:</td>
+					<td>${this.padEndNbsp('Updates Skipped:', padSizeOuter)}</td>
 					<td>${updatesSkipped}</td>
 				</tr>
 				${separator}
@@ -112,11 +122,11 @@ class Debug {
 					<td colspan="2" class="debug-sub-header">Camera</td>
 				</tr>
 				<tr>
-					<td>Position:</td>
+					<td>${this.padEndNbsp('Position:', padSizeOuter)}</td>
 					<td>${cameraPosition}</td>
 				</tr>
 				<tr>
-					<td>Following:</td>
+					<td>${this.padEndNbsp('Following:', padSizeOuter)}</td>
 					<td>${cameraFollowing}</td>
 				</tr>
 				${separator}
@@ -124,7 +134,7 @@ class Debug {
 					<td colspan="2" class="debug-sub-header">Cached</td>
 				</tr>
 				<tr>
-					<td>Images:</td>
+					<td>${this.padEndNbsp('Images:', padSizeOuter)}</td>
 					<td style="white-space:pre-wrap;">${cachedImages}</td>
 				</tr>
 			`;
@@ -136,37 +146,38 @@ class Debug {
 						<td colspan="2" class="debug-sub-header">Tracked GameObjects</td>
 					</tr>
 				`;
-				let padSize = 12;
+				let padSizeInner = 13;
 				for (let tracked of this.trackedGameObjects) {
 					html += `
 						<tr>
 							<td>${tracked.constructor.name + (tracked.name ? ' ' + tracked.name : '')}:</td>
 							<td style="white-space:pre-wrap;">`;
-					html += this.padEndNbsp("layer",    padSize) + `${tracked.layer}<br>`;
-					html += this.padEndNbsp("position", padSize) + `${tracked.transform.position}<br>`;
-					html += this.padEndNbsp("size",     padSize) + `${tracked.transform.size}<br>`;
-					html += this.padEndNbsp("image",    padSize) + `${((tracked.image || {}).src) || ''}`;
+					html += this.padEndNbsp("layer",         padSizeInner) + `${tracked.layer}<br>`;
+					html += this.padEndNbsp("position",      padSizeInner) + `${tracked.transform.position}<br>`;
+					html += this.padEndNbsp("size",          padSizeInner) + `${tracked.transform.size}<br>`;
+					html += this.padEndNbsp("absolute size", padSizeInner) + `${tracked.absoluteSize}<br>`;
+					html += this.padEndNbsp("image",         padSizeInner) + `${((tracked.image || {}).src) || ''}`;
 
 					let animationInfo = (<GameObject>tracked).getCurrentSpritesheetAnimationInfo();
 					if (animationInfo) {
-						html += "<br>" + this.padEndNbsp("anim name",  padSize) + animationInfo.name;
-						html += "<br>" + this.padEndNbsp("anim index", padSize) + animationInfo.index;
+						html += "<br>" + this.padEndNbsp("anim name",  padSizeInner) + animationInfo.name;
+						html += "<br>" + this.padEndNbsp("anim index", padSizeInner) + animationInfo.index;
 					}
 
 					if (tracked.collider) {
-						html += "<br>" + this.padEndNbsp("col pos",      padSize) + tracked.collider.position;
-						html += "<br>" + this.padEndNbsp("col pos rel",  padSize) + tracked.colliderPosition();
-						html += "<br>" + this.padEndNbsp("col size",     padSize) + tracked.collider.size;
-						html += "<br>" + this.padEndNbsp("col size rel", padSize) + tracked.colliderSize();
+						html += "<br>" + this.padEndNbsp("col pos",      padSizeInner) + tracked.collider.position;
+						html += "<br>" + this.padEndNbsp("col pos rel",  padSizeInner) + tracked.colliderPosition();
+						html += "<br>" + this.padEndNbsp("col size",     padSizeInner) + tracked.collider.size;
+						html += "<br>" + this.padEndNbsp("col size rel", padSizeInner) + tracked.colliderSize();
 						if (tracked.currentCollidingObjects.length == 0) {
-							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[]';
+							html += "<br>" + this.padEndNbsp("collisions", padSizeInner) + '[]';
 						}
 						else {
-							html += "<br>" + this.padEndNbsp("collisions", padSize) + '[';
+							html += "<br>" + this.padEndNbsp("collisions", padSizeInner) + '[';
 							for (let col of tracked.currentCollidingObjects) {
-								html += "<br>" + this.padEndNbsp("", padSize + 2) + col.constructor.name + (col.name ? ' ' + col.name : '');
+								html += "<br>" + this.padEndNbsp("", padSizeInner + 2) + col.constructor.name + (col.name ? ' ' + col.name : '');
 							}
-							html += "<br>" + this.padEndNbsp("", padSize) + ']';
+							html += "<br>" + this.padEndNbsp("", padSizeInner) + ']';
 						}
 					}
 
