@@ -4,7 +4,7 @@ class ZeldaSoldier extends GameObject {
 
 	protected boundarySize: Vector2;
 
-	protected dr = Math.random()/8;
+	protected dr = Math.random()/10;
 
 	constructor() {
 		super({
@@ -15,7 +15,7 @@ class ZeldaSoldier extends GameObject {
 	protected init(): void {
 		this.setRandomDirection();
 
-		this.transform.size = new Vector2(13, 18).scale(3 + Math.random());
+		this.transform.size = new Vector2(0.75, 1).scale(1 + Math.random());
 
 		this.transform.position = new Vector2(
 			Math.random() * (this.boundarySize.x - this.transform.size.x),
@@ -32,8 +32,8 @@ class ZeldaSoldier extends GameObject {
 	}
 
 	protected setRandomDirection(): void {
-		this.speedX = (-0.5 + Math.random()) / 3;
-		this.speedY = (-0.5 + Math.random()) / 3;
+		this.speedX = (-0.5 + Math.random()) / 500;
+		this.speedY = (-0.5 + Math.random()) / 500;
 	}
 
 	protected handleMovement(): void {

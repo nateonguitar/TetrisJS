@@ -9,21 +9,16 @@ interface Options {
 	showDebug: boolean;
 	backgroundColor: string;
 	border: string;
+	allowToggleDebug: boolean;
 	levelClasses: {[k:string]: Level},
 	initialLevel: string,
-	drawTransforms: boolean,
-	drawColliders: boolean,
-	drawCenteredCross: boolean,
 }
 
 class GameManager {
-	public static _camera: Camera = null;
-
+	public static camera: Camera = null;
 	public static currentLevel: Level = null;
-
 	public static screenSize: Vector2 = null;
-
-	private static _options: Options = {
+	public static options: Options = {
 		parentElementID: null,
 		screenWidth: 800,
 		screenHeight: 600,
@@ -33,19 +28,19 @@ class GameManager {
 		showDebug: false,
 		backgroundColor: "#000000",
 		border: "1px solid #444444",
+		allowToggleDebug: false,
 		levelClasses: {},
 		initialLevel: '',
-		drawTransforms: false,
-		drawColliders: false,
-		drawCenteredCross: false,
 	};
 
+	public static showingDebug: boolean = false;
+	private static pressedZ: boolean = false;
 
 	/** Anything we want to start before we run the main loop */
 	public static start(options: Object = {}): void {
 		// if an option is passed in override our defaults
 		for (let key in options) {
-			this._options[key] = options[key];
+			this.options[key] = options[key];
 		}
 
 		this.screenSize = Vector2.zero;
@@ -56,27 +51,22 @@ class GameManager {
 			this.screenSize.y = this.options.screenHeight;
 		}
 
-		if (Object.keys(this._options.levelClasses).length == 0) {
+		if (Object.keys(this.options.levelClasses).length == 0) {
 			console.error("You must provide at least one level in the `levelClasses` options.")
 		}
 
-		this._camera = new Camera();
+		this.camera = new Camera();
 		Canvas.create();
 
 		// input MUST be initialized after canvas as it registers click events
 		Input.init();
-
-		if (this._options.showDebug) {
-			Debug.create(this._options);
-		}
-
 
 		// calling gameLoop once will start it infinitely running
 		requestAnimationFrame(() => {
 			this.gameLoop.bind(this)();
 
 			let firstDefinedLevel = null;
-			for (let level in this._options.levelClasses) {
+			for (let level in this.options.levelClasses) {
 				firstDefinedLevel = level;
 				break;
 			}
@@ -85,8 +75,8 @@ class GameManager {
 				return;
 			}
 
-			if (this._options.initialLevel) {
-				this.loadLevel(this._options.initialLevel);
+			if (this.options.initialLevel) {
+				this.loadLevel(this.options.initialLevel);
 			}
 			else {
 				this.loadLevel(firstDefinedLevel);
@@ -95,8 +85,7 @@ class GameManager {
 
 	}
 
-	public static get camera() { return GameManager._camera; }
-	public static get options() { return GameManager._options; }
+	public static get unitSize() { return GameManager.currentLevel.unitSize; }
 
 	public static registerGameObject(gameObject: GameObject): void {
 		this.currentLevel.registerGameObject(gameObject);
@@ -120,8 +109,6 @@ class GameManager {
 			}
 		}
 
-
-
 		// remove all references to the game object from other game objects
 		for (let obj of this.currentLevel.gameObjects) {
 			obj.removeAllReferencesToGameObject(gameObject);
@@ -137,7 +124,7 @@ class GameManager {
 			this.currentLevel.updateAnimations();
 			Canvas.wipe();
 			this.currentLevel.draw();
-			if (this.options.drawCenteredCross) {
+			if (this.showingDebug) {
 				Canvas.drawCenteredCross();
 			}
 		}
@@ -152,8 +139,31 @@ class GameManager {
 
 		this.handleCollisions();
 
-		if (this._options.showDebug) {
+		if (this.showingDebug) {
 			Debug.update();
+		}
+
+		if (
+			this.options.allowToggleDebug &&
+			Input.keys(Keys.ControlLeft) &&
+			Input.keys(Keys.AltLeft) &&
+			Input.keys(Keys.ShiftLeft)
+		) {
+			if (Input.keys(Keys.KeyZ)) {
+				this.pressedZ = true;
+			}
+
+			if (this.pressedZ && !Input.keys(Keys.KeyZ)) {
+				this.pressedZ = false;
+				this.showingDebug = !this.showingDebug;
+
+				if (this.showingDebug) {
+					Debug.start(this.options);
+				}
+				else {
+					Debug.stop();
+				}
+			}
 		}
 	}
 
@@ -169,11 +179,11 @@ class GameManager {
 				if (!other.collider) continue;
 				if (obj == other) continue;
 
-				let objSize = obj.colliderSize();
-				let otherSize = other.colliderSize();
+				let objSize = obj.colliderSize().scale(GameManager.unitSize);
+				let otherSize = other.colliderSize().scale(GameManager.unitSize);
 
-				let objPos = obj.colliderPosition().subtract(objSize.scale(0.5));
-				let otherPos = other.colliderPosition().subtract(otherSize.scale(0.5));
+				let objPos = obj.colliderPosition().scale(GameManager.unitSize).subtract(objSize.scale(0.5));
+				let otherPos = other.colliderPosition().scale(GameManager.unitSize).subtract(otherSize.scale(0.5));
 
 				// if collision
 				if (
@@ -204,14 +214,16 @@ class GameManager {
 	}
 
 	public static loadLevel(levelName: string): void {
-		if (!this._options.levelClasses[levelName]) {
+		if (!this.options.levelClasses[levelName]) {
 			console.error(
 				`Level class of name ${levelName} was never defined. ` +
 				`Make sure you register it in your game launcher.`
 			);
 			return;
 		}
-		Debug.reset();
+		if (this.showingDebug) {
+			Debug.reset();
+		}
 		this.camera.follow(null);
 		this.currentLevel = new (<any> this.options.levelClasses[levelName])();
 		this.currentLevel.init();

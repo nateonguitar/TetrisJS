@@ -10,5 +10,11 @@ class Line extends Piece {
 			[true],
 			[true],
 		];
+		this.arrangement = [
+			[true],
+			[true],
+			[true],
+			[true],
+		];
 	}
 }

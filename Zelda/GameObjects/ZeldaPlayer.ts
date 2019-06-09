@@ -1,6 +1,6 @@
 class ZeldaPlayer extends GameObject {
 
-	private speed = 4;
+	private speed = 0.1;
 	private boundarySize: Vector2 = null;
 
 	private holdingMouse: boolean = false;
@@ -12,10 +12,7 @@ class ZeldaPlayer extends GameObject {
 		});
 
 		this.boundarySize = boundarySize;
-		this.transform.size = new Vector2(16,22).scale(2);
-
-		// move player position to center of map
-		this.transform.position = this.boundarySize.scale(0.5).subtract(this.transform.size.scale(0.5));
+		this.transform.size = new Vector2(0.75, 1);
 
 		this.setDefaultCollider();
 

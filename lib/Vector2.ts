@@ -72,13 +72,14 @@ class Vector2 {
 			console.warn("Vector2().moveTowards() called with step <= 0");
 			return this;
 		}
-		// if we're already super close to the target, just return the target
-		if (Math.abs(this.magnitude() - targetVector.magnitude()) < step) {
+		// if we're closer to the target than the step.
+		if (this.subtract(targetVector).magnitude() < step) {
 			return targetVector;
 		}
 
 		let direction = targetVector.subtract(this).normalize();
 		let destination = this.add(direction.scale(step));
+
 		return destination;
 	}
 

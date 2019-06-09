@@ -5,19 +5,22 @@ class FroggerMainLevelController extends GameObject {
 
 	private logs: FroggerLandingObject[] = [];
 
-	public static unitHeight: number = 115;
+	private test: GameObject = null;
 
 	constructor() {
-		super({
-			layer: 0,
-		});
+		super({layer: 0});
 
-		let unitHeight = FroggerMainLevelController.unitHeight;
+		this.river = new FroggerRiver();
+		this.player = new FroggerPlayer();
 
-		this.player = new FroggerPlayer(unitHeight * 10);
-		this.river = new FroggerRiver(unitHeight * 10);
+		let initialPosition = this.river.transform.position.clone();
+		initialPosition.y += this.river.transform.size.y / 2;
+		initialPosition.y -= this.player.transform.size.y / 2;
+		this.player.setInitialPosition(initialPosition);
+		this.player.goToInitialPosition();
 
 		Debug.track(this.player);
+		Debug.track(this.river);
 		this.buildLogs();
 
 		GameManager.camera.follow(this.player);
@@ -25,16 +28,24 @@ class FroggerMainLevelController extends GameObject {
 
 	// override
 	public update(): void {
-
+		if (Input.keys(Keys.Key1) && GameManager.unitSize > 5) {
+			GameManager.currentLevel.unitSize -= 0.5;
+		}
+		if (Input.keys(Keys.Key2) && GameManager.unitSize < 500) {
+			GameManager.currentLevel.unitSize += 0.5;
+		}
 	}
 
 	private buildLogs(): void {
-		let unitHeight = FroggerMainLevelController.unitHeight;
 
 		for (let i=0; i<3; i++) {
-			let log = new FroggerLogSmall(new Vector2(this.player.transform.position.x, 0), i.toString());
-			log.transform.position.y = this.river.transform.position.y - this.river.transform.size.y/2 + unitHeight*i*2 + unitHeight*4 - log.transform.size.y/2;
+			let log = new FroggerLogSmall(i.toString());
+			log.transform.position = new Vector2(
+				this.player.transform.position.x,
+				this.river.transform.position.y - 0.5 + i*2
+			)
 			this.logs.push(log);
+			Debug.track(log);
 		}
 	}
 }

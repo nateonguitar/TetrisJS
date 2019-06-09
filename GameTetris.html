@@ -41,13 +41,14 @@
 		function runGame() {
 			new GameLauncher({
 				parentElementID: "game-holder",
-				screenWidth: 250,
-				screenHeight: 450,
+				screenWidth: 800,
+				screenHeight: 600,
 				imageAntiAliasing: false,
-				layers: 3,
+				layers: 5,
 				showDebug: true,
 				backgroundColor: "#330000",
 				border: "1px solid red",
+				allowToggleDebug: true,
 				levelClasses: {
 					'Tetris': TetrisLevel
 				},
