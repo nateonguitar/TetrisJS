@@ -239,4 +239,8 @@ class Canvas {
 		this.context.fillRect(screenSize.x/2 - lineWidth/2, 0, lineWidth, screenSize.y);
 		this.context.fillRect(0, screenSize.y/2 - lineWidth/2, screenSize.x, lineWidth);
 	}
+
+	public static setBackgroundColor(color:string): void {
+		this.canvas.style.backgroundColor = color;
+	}
 }

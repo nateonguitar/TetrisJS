@@ -5,7 +5,8 @@ class MarioLevel01 extends Level {
 			imageSrcs: [
 				'Mario/Images/SpriteSheet.png',
             ],
-			unitSize: 50,
+            unitSize: 50,
+            backgroundColor: "#5c94fc",
 		});
 	}
 }

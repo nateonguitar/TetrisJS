@@ -227,5 +227,9 @@ class GameManager {
 		this.camera.follow(null);
 		this.currentLevel = new (<any> this.options.levelClasses[levelName])();
 		this.currentLevel.init();
+		let backgroundColor = this.currentLevel.backgroundColor || this.options.backgroundColor;
+		if (backgroundColor) {
+			Canvas.setBackgroundColor(backgroundColor);
+		}
 	}
 }

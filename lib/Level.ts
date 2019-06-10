@@ -8,6 +8,7 @@ interface LevelParams {
 	 **/
 	extraViewportPadding?: Vector2,
 	unitSize?: number,
+	backgroundColor?: string,
 }
 
 class Level {
@@ -28,6 +29,7 @@ class Level {
 	public extraViewportPadding: Vector2 = null;
 
 	public unitSize: number = 50;
+	public backgroundColor: string = "#000000";
 
 	constructor(params:LevelParams) {
 		for (let key in params) {
