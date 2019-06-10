@@ -22,7 +22,6 @@ class GameObject {
 
 	/** Can be any type of collider, Collider is the parent class each collider type inherets from */
 	public collider: Collider = null;
-	public drawCollider: boolean = false;
 	public drawColliderColor: string = null;
 
 	/* Will be an instance of `Image` but TypeScript doesn't like to type anything with Image. **/

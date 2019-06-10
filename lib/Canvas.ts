@@ -150,7 +150,7 @@ class Canvas {
 			Canvas.strokeGameObjectRect(gameObject);
 		}
 
-		if (gameObject.collider && (GameManager.showingDebug || gameObject.drawCollider)) {
+		if (gameObject.collider && (GameManager.showingDebug)) {
 			this.strokeGameObjectCollider(gameObject);
 		}
 	}
