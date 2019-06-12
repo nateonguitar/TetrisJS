@@ -55,7 +55,7 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 		if (this.holdingMouse) {
 			this.speedX = 0;
 			this.speedY = 0;
-			this.transform.position = Input.getMousePosition().subtract(this.transform.size.clone().scale(0.5));
+			this.transform.position = Input.getWorldspaceMousePosition();
 		}
 		else if (this.speedX == 0) {
 			this.setRandomDirection();

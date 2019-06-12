@@ -138,10 +138,10 @@ class GameObject {
 	public get unitSize(): number { return GameManager.unitSize; }
 
 	public onCollisionEnter(other: GameObject): void {
-		console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);
+		// console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
 
 	public onCollisionLeave(other: GameObject): void {
-		console.warn("Collision leave with this => " + this.constructor.name + " and other => " + other.constructor.name);
+		// console.warn("Collision leave with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
 }

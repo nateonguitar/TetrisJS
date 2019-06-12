@@ -9,6 +9,7 @@ class ZeldaPlayer extends GameObject {
 		super({
 			layer: 2,
 			imageSrc: "Zelda/Images/Link.png",
+			name: "player"
 		});
 
 		this.boundarySize = boundarySize;
@@ -24,12 +25,10 @@ class ZeldaPlayer extends GameObject {
 	public update(): void {
 		this.handleMovement();
 		if (this.holdingMouse) {
-			this.transform.size.x += 1;
-			this.transform.size.y += 1;
+			console.log(this.transform.position);
 		}
-		if (Input.keys(Keys.Space) && this.transform.size.x > 20) {
-			this.transform.size.x -= 1;
-			this.transform.size.y -= 1;
+		if (Input.keys(Keys.Space)) {
+			console.log("keys.space")
 		}
 	}
 

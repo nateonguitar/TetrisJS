@@ -152,37 +152,44 @@ class Input {
 	}
 
 	private static mousemove(event:MouseEvent): void {
-		let cameraPos = GameManager.camera.position.clone();
-		cameraPos.x -= Canvas.canvas.width / 2;
-		cameraPos.y -= Canvas.canvas.height / 2;
-		Input.mousePos = new Vector2(event.layerX + cameraPos.x, event.layerY + cameraPos.y);
+		Input.mousePos = new Vector2(event.layerX, event.layerY);
 	}
 
 	private static mouseUpOrDown(event, listeners:Function[]): void {
-		let clickPos = new Vector2(event.layerX, event.layerY);
-
-		let cameraPos = GameManager.camera.position.clone();
-		cameraPos.x -= Canvas.canvas.width / 2;
-		cameraPos.y -= Canvas.canvas.height / 2;
-
+		let clickPos = this.getAbsoluteClickPosition(event);
 		for (let i=0; i<listeners.length; i++) {
 			let clickedObjects: GameObject[] = GameManager.currentLevel.gameObjects.filter(obj => {
+				let size = obj.absoluteSize;
+				let pos = obj.absolutePosition.subtract(size.scale(0.5));
+				// if (obj.name == 'player') debugger;
 				if (
-					clickPos.x >= obj.transform.position.x - cameraPos.x &&
-					clickPos.y >= obj.transform.position.y - cameraPos.y &&
-					clickPos.x <= obj.transform.position.x - cameraPos.x + obj.transform.size.x &&
-					clickPos.y <= obj.transform.position.y - cameraPos.y + obj.transform.size.y
+					clickPos.x >= pos.x &&
+					clickPos.y >= pos.y &&
+					clickPos.x <= pos.x + size.x &&
+					clickPos.y <= pos.y + size.y
 				) {
 					return true;
 				}
 				return false;
 			});
-			listeners[i](clickPos.subtract(cameraPos), clickedObjects);
+			listeners[i](clickPos, clickedObjects);
 		}
 	}
 
-	public static getMousePosition(): Vector2 {
-		return Input.mousePos;
+	public static getAbsoluteClickPosition(event): Vector2 {
+		let screenSize = GameManager.screenSize.clone();
+		let clickPos = new Vector2(event.layerX, event.layerY);
+		let cameraPos = GameManager.camera.worldspacePosition;
+
+		// shift for camera positioning
+		return clickPos.add(cameraPos).subtract(screenSize.scale(0.5));
+	}
+
+	public static getWorldspaceMousePosition(): Vector2 {
+		return Input.mousePos
+			.add(GameManager.camera.worldspacePosition)
+			.subtract(GameManager.screenSize.scale(0.5))
+			.scale(1/GameManager.unitSize);
 	}
 
 	/** `Input.keys(Keys.UP)` will return `true` if key is pressed */
