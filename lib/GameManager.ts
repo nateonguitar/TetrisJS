@@ -123,9 +123,10 @@ class GameManager {
 		if (this.currentLevel) {
 			this.currentLevel.updateAnimations();
 			Canvas.wipe();
+
 			this.currentLevel.draw();
 			if (this.showingDebug) {
-				Canvas.drawCenteredCross();
+				Canvas.drawUnitSizeGrid();
 			}
 		}
 	}

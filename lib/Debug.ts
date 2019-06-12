@@ -97,7 +97,7 @@ class Debug {
 			if ((following || <any>{}).name) {
 				cameraFollowing += ' ' + following.name;
 			}
-			let cameraPosition = GameManager.camera.position;
+			let cameraPosition = GameManager.camera.worldspacePosition;
 
 			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");
 
@@ -146,17 +146,18 @@ class Debug {
 						<td colspan="2" class="debug-sub-header">Tracked GameObjects</td>
 					</tr>
 				`;
-				let padSizeInner = 13;
+				let padSizeInner = 17;
 				for (let tracked of this.trackedGameObjects) {
 					html += `
 						<tr>
 							<td>${tracked.constructor.name + (tracked.name ? ' ' + tracked.name : '')}:</td>
 							<td style="white-space:pre-wrap;">`;
-					html += this.padEndNbsp("layer",         padSizeInner) + `${tracked.layer}<br>`;
-					html += this.padEndNbsp("position",      padSizeInner) + `${tracked.transform.position}<br>`;
-					html += this.padEndNbsp("size",          padSizeInner) + `${tracked.transform.size}<br>`;
-					html += this.padEndNbsp("absolute size", padSizeInner) + `${tracked.absoluteSize}<br>`;
-					html += this.padEndNbsp("image",         padSizeInner) + `${((tracked.image || {}).src) || ''}`;
+					html += this.padEndNbsp("layer",             padSizeInner) + `${tracked.layer}<br>`;
+					html += this.padEndNbsp("position",          padSizeInner) + `${tracked.transform.position}<br>`;
+					html += this.padEndNbsp("absolute position", padSizeInner) + `${tracked.absolutePosition}<br>`;
+					html += this.padEndNbsp("size",              padSizeInner) + `${tracked.transform.size}<br>`;
+					html += this.padEndNbsp("absolute size",     padSizeInner) + `${tracked.absoluteSize}<br>`;
+					html += this.padEndNbsp("image",             padSizeInner) + `${((tracked.image || {}).src) || ''}`;
 
 					let animationInfo = (<GameObject>tracked).getCurrentSpritesheetAnimationInfo();
 					if (animationInfo) {

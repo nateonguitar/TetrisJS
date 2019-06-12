@@ -1,10 +1,20 @@
 class Camera {
-	public position: Vector2 = null;
+	private _worldspacePosition: Vector2 = null;
+	private _previousWorldspacePosition: Vector2 = null;
 
 	private gameObjectToFollow: GameObject = null;
 
 	constructor() {
-		this.position = Vector2.zero;
+		this._worldspacePosition = Vector2.zero;
+	}
+
+
+	public get worldspacePosition(): Vector2 {
+		return this._worldspacePosition.clone();
+	}
+
+	public set worldspacePosition(position: Vector2) {
+		this._worldspacePosition = position.clone().scale(GameManager.currentLevel.unitSize);
 	}
 
 	public follow(gameObject: GameObject): void {
@@ -17,8 +27,16 @@ class Camera {
 
 	public update(): void {
 		if (this.gameObjectToFollow) {
-			this.position = this.gameObjectToFollow.absolutePosition;
+			this._worldspacePosition = this.gameObjectToFollow.absolutePosition;
 		}
+
+
+		// record the current worldspace position case we resize the current level's unitSize.  Without this the camera feels like it shifts weird
+		// because it stays in the same absolute position but the rest of the world resizes.
+		else if (this._previousWorldspacePosition) {
+			this._worldspacePosition = this._previousWorldspacePosition.scale(GameManager.currentLevel.unitSize);
+		}
+		this._previousWorldspacePosition = this._worldspacePosition.scale(1/GameManager.currentLevel.unitSize);
 	}
 
 	public inViewOfGameObject(gameObject: GameObject, extraPadding:Vector2=null): boolean {
@@ -32,14 +50,14 @@ class Camera {
 		}
 		let offset = size.scale(0.5);
 		return (
-			position.x + offset.x > this.position.x - camSize.x/2 &&
-			position.y + offset.y > this.position.y - camSize.y/2 &&
-			position.x - offset.x < this.position.x + camSize.x/2 &&
-			position.y - offset.y < this.position.y + camSize.y/2
+			position.x + offset.x > this._worldspacePosition.x - camSize.x/2 &&
+			position.y + offset.y > this._worldspacePosition.y - camSize.y/2 &&
+			position.x - offset.x < this._worldspacePosition.x + camSize.x/2 &&
+			position.y - offset.y < this._worldspacePosition.y + camSize.y/2
 		);
 	}
 
-	public relativePosition(v: Vector2): Vector2 {
-		return v.subtract(this.position);
+	public relativeWorldspacePosition(v: Vector2): Vector2 {
+		return v.subtract(this._worldspacePosition);
 	}
 }

@@ -49,7 +49,7 @@ class Canvas {
 		let r: number = t.rotation;
 
 		if (camera.inViewOfGameObject(gameObject)) {
-			let relativePos = camera.relativePosition(p);
+			let relativePos = camera.relativeWorldspacePosition(p);
 			let screenSize = GameManager.screenSize;
 			this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
 			this.rotate(-r);
@@ -75,7 +75,7 @@ class Canvas {
 			let r: number = t.rotation;
 
 			if (camera.inViewOfGameObject(gameObject)) {
-				let relativePos = camera.relativePosition(p);
+				let relativePos = camera.relativeWorldspacePosition(p);
 				let screenSize = GameManager.screenSize;
 				this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
 
@@ -163,7 +163,7 @@ class Canvas {
 		let absoluteSize = size.scale(GameManager.unitSize);
 		if (camera.inViewOf(absolutePosition, absoluteSize)) {
 			Canvas.setStrokeStyle(color);
-			let relativePos: Vector2 = camera.relativePosition(absolutePosition);
+			let relativePos: Vector2 = camera.relativeWorldspacePosition(absolutePosition);
 			this.setTransform(relativePos);
 			Canvas.rotate(-r);
 			Canvas.context.strokeRect(
@@ -192,7 +192,7 @@ class Canvas {
 		let absoluteSize = size.scale(GameManager.unitSize);
 		if (camera.inViewOf(absolutePosition, absoluteSize)) {
 			Canvas.setFillStyle(color);
-			let relativePos: Vector2 = camera.relativePosition(absolutePosition);
+			let relativePos: Vector2 = camera.relativeWorldspacePosition(absolutePosition);
 			this.setTransform(relativePos);
 			Canvas.rotate(-r);
 			Canvas.context.fillRect(
@@ -231,13 +231,36 @@ class Canvas {
 		);
 	}
 
-	public static drawCenteredCross(color:string="#FFFFFF33"): void {
-		this.setFillStyle(color);
-		let lineWidth = 2;
-		let screenSize = GameManager.screenSize;
-		this.context.resetTransform();
-		this.context.fillRect(screenSize.x/2 - lineWidth/2, 0, lineWidth, screenSize.y);
-		this.context.fillRect(0, screenSize.y/2 - lineWidth/2, screenSize.x, lineWidth);
+	public static drawUnitSizeGrid(color:string="#FFFFFF44"): void {
+		this.setTransform(new Vector2(0, 0));
+		let halfScreenSize = GameManager.screenSize.scale(0.5);
+		this.context.strokeStyle = color;
+		let unitSize = GameManager.currentLevel.unitSize;
+		this.setLineWidth(1);
+
+		for (let i=0; i<halfScreenSize.x; i+=unitSize) {
+			this.context.beginPath();
+			this.context.moveTo(i, -halfScreenSize.y);
+			this.context.lineTo(i, halfScreenSize.y);
+			this.context.stroke();
+
+			this.context.beginPath();
+			this.context.moveTo(-i, -halfScreenSize.y);
+			this.context.lineTo(-i, halfScreenSize.y);
+			this.context.stroke();
+		}
+
+		for (let i=0; i<halfScreenSize.y; i+=unitSize) {
+			this.context.beginPath();
+			this.context.moveTo(-halfScreenSize.x, i);
+			this.context.lineTo(halfScreenSize.x, i);
+			this.context.stroke();
+
+			this.context.beginPath();
+			this.context.moveTo(-halfScreenSize.x, -i);
+			this.context.lineTo(halfScreenSize.x, -i);
+			this.context.stroke();
+		}
 	}
 
 	public static setBackgroundColor(color:string): void {

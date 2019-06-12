@@ -20,6 +20,9 @@ class ZeldaOverworldController extends GameObject {
 		this.player.transform.position = this.background.transform.position.clone();
 		Debug.track(this.player);
 
+		// put the camera on top of the player (in case you want to test removing the player from the camera)
+		GameManager.camera.worldspacePosition = this.player.transform.position;
+
 		// camera follow
 		GameManager.camera.follow(this.player);
 
