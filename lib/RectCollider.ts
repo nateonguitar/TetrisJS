@@ -9,9 +9,10 @@
  */
 class RectCollider extends Collider {
 
-	constructor(position: Vector2, size: Vector2) {
-		super();
-		this.position = position.clone();
-		this.size = size.clone();
+	public size: Vector2;
+
+	constructor(params:ColliderParams) {
+		super(params);
+		this.size = (params.size || new Vector2(1, 1)).clone();
 	}
 }

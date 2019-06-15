@@ -215,9 +215,9 @@ class Canvas {
 		this.context.setTransform(1, 0, 0, 1, position.x + screenSize.x/2, position.y + screenSize.y/2);
 	}
 
-	public static strokeGameObjectCollider(gameObject): void {
+	public static strokeGameObjectCollider(gameObject: GameObject): void {
 		let color = gameObject.drawColliderColor || "#00FF00"
-		this.strokeRect(gameObject.colliderPosition(), gameObject.colliderSize(), color)
+		this.strokeRect(gameObject.colliderPosition(), gameObject.rectColliderSize(), color)
 	}
 
 	/** There is no way to draw an image backwards or upside-down in JavaScript / Html5 canvas.  Instead you flip the canvas, draw, then flip the canvas back the way it was. */
