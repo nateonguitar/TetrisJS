@@ -40,7 +40,7 @@ class FroggerPlayer extends GameObject {
 			"idle" // start animation name
 		)
 
-		this.collider = new SquareCollider(new Vector2(0, 0.1), new Vector2(0.8, 0.5));
+		this.collider = new RectCollider(new Vector2(0, 0.1), new Vector2(0.8, 0.5));
 		this.transform.size.x = 0.75;
 	}
 

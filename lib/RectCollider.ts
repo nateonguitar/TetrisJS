@@ -7,7 +7,7 @@
  * @param `size`
  * - Relative size, Vector2(0, 0.5) will shrink the collider to half the size of the GameObject.
  */
-class SquareCollider extends Collider {
+class RectCollider extends Collider {
 
 	constructor(position: Vector2, size: Vector2) {
 		super();
