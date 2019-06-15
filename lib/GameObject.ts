@@ -64,7 +64,10 @@ class GameObject {
 	}
 
 	public setDefaultCollider(): void {
-		this.collider = new SquareCollider(Vector2.zero, new Vector2(1, 1));
+		this.collider = new RectCollider({
+			position: Vector2.zero,
+			size: new Vector2(1, 1)
+		});
 	}
 
 	public colliderPosition(): Vector2 {
@@ -75,12 +78,15 @@ class GameObject {
 		return t.position.add(colPos);
 	}
 
-	public colliderSize(): Vector2 {
-		let tSize = this.transform.size.abs();
-		let colSize = this.collider.size.abs();
-		colSize.x *= tSize.x;
-		colSize.y *= tSize.y;
-		return colSize;
+	public rectColliderSize(): Vector2 {
+		if (this.collider &&  this.collider instanceof RectCollider) {
+			let tSize = this.transform.size.abs();
+			let colSize = this.collider.size.abs();
+			colSize.x *= tSize.x;
+			colSize.y *= tSize.y;
+			return colSize;
+		}
+		return null;
 	}
 
 	public getLayer(): number {

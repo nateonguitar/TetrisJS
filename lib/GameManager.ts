@@ -180,8 +180,8 @@ class GameManager {
 				if (!other.collider) continue;
 				if (obj == other) continue;
 
-				let objSize = obj.colliderSize().scale(GameManager.unitSize);
-				let otherSize = other.colliderSize().scale(GameManager.unitSize);
+				let objSize = obj.rectColliderSize().scale(GameManager.unitSize);
+				let otherSize = other.rectColliderSize().scale(GameManager.unitSize);
 
 				let objPos = obj.colliderPosition().scale(GameManager.unitSize).subtract(objSize.scale(0.5));
 				let otherPos = other.colliderPosition().scale(GameManager.unitSize).subtract(otherSize.scale(0.5));

@@ -168,8 +168,10 @@ class Debug {
 					if (tracked.collider) {
 						html += "<br>" + this.padEndNbsp("col pos",      padSizeInner) + tracked.collider.position;
 						html += "<br>" + this.padEndNbsp("col pos rel",  padSizeInner) + tracked.colliderPosition();
-						html += "<br>" + this.padEndNbsp("col size",     padSizeInner) + tracked.collider.size;
-						html += "<br>" + this.padEndNbsp("col size rel", padSizeInner) + tracked.colliderSize();
+						if (tracked.collider instanceof RectCollider) {
+							html += "<br>" + this.padEndNbsp("col size",     padSizeInner) + tracked.collider.size;
+							html += "<br>" + this.padEndNbsp("col size rel", padSizeInner) + tracked.rectColliderSize();
+						}
 						if (tracked.currentCollidingObjects.length == 0) {
 							html += "<br>" + this.padEndNbsp("collisions", padSizeInner) + '[]';
 						}
