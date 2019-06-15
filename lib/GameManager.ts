@@ -235,6 +235,7 @@ class GameManager {
 							}
 
 							obj.transform.position = newPosition;
+							obj.onNoPassthroughTouch(other);
 						}
 					}
 

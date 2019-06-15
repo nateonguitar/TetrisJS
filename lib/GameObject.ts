@@ -150,4 +150,8 @@ class GameObject {
 	public onCollisionLeave(other: GameObject): void {
 		// console.warn("Collision leave with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
+
+	public onNoPassthroughTouch(other: GameObject): void {
+		console.warn("Collision !allowPassThrough with this => " + this.constructor.name + " and other => " + other.constructor.name);
+	}
 }
