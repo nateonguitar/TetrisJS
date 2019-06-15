@@ -2,7 +2,7 @@ class ZeldaSoldierBlue extends ZeldaSoldier {
 
 	constructor(boundarySize:Vector2) {
 		super();
-		this.imageSrc = "Zelda/Images/SoldierBlue.png";
+		this.imageSrc = "Images/SoldierBlue.png";
 		this.boundarySize = boundarySize.clone();
 
 		Input.registerMouseDown(this, this.mousedown);

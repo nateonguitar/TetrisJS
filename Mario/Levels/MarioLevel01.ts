@@ -3,7 +3,7 @@ class MarioLevel01 extends Level {
 		super(<LevelParams>{
 			managingGameObjectClass: MarioLevel01Controller,
 			imageSrcs: [
-				'Mario/Images/SpriteSheet.png',
+				'Images/SpriteSheet.png',
             ],
             unitSize: 50,
             backgroundColor: "#5c94fc",

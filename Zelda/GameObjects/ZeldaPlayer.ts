@@ -8,7 +8,7 @@ class ZeldaPlayer extends GameObject {
 	constructor(boundarySize:Vector2) {
 		super({
 			layer: 2,
-			imageSrc: "Zelda/Images/Link.png",
+			imageSrc: "Images/Link.png",
 			name: "player"
 		});
 

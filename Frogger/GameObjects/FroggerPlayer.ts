@@ -19,13 +19,13 @@ class FroggerPlayer extends GameObject {
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
 				"idle":	new SpritesheetAnimation(
-					'Frogger/Images/FroggerSpritesheet.png',
+					'Images/FroggerSpritesheet.png',
 					[
 						new Transform(new Vector2(0, 0), this.spriteSize),
 					],
 				),
 				"jumping":	new SpritesheetAnimation(
-					'Frogger/Images/FroggerSpritesheet.png',
+					'Images/FroggerSpritesheet.png',
 					[
 						new Transform(new Vector2(0,                   0), this.spriteSize),
 						new Transform(new Vector2(this.spriteSize.x,   0), this.spriteSize),

@@ -11,7 +11,7 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
 				"walkDown":	new SpritesheetAnimation(
-					'Zelda/Images/SoldierGreenWalkDownSpritesheet.png',
+					'Images/SoldierGreenWalkDownSpritesheet.png',
 					[
 						new Transform(new Vector2(0, 0  ), new Vector2(22, 38)),
 						new Transform(new Vector2(0, 38 ), new Vector2(22, 38)),
@@ -21,7 +21,7 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 					200
 				),
 				"walkSide":	new SpritesheetAnimation(
-					'Zelda/Images/SoldierGreenWalkSideSpritesheet.png',
+					'Images/SoldierGreenWalkSideSpritesheet.png',
 					[
 						new Transform(new Vector2(0, 0 ), new Vector2(31, 27)),
 						new Transform(new Vector2(0, 27), new Vector2(31, 27)),
