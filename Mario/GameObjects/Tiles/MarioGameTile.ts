@@ -27,7 +27,7 @@ class MarioGameTile extends GameObject {
 
 	onNoPassthroughTouch(other:GameObject): void {
 		if (other instanceof MarioPlayer) {
-			other.velocity.x = 0;
+			// other.velocity.x = 0;
 		}
 	}
 }
