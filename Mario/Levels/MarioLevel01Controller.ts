@@ -1,6 +1,9 @@
-class MarioLevel01Controller extends GameObject {
-    constructor() {
-		super({layer: 0});
+class MarioLevel01Controller extends MarioLevelController {
+	constructor() {
+		super();
+	}
 
+	update(): void {
+		this.handleCameraZoom();
 	}
 }

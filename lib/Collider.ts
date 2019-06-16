@@ -2,19 +2,23 @@ interface ColliderParams {
 	position: Vector2;
 	/** size defaults to `new Vector2(1, 1)` in RectCollider */
 	size: Vector2;
-	allowPassThrough?: boolean;
+	/**
+	 * What class names do we allow to pass through.
+	 * Null whitelist means we allow everything to pass through.
+	 * Empty whitelist means we allow nothing to pass through.
+	 */
+	allowPassThroughWhitelist?: any[];
 }
 
 class Collider {
-
 	public position: Vector2;
-	public allowPassThrough = true;
+	public allowPassThroughWhitelist: any[] = null;
 
 	constructor(params:ColliderParams) {
 		this.position = params.position.clone();
 
-		if (params.allowPassThrough === false) {
-			this.allowPassThrough = false;
+		if ((params.allowPassThroughWhitelist || []).length) {
+			this.allowPassThroughWhitelist = params.allowPassThroughWhitelist;
 		}
 	}
 }

@@ -73,8 +73,8 @@ class GameObject {
 	public colliderPosition(): Vector2 {
 		let t = this.transform;
 		let colPos = this.collider.position.clone();
-		colPos.x *= -t.size.x;
-		colPos.y *= -t.size.y;
+		colPos.x *= t.size.x;
+		colPos.y *= -t.size.y; // flipping to feel more natural to users
 		return t.position.add(colPos);
 	}
 
@@ -152,6 +152,6 @@ class GameObject {
 	}
 
 	public onNoPassthroughTouch(other: GameObject): void {
-		console.warn("Collision !allowPassThrough with this => " + this.constructor.name + " and other => " + other.constructor.name);
+		// console.warn("Collision !allowPassThrough with this => " + this.constructor.name + " and other => " + other.constructor.name);
 	}
 }
