@@ -1,13 +1,8 @@
-class MarioLevel01 extends Level {
+class MarioLevel01 extends MarioLevel {
     constructor() {
-		super(<LevelParams>{
+		super({
 			managingGameObjectClass: MarioLevel01Controller,
-			imageSrcs: [
-				'Images/SpriteSheet.png',
-				'Images/SpriteSheetTiles.png'
-            ],
-            unitSize: 50,
-            backgroundColor: "#5c94fc",
+			backgroundColor: "#5c94fc"
 		});
 	}
 }

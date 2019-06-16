@@ -3,8 +3,7 @@ class MarioPlayer extends GameObject {
 	public maxVelocity: Vector2 = new Vector2(0.2, 0.2);
 	public velocity: Vector2 = Vector2.zero;
 	public velocityChange: number = 0.005;
-	private jumping: boolean = false;
-	private pressedSpace: boolean = false;
+	private startPosition = new Vector2(2, 13);
 
 	constructor() {
 		super({	layer: 2 });
@@ -31,8 +30,7 @@ class MarioPlayer extends GameObject {
 			'idle' // start animation name
 		);
 
-		this.transform.position.y = 13;
-		this.transform.position.x = 2;
+		this.transform.position = this.startPosition.clone();
 		this.setDefaultCollider();
 	}
 
@@ -48,13 +46,17 @@ class MarioPlayer extends GameObject {
 			this.transform.size.x = -this.transform.size.x;
 		}
 		this.velocity.y += this.velocityChange * 2;
+
+		if (this.transform.position.y > 14.5) {
+			console.log('dead');
+			this.transform.position = this.startPosition.clone();
+			(<any> GameManager.currentLevel.managingGameObject).backBarrier.init();
+		}
 	}
 
 	private handleMovement(): void {
 		if (Input.keys(Keys.Space)) {
 			this.spritesheetAnimationSet.currentAnimationName = "jumping";
-			this.pressedSpace = false;
-			this.jumping = true;
 			this.velocity.y = -0.15;
 		}
 

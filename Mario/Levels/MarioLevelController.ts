@@ -87,7 +87,6 @@ class MarioLevelController extends GameObject {
 		Debug.track(this.player);
 		Debug.track(this.backBarrier);
 		this.buildLevel();
-		GameManager.camera.follow(this.backBarrier);
 	}
 
 	/**

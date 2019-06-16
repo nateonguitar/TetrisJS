@@ -1,4 +1,5 @@
 class BackBarrier extends GameObject {
+
 	constructor() {
 		super();
 		this.collider = new RectCollider(
@@ -7,8 +8,13 @@ class BackBarrier extends GameObject {
 				new Vector2(2, 20) // size
 			)
 		);
+		this.init();
+	}
+
+	public init(): void {
 		this.transform.position.y = 9;
 		this.transform.position.x = 7.5;
+		GameManager.camera.follow(this);
 	}
 
 	public update(): void {
