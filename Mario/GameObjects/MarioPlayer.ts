@@ -4,30 +4,50 @@ class MarioPlayer extends GameObject {
 	public velocity: Vector2 = Vector2.zero;
 	public velocityChange: number = 0.005;
 	private startPosition = new Vector2(2, 13);
+	private jumping = false;
+	private skidding = false;
+	private currentAnimationName = null;
 
 	constructor() {
 		super({	layer: 2 });
 
 		let tileSize = new Vector2(17, 16);
 
+		this.currentAnimationName = 'idle';
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
-				"idle":	new SpritesheetAnimation(
+				"smallIdle": new SpritesheetAnimation(
 					'Images/SpriteSheet.png',
 					[
 						new Transform(new Vector2(216, 398), tileSize),
 					],
 					10000
 				),
-				"jumping":	new SpritesheetAnimation(
+				"smallJump": new SpritesheetAnimation(
 					'Images/SpriteSheet.png',
 					[
 						new Transform(new Vector2(366, 398), tileSize),
 					],
 					10000
 				),
+				"smallRun": new SpritesheetAnimation(
+					'Images/SpriteSheet.png',
+					[
+						new Transform(new Vector2(246, 398), tileSize),
+						new Transform(new Vector2(276, 398), tileSize),
+						new Transform(new Vector2(306, 398), tileSize),
+						new Transform(new Vector2(276, 398), tileSize),
+					],
+					75
+				),
+				"smallSkid": new SpritesheetAnimation(
+					'Images/SpriteSheet.png',
+					[
+						new Transform(new Vector2(336, 398), tileSize),
+					],
+					10000
 			},
-			'idle' // start animation name
+			'smallIdle' // start animation name
 		);
 
 		this.transform.position = this.startPosition.clone();
@@ -36,9 +56,11 @@ class MarioPlayer extends GameObject {
 
 	update(): void {
 		this.handleMovement();
+		this.handleSpritesheetSwapping();
+
 		this.transform.position = this.transform.position.add(this.velocity);
 
-		Debug.trackValue({label: 'player vel', value: this.velocity.toString()})
+		Debug.trackValue({label: 'player velocity', value: this.velocity.toString()})
 
 		// make mario face the right way
 		if (
@@ -52,28 +74,69 @@ class MarioPlayer extends GameObject {
 			this.velocity.y = this.maxVelocity.y;
 		}
 
-		if (this.transform.position.y > 17.5) {
-			this.transform.position = this.startPosition.clone();
-			(<any> GameManager.currentLevel.managingGameObject).buildLevel();
-		}
+		this.handleDeathDetection();
 	}
 
 	public init(): void {
 		this.transform.position = this.startPosition.clone();
 	}
 
+	private handleDeathDetection(): void {
+		if (this.transform.position.y > 17.5) {
+			this.transform.position = this.startPosition.clone();
+			(<any> GameManager.currentLevel.managingGameObject).buildLevel();
+		}
+	}
+
+	private handleSpritesheetSwapping(): void {
+		if (this.jumping) {
+			if (this.currentAnimationName != 'jump') {
+				this.setAnimation('jump');
+			}
+			return;
+		}
+
+		if (this.velocity.x == 0) {
+			this.setAnimation('idle');
+		}
+		else if (this.skidding) {
+			this.setAnimation('skid');
+		}
+		else {
+			this.setAnimation('run');
+		}
+	}
+
+	private setAnimation(name: string): void {
+		this.currentAnimationName = name;
+		let smallAnimations = {
+			'jump': 'smallJump',
+			'run': 'smallRun',
+			'idle': 'smallIdle',
+			'skid': 'smallSkid'
+		}
+
+		let animName = smallAnimations[name];
+
+		if (this.spritesheetAnimationSet.currentAnimationName != animName) {
+			this.spritesheetAnimationSet.currentAnimationName = animName;
+		}
+	}
+
 	private handleMovement(): void {
 		if (Input.keys(Keys.Space)) {
-			this.spritesheetAnimationSet.currentAnimationName = "jumping";
 			this.velocity.y = -0.15;
+			this.jumping = true;
 		}
 
 
 		if (Input.keys(Keys.ArrowRight)) {
 			if (this.velocity.x < 0) {
 				this.velocity.x += this.velocityChange*2;
+				this.skidding = true;
 			}
 			else {
+				this.skidding = false;
 				this.velocity.x += this.velocityChange;
 			}
 			if (this.velocity.x > this.maxVelocity.x) {
@@ -83,8 +146,10 @@ class MarioPlayer extends GameObject {
 		else if (Input.keys(Keys.ArrowLeft)) {
 			if (this.velocity.x > 0) {
 				this.velocity.x -= this.velocityChange*2;
+				this.skidding = true;
 			}
 			else {
+				this.skidding = false;
 				this.velocity.x -= this.velocityChange;
 			}
 
@@ -108,13 +173,13 @@ class MarioPlayer extends GameObject {
 	}
 
 	onNoPassthroughTouch(other: GameObject, side: string): void {
-		let manager = <MarioLevelController> GameManager.currentLevel.managingGameObject;
 		if (other instanceof MarioGameTile) {
 			if (side == 'right' || side == 'left') {
 				this.velocity.x = 0;
 			}
 			if (side == 'bottom') {
-				this.spritesheetAnimationSet.currentAnimationName = 'idle';
+				this.jumping = false;
+				this.velocity.y = 0;
 				this.velocity.y = 0;
 			}
 			if (side == 'top') {
