@@ -13,7 +13,7 @@ class MarioLevel extends Level {
 			],
 			unitSize: 50,
 			backgroundColor: params.backgroundColor,
-			extraViewportPadding: new Vector2(0, GameManager.screenSize.y);
+			extraViewportPadding: new Vector2(0, GameManager.screenSize.y)
 		});
 	}
 }
