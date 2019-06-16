@@ -24,4 +24,10 @@ class MarioGameTile extends GameObject {
 		}
 		this.spritesheetAnimationSet = params.spritesheetAnimationSet;
 	}
+
+	onNoPassthroughTouch(other:GameObject): void {
+		if (other instanceof MarioPlayer) {
+			other.velocity.x = 0;
+		}
+	}
 }
