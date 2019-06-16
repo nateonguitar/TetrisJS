@@ -54,8 +54,12 @@ class MarioPlayer extends GameObject {
 
 		if (this.transform.position.y > 17.5) {
 			this.transform.position = this.startPosition.clone();
-			(<any> GameManager.currentLevel.managingGameObject).backBarrier.init();
+			(<any> GameManager.currentLevel.managingGameObject).buildLevel();
 		}
+	}
+
+	public init(): void {
+		this.transform.position = this.startPosition.clone();
 	}
 
 	private handleMovement(): void {

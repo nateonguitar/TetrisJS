@@ -45,7 +45,7 @@ class MarioLevelController extends GameObject {
 		'ttr' : MarioGameTileTubeTopRight
 	};
 
-	protected tiles: GameObject[] = [];
+	protected tiles: GameObject[][] = [];
 
 	constructor(params:MarioLevelControllerParams) {
 		super({layer: 0});
@@ -58,8 +58,19 @@ class MarioLevelController extends GameObject {
 		this.backBarrier = new BackBarrier();
 		this.player = new MarioPlayer();
 		Debug.trackGameObject(this.player);
-		// Debug.track(this.backBarrier);
 		this.buildLevel();
+	}
+
+	public destroyTile(tile: MarioGameTile): void {
+		for (let i=0; i<this.tiles.length; i++) {
+			let row = this.tiles[i];
+			for (let j=0; j<row.length; j++) {
+				if (row[j] == tile) {
+					row[j] = null;
+				}
+			}
+		}
+		GameManager.destroy(tile);
 	}
 
 	/**
@@ -69,27 +80,46 @@ class MarioLevelController extends GameObject {
 	 *
 	 * The `tileFlags` list (which you should override in each level) defaults to the start
 	 * of the first level of the original mario.
+	 *
+	 * If called after level is already built it will replace any tiles that have been destroyed.
 	 */
-	protected buildLevel(): void {
+	public buildLevel(): void {
+		this.backBarrier.init();
+		this.player.init();
+
+		// build tiles
 		for (let i=0; i<this.tileFlags.length; i++) {
-			let row = this.tileFlags[i];
-			for(let j=0; j<row.length; j++) {
-				let flag = row[j];
-				if (this.flagMap[flag] === null) {
-					this.tiles.push(null);
+			// create empty row if it doesn't exist already
+			if (!this.tiles[i]) {
+				this.tiles[i] = [];
+			}
+			let tileRow = this.tiles[i];
+
+			// fill row with tiles from flags
+			let flagRow = this.tileFlags[i];
+			for(let j=0; j<flagRow.length; j++) {
+				let flag = flagRow[j];
+
+				let TileClass = this.flagMap[flag];
+
+				// add null if its not already there
+				if (TileClass === null && tileRow[j] !== null) {
+					tileRow[j] = null;
 				}
-				else if (!this.flagMap[flag]) {
-					console.warn("Flag '" + flag + '" does not match a known tile type.');
+				else if (TileClass === undefined) {
+					console.warn("Flag '" + flag + "' does not match a known tile type.");
 				}
-				else {
-					let tile = new this.flagMap[flag];
+				else if (!tileRow[j] && TileClass !== null) {
+					let tile = new TileClass();
 					tile.transform.position.y = 15 - j;
 					tile.transform.position.x = i;
-					this.tiles.push();
+					this.tiles[i][j] = tile;
 				}
 			}
 		}
 	}
+
+
 
 	protected handleCameraZoom(): void {
 		if (Input.keys(Keys.Key1) && GameManager.unitSize > 5) {

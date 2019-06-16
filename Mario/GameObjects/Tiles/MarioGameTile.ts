@@ -23,6 +23,16 @@ class MarioGameTile extends GameObject {
 			this.breakFromBeneath = params.breakFromBeneath;
 		}
 		this.spritesheetAnimationSet = params.spritesheetAnimationSet;
+
+		Input.registerMouseDown(this, this.mousedown);
+	}
+
+	private mousedown(coords:Vector2, gameObjects:GameObject[]): void {
+		for (let obj of gameObjects) {
+			if (obj == this) {
+				(<any> GameManager.currentLevel.managingGameObject).destroyTile(this);
+			}
+		}
 	}
 
 	onNoPassthroughTouch(other:GameObject): void {
