@@ -1,4 +1,11 @@
+interface DebugTrackValue {
+	label: string,
+	value: string
+}
+
 class Debug {
+	private static trackedValues: DebugTrackValue[] = [];
+
 	private static maxFPSSoFar = 0;
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
@@ -12,6 +19,25 @@ class Debug {
 	private static trackedGameObjects: GameObject[] = [];
 
 	private static debugWindowParentElement: any = null;
+
+	public static trackValue(obj:DebugTrackValue): void {
+		let existing = this.trackedValues.find(v => v.label == obj.label);
+		if (existing == null) {
+			this.trackedValues.push(obj);
+		}
+		else {
+			existing.value = obj.value;
+		}
+	}
+
+	public static untrackValue(obj:DebugTrackValue): void {
+		for (let i=this.trackedValues.length-1; i>=0; i--) {
+			let tracked = this.trackedValues[i];
+			if (tracked.label == obj.label) {
+				this.trackedValues.splice(i, 1);
+			}
+		}
+	}
 
 	public static trackGameObject(gameObject: GameObject): void {
 		this.trackedGameObjects.push(gameObject);
@@ -125,6 +151,21 @@ class Debug {
 			let collidersTotal = GameManager.collidersTotal;
 			let collidersChecked = GameManager.collidersChecked;
 
+			let trackedHTML = '';
+
+			if (this.trackedValues.length) {
+				trackedHTML += separator;
+				for (let tracked of this.trackedValues) {
+					trackedHTML += `
+					<tr>
+						<td>${this.padEndNbsp(tracked.label, padSizeOuter)}</td>
+						<td>${tracked.value}</td>
+					</tr>
+					`
+				}
+			}
+
+
 			let html = `
 				<tr>
 					<td colspan="2" class="debug-sub-header">Game</td>
@@ -169,6 +210,7 @@ class Debug {
 					<td>${this.padEndNbsp('Images:', padSizeOuter)}</td>
 					<td style="white-space:pre-wrap;">${cachedImages}</td>
 				</tr>
+				${trackedHTML}
 			`;
 
 			if (this.trackedGameObjects.length) {
