@@ -187,9 +187,9 @@ class GameManager {
 				if (obj == other) continue;
 
 				// both have colliders
-				this.collidersTotal++;
 
 				if (obj.inViewOfCamera && other.inViewOfCamera) {
+					this.collidersTotal++;
 					this.collidersChecked++;
 					let colliding = false;
 					let passThroughWhiteListed = false;
