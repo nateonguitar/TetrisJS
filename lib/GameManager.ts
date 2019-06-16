@@ -269,14 +269,19 @@ class GameManager {
 
 								obj.transform.position = newPosition;
 
-								let side = null;
-								switch (smallestDistanceIndex) {
-									case 0: side = 'top'; break;
-									case 1: side = 'bottom'; break;
-									case 2: side = 'left'; break;
-									case 3: side = 'right'; break;
+								// objects only barely collided, if object barriers are touching and not
+								// pressing into eachother, we don't need to report it.
+								// This allows Mario to stand next to a pipe, but if you press right on the dpad, it'll register.
+								if (distances[smallestDistanceIndex] > 0.1) {
+									let side = null;
+									switch (smallestDistanceIndex) {
+										case 0: side = 'top'; break;
+										case 1: side = 'bottom'; break;
+										case 2: side = 'left'; break;
+										case 3: side = 'right'; break;
+									}
+									obj.onNoPassthroughTouch(other, side);
 								}
-								obj.onNoPassthroughTouch(other, side);
 							}
 						}
 					}
