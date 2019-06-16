@@ -80,7 +80,7 @@ class MarioLevelController extends GameObject {
 		'ttr' : MarioGameTileTubeTopRight
 	};
 
-	protected tiles: GameObject[][] = [];
+	protected tiles: GameObject[] = [];
 
 	constructor() {
 		super({layer: 0});
