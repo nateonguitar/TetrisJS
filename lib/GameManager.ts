@@ -236,7 +236,7 @@ class GameManager {
 							if (smallestDistanceIndex == 0) {
 								newPosition.y = bp.y + bs.y/2 + as.y/2 + obj.transform.position.y - ap.y;
 							}
-							// closest to bototm
+							// closest to bottom
 							else if (smallestDistanceIndex == 1) {
 								newPosition.y = bp.y - bs.y/2 - as.y/2 + obj.transform.position.y - ap.y;
 							}
