@@ -1,9 +1,10 @@
 class Debug {
+	private static maxFPSSoFar = 0;
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
 
 	/** miliseconds between display updates */
-	private static timeBetweenDisplayUpdates = 125;
+	private static timeBetweenDisplayUpdates = 100;
 	private static timeOfLastDisplayUpdate = 0;
 
 	private static style: any = null;
@@ -88,7 +89,13 @@ class Debug {
 
 			let separator = '<tr><td colspan="2"><hr></td></tr>';
 
-			let fps = Utils.fps().toFixed(1);
+			let fps = Utils.fps();
+
+			if (fps > this.maxFPSSoFar) {
+				this.maxFPSSoFar = fps;
+			}
+
+			let fpsToFixed = fps.toFixed(1);
 			let gameObjectsLength = GameManager.currentLevel.gameObjects.length;
 			let updatesSkipped = GameManager.currentLevel.updatesSkipped;
 
@@ -101,13 +108,28 @@ class Debug {
 
 			let cachedImages = Object.keys(GameManager.currentLevel.cachedImages).join("\n");
 
+			let fpsBar = '';
+			for (let i=0; i<fps/5; i++) {
+				fpsBar += '#';
+			}
+
+			fpsBar = this.padEndNbsp(fpsBar, this.maxFPSSoFar/5);
+
+			let fpsBarColor = "green";
+			if (fps < 50 && fps > 30) {
+				fpsBarColor = "yellow";
+			}
+			else if (fps <= 30) {
+				fpsBarColor = "red";
+			}
+
 			let html = `
 				<tr>
 					<td colspan="2" class="debug-sub-header">Game</td>
 				</tr>
 				<tr>
 					<td>${this.padEndNbsp('FPS:', padSizeOuter)}</td>
-					<td>${fps}</td>
+					<td>${fpsToFixed} [<span style="color: ${fpsBarColor};">${fpsBar}</span>]</td>
 				</tr>
 				<tr>
 					<td>${this.padEndNbsp('Game Objects:', padSizeOuter)}</td>
