@@ -4,8 +4,6 @@ class MarioPlayer extends GameObject {
 	public velocity: Vector2 = Vector2.zero;
 	public velocityChange: number = 0.005;
 	private startPosition = new Vector2(2, 13);
-	private jumping: boolean = false;
-	private pressedSpace: boolean = false;
 
 	constructor() {
 		super({	layer: 2 });
@@ -59,8 +57,6 @@ class MarioPlayer extends GameObject {
 	private handleMovement(): void {
 		if (Input.keys(Keys.Space)) {
 			this.spritesheetAnimationSet.currentAnimationName = "jumping";
-			this.pressedSpace = false;
-			this.jumping = true;
 			this.velocity.y = -0.15;
 		}
 
