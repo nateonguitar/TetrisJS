@@ -19,8 +19,8 @@ class FroggerMainLevelController extends GameObject {
 		this.player.setInitialPosition(initialPosition);
 		this.player.goToInitialPosition();
 
-		Debug.track(this.player);
-		Debug.track(this.river);
+		Debug.trackGameObject(this.player);
+		Debug.trackGameObject(this.river);
 		this.buildLogs();
 
 		GameManager.camera.follow(this.player);
@@ -45,7 +45,7 @@ class FroggerMainLevelController extends GameObject {
 				this.river.transform.position.y - 0.5 + i*2
 			)
 			this.logs.push(log);
-			Debug.track(log);
+			Debug.trackGameObject(log);
 		}
 	}
 }

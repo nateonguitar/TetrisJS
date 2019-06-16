@@ -1,6 +1,7 @@
 class GameObject {
 	public layer: number = 0;
 	public neverSkipUpdate: boolean = false;
+	public inViewOfCamera: boolean = false;
 
 	public children: Array<GameObject> = [];
 

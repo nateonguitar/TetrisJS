@@ -38,6 +38,8 @@ class MarioPlayer extends GameObject {
 		this.handleMovement();
 		this.transform.position = this.transform.position.add(this.velocity);
 
+		Debug.trackValue({label: 'player vel', value: this.velocity.toString()})
+
 		// make mario face the right way
 		if (
 			this.velocity.x < 0 && this.transform.size.x > 0 ||
@@ -51,7 +53,6 @@ class MarioPlayer extends GameObject {
 		}
 
 		if (this.transform.position.y > 17.5) {
-			console.log('dead');
 			this.transform.position = this.startPosition.clone();
 			(<any> GameManager.currentLevel.managingGameObject).backBarrier.init();
 		}

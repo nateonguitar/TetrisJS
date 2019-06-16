@@ -66,34 +66,32 @@ class Canvas {
 	}
 
 	public static drawGameObjectPartialImage(gameObject:GameObject, sheetPosition:Vector2, sheetSize:Vector2): void {
-		if (GameManager.camera.inViewOfGameObject(gameObject)) {
-			let image = gameObject.image;
-			let camera = GameManager.camera;
-			let t: Transform = gameObject.transform;
-			let p: Vector2 = gameObject.absolutePosition;
-			let s: Vector2 = t.size.scale(GameManager.unitSize);
-			let r: number = t.rotation;
+		let image = gameObject.image;
+		let camera = GameManager.camera;
+		let t: Transform = gameObject.transform;
+		let p: Vector2 = gameObject.absolutePosition;
+		let s: Vector2 = t.size.scale(GameManager.unitSize);
+		let r: number = t.rotation;
 
-			if (camera.inViewOfGameObject(gameObject)) {
-				let relativePos = camera.relativeWorldspacePosition(p);
-				let screenSize = GameManager.screenSize;
-				this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
+		if (camera.inViewOfGameObject(gameObject)) {
+			let relativePos = camera.relativeWorldspacePosition(p);
+			let screenSize = GameManager.screenSize;
+			this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
 
-				this.rotate(-r);
-				this.flipCanvas(t.size);
-				this.context.drawImage(
-					image,
-					sheetPosition.x,
-					sheetPosition.y,
-					sheetSize.x,
-					sheetSize.y,
-					-s.x/2,
-					-s.y/2,
-					s.x,
-					s.y
-				);
-				this.flipCanvas(t.size);
-			}
+			this.rotate(-r);
+			this.flipCanvas(t.size);
+			this.context.drawImage(
+				image,
+				sheetPosition.x,
+				sheetPosition.y,
+				sheetSize.x,
+				sheetSize.y,
+				-s.x/2,
+				-s.y/2,
+				s.x,
+				s.y
+			);
+			this.flipCanvas(t.size);
 		}
 	}
 
@@ -201,6 +199,9 @@ class Canvas {
 				absoluteSize.x,
 				absoluteSize.y
 			);
+		}
+		else {
+			console.log("fillRect rejected outside camera")
 		}
 	}
 	/** Handles camera placement, won't draw if outside visible rect */

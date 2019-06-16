@@ -1,4 +1,11 @@
+interface DebugTrackValue {
+	label: string,
+	value: string
+}
+
 class Debug {
+	private static trackedValues: DebugTrackValue[] = [];
+
 	private static maxFPSSoFar = 0;
 	// will dynamically add to this
 	private static debugDom: {[k:string]: HTMLElement} = {};
@@ -13,11 +20,30 @@ class Debug {
 
 	private static debugWindowParentElement: any = null;
 
-	public static track(gameObject: GameObject): void {
+	public static trackValue(obj:DebugTrackValue): void {
+		let existing = this.trackedValues.find(v => v.label == obj.label);
+		if (existing == null) {
+			this.trackedValues.push(obj);
+		}
+		else {
+			existing.value = obj.value;
+		}
+	}
+
+	public static untrackValue(obj:DebugTrackValue): void {
+		for (let i=this.trackedValues.length-1; i>=0; i--) {
+			let tracked = this.trackedValues[i];
+			if (tracked.label == obj.label) {
+				this.trackedValues.splice(i, 1);
+			}
+		}
+	}
+
+	public static trackGameObject(gameObject: GameObject): void {
 		this.trackedGameObjects.push(gameObject);
 	}
 
-	public static untrack(gameObject: GameObject): void {
+	public static untrackGameObject(gameObject: GameObject): void {
 		for (let i=this.trackedGameObjects.length-1; i>=0; i--) {
 			if (this.trackedGameObjects[i] == gameObject) {
 				this.trackedGameObjects.splice(i, 1);
@@ -90,7 +116,6 @@ class Debug {
 			let separator = '<tr><td colspan="2"><hr></td></tr>';
 
 			let fps = Utils.fps();
-
 			if (fps > this.maxFPSSoFar) {
 				this.maxFPSSoFar = fps;
 			}
@@ -123,6 +148,24 @@ class Debug {
 				fpsBarColor = "red";
 			}
 
+			let collidersTotal = GameManager.collidersTotal;
+			let collidersChecked = GameManager.collidersChecked;
+
+			let trackedHTML = '';
+
+			if (this.trackedValues.length) {
+				trackedHTML += separator;
+				for (let tracked of this.trackedValues) {
+					trackedHTML += `
+					<tr>
+						<td>${this.padEndNbsp(tracked.label, padSizeOuter)}</td>
+						<td>${tracked.value}</td>
+					</tr>
+					`
+				}
+			}
+
+
 			let html = `
 				<tr>
 					<td colspan="2" class="debug-sub-header">Game</td>
@@ -130,6 +173,14 @@ class Debug {
 				<tr>
 					<td>${this.padEndNbsp('FPS:', padSizeOuter)}</td>
 					<td>${fpsToFixed} [<span style="color: ${fpsBarColor};">${fpsBar}</span>]</td>
+				</tr>
+				<tr>
+					<td>${this.padEndNbsp('Cols MtoM:', padSizeOuter)}</td>
+					<td>${collidersTotal}</td>
+				</tr>
+				<tr>
+					<td>${this.padEndNbsp('Cols MtoM Checked:', padSizeOuter)}</td>
+					<td>${collidersChecked}</td>
 				</tr>
 				<tr>
 					<td>${this.padEndNbsp('Game Objects:', padSizeOuter)}</td>
@@ -159,6 +210,7 @@ class Debug {
 					<td>${this.padEndNbsp('Images:', padSizeOuter)}</td>
 					<td style="white-space:pre-wrap;">${cachedImages}</td>
 				</tr>
+				${trackedHTML}
 			`;
 
 			if (this.trackedGameObjects.length) {

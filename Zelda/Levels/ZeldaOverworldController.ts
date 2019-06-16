@@ -12,13 +12,13 @@ class ZeldaOverworldController extends GameObject {
 		let boundarySize = new Vector2(60, 60);
 
 		this.background = new ZeldaOverworldBackground(boundarySize);
-		Debug.track(this.background);
+		Debug.trackGameObject(this.background);
 
 		this.player = new ZeldaPlayer(boundarySize);
 
 		// move player position to center of map
 		this.player.transform.position = this.background.transform.position.clone();
-		Debug.track(this.player);
+		Debug.trackGameObject(this.player);
 
 		// put the camera on top of the player (in case you want to test removing the player from the camera)
 		GameManager.camera.worldspacePosition = this.player.transform.position;
