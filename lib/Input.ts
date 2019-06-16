@@ -155,7 +155,7 @@ class Input {
 		Input.mousePos = new Vector2(event.layerX, event.layerY);
 	}
 
-	private static mouseUpOrDown(event, listeners:Function[]): void {
+	private static mouseUpOrDown(event:MouseEvent, listeners:Function[]): void {
 		let clickPos = this.getAbsoluteClickPosition(event);
 		for (let i=0; i<listeners.length; i++) {
 			let clickedObjects: GameObject[] = GameManager.currentLevel.gameObjects.filter(obj => {
@@ -176,7 +176,7 @@ class Input {
 		}
 	}
 
-	public static getAbsoluteClickPosition(event): Vector2 {
+	public static getAbsoluteClickPosition(event:MouseEvent): Vector2 {
 		let screenSize = GameManager.screenSize.clone();
 		let clickPos = new Vector2(event.layerX, event.layerY);
 		let cameraPos = GameManager.camera.worldspacePosition;
@@ -201,13 +201,11 @@ class Input {
 	}
 
 
-	private static getKeyDown(e) {
-		e = e || window.event;
+	private static getKeyDown(e:KeyboardEvent): void {
 		Input._keyDowns[Input._KEYS[e.code]] = true;
 	}
 
-	private static getKeyUp(e) {
-		e = e || window.event;
+	private static getKeyUp(e: KeyboardEvent): void {
 		Input._keyDowns[Input._KEYS[e.code]] = false;
 	}
 
