@@ -14,5 +14,6 @@ class FroggerLogSmall extends FroggerLandingObject {
 			"idle" // start animation name
 		);
 		this.transform.size.x = 2;
+		this.collider.allowPassThroughWhitelist = [];
 	}
 }

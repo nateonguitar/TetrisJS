@@ -22,7 +22,7 @@ class Level {
 	private _cachedImages: {[k:string]: any} = {};
 	private imageSrcs: string[] = [];
 	private managingGameObjectClass: Function;
-	private managingGameObject: GameObject = null;
+	public managingGameObject: GameObject = null;
 
 	public updatesSkipped: number = 0;
 

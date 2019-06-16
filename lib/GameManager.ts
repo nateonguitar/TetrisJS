@@ -182,6 +182,15 @@ class GameManager {
 				if (obj == other) continue;
 
 				let colliding = false;
+				let passThroughWhiteListed = false;
+
+				if((other.collider.allowPassThroughWhitelist || []).length) {
+					for (let type of other.collider.allowPassThroughWhitelist) {
+						if (obj instanceof type) {
+							passThroughWhiteListed = true;
+						}
+					}
+				}
 
 				if (obj.collider instanceof RectCollider && other.collider instanceof RectCollider) {
 
@@ -198,9 +207,15 @@ class GameManager {
 						objScreenPos.y + objScreenSize.y > otherScreenPos.y
 					) {
 
-						if (other.collider.allowPassThrough) {
+						// no whitelist means we allow everything to pass through
+						// empty whitelist means we allow nothing to pass through
+						if (!other.collider.allowPassThroughWhitelist) {
 							colliding = true;
 						}
+						else if (passThroughWhiteListed) {
+							colliding = true;
+						}
+						// not in whitelist, don't allow to pass through
 						else {
 							let ap = obj.colliderPosition();
 							let as = obj.rectColliderSize();
