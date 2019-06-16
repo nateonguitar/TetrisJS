@@ -50,7 +50,7 @@ class MarioPlayer extends GameObject {
 			this.velocity.y = this.maxVelocity.y;
 		}
 
-		if (this.transform.position.y > 14.5) {
+		if (this.transform.position.y > 17.5) {
 			console.log('dead');
 			this.transform.position = this.startPosition.clone();
 			(<any> GameManager.currentLevel.managingGameObject).backBarrier.init();
