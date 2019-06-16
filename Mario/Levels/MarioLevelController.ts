@@ -34,7 +34,7 @@ class MarioLevelController extends GameObject {
 	];
 
 	protected flagMap: any = {
-		' '   : null,
+		''    : null,
 		'?'   : MarioGameTileQuestionMark,
 		'bb'  : MarioGameTileBricksBrown,
 		'btb' : MarioGameTileBricksTopBrown,
