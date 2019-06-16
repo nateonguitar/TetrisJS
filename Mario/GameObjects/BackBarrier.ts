@@ -3,8 +3,8 @@ class BackBarrier extends GameObject {
 	constructor() {
 		super();
 		this.collider = new RectCollider({
-			position: new Vector2(-8.85, 0),
-			size: new Vector2(2, 20),
+			position: new Vector2(-8.35, 0),
+			size: new Vector2(1, 20),
 			allowPassThroughWhitelist: [MarioGameTile]
 		});
 
