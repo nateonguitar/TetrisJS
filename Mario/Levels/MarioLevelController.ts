@@ -14,7 +14,9 @@ class MarioLevelController extends GameObject {
 		['rb', 'rb'],
 		['rb', 'rb'],
 		['rb', 'rb'],
-		['rb', 'rb', '', '', '', '?'],
+		['rb', 'rb', 'hlg',   '',   '', '?'],
+		['rb', 'rb', 'hcslg', 'htg'],
+		['rb', 'rb', 'hrg'],
 		['rb', 'rb'],
 		['rb', 'rb'],
 		['rb', 'rb'],
@@ -34,15 +36,21 @@ class MarioLevelController extends GameObject {
 	];
 
 	protected flagMap: any = {
-		''    : null,
-		'?'   : MarioGameTileQuestionMark,
-		'bb'  : MarioGameTileBricksBrown,
-		'btb' : MarioGameTileBricksTopBrown,
-		'rb'  : MarioGameTileRocksBrown,
-		'tbl' : MarioGameTileTubeBottomLeft,
-		'tbr' : MarioGameTileTubeBottomRight,
-		'ttl' : MarioGameTileTubeTopLeft,
-		'ttr' : MarioGameTileTubeTopRight
+		''      : null,
+		'?'     : MarioGameTileQuestionMark,
+		'hcg'   : MarioGameTileHillCenterGreen,
+		'hcslg' : MarioGameTileHillCenterSpotsLeftGreen,
+		'hcsrg' : MarioGameTileHillCenterSpotsRightGreen,
+		'hlg'   : MarioGameTileHillLeftGreen,
+		'hrg'   : MarioGameTileHillRightGreen,
+		'htg'   : MarioGameTileHillTopGreen,
+		'bb'    : MarioGameTileBricksBrown,
+		'btb'   : MarioGameTileBricksTopBrown,
+		'rb'    : MarioGameTileRocksBrown,
+		'tbl'   : MarioGameTileTubeBottomLeft,
+		'tbr'   : MarioGameTileTubeBottomRight,
+		'ttl'   : MarioGameTileTubeTopLeft,
+		'ttr'   : MarioGameTileTubeTopRight
 	};
 
 	protected tiles: MarioGameTile[][] = [];
