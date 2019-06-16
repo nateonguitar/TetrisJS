@@ -46,6 +46,7 @@ class MarioPlayer extends GameObject {
 						new Transform(new Vector2(336, 398), tileSize),
 					],
 					10000
+				),
 			},
 			'smallIdle' // start animation name
 		);
