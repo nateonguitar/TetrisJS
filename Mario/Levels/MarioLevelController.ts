@@ -45,7 +45,7 @@ class MarioLevelController extends GameObject {
 		'ttr' : MarioGameTileTubeTopRight
 	};
 
-	protected tiles: GameObject[][] = [];
+	protected tiles: MarioGameTile[][] = [];
 
 	constructor(params:MarioLevelControllerParams) {
 		super({layer: 0});
@@ -62,15 +62,35 @@ class MarioLevelController extends GameObject {
 	}
 
 	public destroyTile(tile: MarioGameTile): void {
+		let index = this.getIndexOfTile(tile);
+		if (!index.equals(new Vector2(-1, -1))) {
+			GameManager.destroy(tile);
+			this.tiles[index.x][index.y] = null;
+		}
+	}
+
+	private getIndexOfTile(tile: MarioGameTile): Vector2 {
+		let index = new Vector2(-1, -1);
 		for (let i=0; i<this.tiles.length; i++) {
 			let row = this.tiles[i];
 			for (let j=0; j<row.length; j++) {
 				if (row[j] == tile) {
-					row[j] = null;
+					index.x = i;
+					index.y = j;
 				}
 			}
 		}
-		GameManager.destroy(tile);
+		return index;
+	}
+
+	public replaceTile(tile: MarioGameTile, TileClass: any): void {
+		let newTile = new TileClass();
+		if (newTile instanceof MarioGameTile) {
+			let index = this.getIndexOfTile(tile);
+			newTile.transform.position = tile.transform.position.clone();
+			this.destroyTile(tile);
+			this.tiles[index.x][index.y] = newTile;
+		}
 	}
 
 	/**
@@ -111,12 +131,19 @@ class MarioLevelController extends GameObject {
 				}
 				else if (!tileRow[j] && TileClass !== null) {
 					let tile = new TileClass();
-					tile.transform.position.y = 15 - j;
-					tile.transform.position.x = i;
+					this.positionTile(tile, i, j);
 					this.tiles[i][j] = tile;
+				}
+				else if (tileRow[j] && TileClass && !(tileRow[j] instanceof TileClass)) {
+					this.replaceTile(tileRow[j], TileClass);
 				}
 			}
 		}
+	}
+
+	private positionTile(tile:MarioGameTile, i:number, j:number): void {
+		tile.transform.position.x = i;
+		tile.transform.position.y = 15 - j;
 	}
 
 

@@ -6,7 +6,6 @@ interface MarioGameTileParams {
 }
 
 class MarioGameTile extends GameObject {
-
 	protected static spriteSheet: string = 'Images/SpriteSheetTiles.png';
 	protected static spriteSize: Vector2 = new Vector2(16, 16);
 
@@ -30,14 +29,17 @@ class MarioGameTile extends GameObject {
 	private mousedown(coords:Vector2, gameObjects:GameObject[]): void {
 		for (let obj of gameObjects) {
 			if (obj == this) {
-				(<any> GameManager.currentLevel.managingGameObject).destroyTile(this);
+				let manager = <MarioLevelController> GameManager.currentLevel.managingGameObject;
+				manager.destroyTile(this);
 			}
 		}
 	}
 
-	onNoPassthroughTouch(other:GameObject): void {
-		if (other instanceof MarioPlayer) {
-			// other.velocity.x = 0;
+	/** override if you want other behavior */
+	public onHitFromBeneath(): void {
+		let manager = <MarioLevelController> GameManager.currentLevel.managingGameObject;
+		if (this.breakFromBeneath) {
+			manager.destroyTile(this);
 		}
 	}
 }

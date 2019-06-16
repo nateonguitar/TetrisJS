@@ -108,6 +108,7 @@ class MarioPlayer extends GameObject {
 	}
 
 	onNoPassthroughTouch(other: GameObject, side: string): void {
+		let manager = <MarioLevelController> GameManager.currentLevel.managingGameObject;
 		if (other instanceof MarioGameTile) {
 			if (side == 'right' || side == 'left') {
 				this.velocity.x = 0;
@@ -118,8 +119,12 @@ class MarioPlayer extends GameObject {
 			}
 			if (side == 'top') {
 				this.velocity.y = 0;
+				other.onHitFromBeneath();
 			}
-
 		}
+	}
+
+	public die(): void {
+
 	}
 }

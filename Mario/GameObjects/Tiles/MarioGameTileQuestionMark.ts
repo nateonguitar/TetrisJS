@@ -21,4 +21,11 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 			)
 		});
 	}
+
+	// override
+	public onHitFromBeneath(): void {
+		console.log("Coin!");
+		let manager = <MarioLevelController> GameManager.currentLevel.managingGameObject;
+		manager.replaceTile(this, MarioGameTileBricksBrown);
+	}
 }
