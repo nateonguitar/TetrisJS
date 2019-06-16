@@ -2,7 +2,7 @@ class MarioPlayer extends GameObject {
 
 	public maxVelocity: Vector2 = new Vector2(0.2, 0.2);
 	public velocity: Vector2 = Vector2.zero;
-	public velocityXChange: number = 0.005;
+	public velocityChange: number = 0.005;
 	private jumping: boolean = false;
 	private pressedSpace: boolean = false;
 
@@ -47,21 +47,24 @@ class MarioPlayer extends GameObject {
 		) {
 			this.transform.size.x = -this.transform.size.x;
 		}
-
+		this.velocity.y += this.velocityChange * 2;
 	}
 
 	private handleMovement(): void {
-		if (Input.keys(Keys.Space) && !this.jumping) {
-			this.pressedSpace = true;
+		if (Input.keys(Keys.Space)) {
+			this.spritesheetAnimationSet.currentAnimationName = "jumping";
+			this.pressedSpace = false;
+			this.jumping = true;
+			this.velocity.y = -0.15;
 		}
 
 
 		if (Input.keys(Keys.ArrowRight)) {
 			if (this.velocity.x < 0) {
-				this.velocity.x += this.velocityXChange*2;
+				this.velocity.x += this.velocityChange*2;
 			}
 			else {
-				this.velocity.x += this.velocityXChange;
+				this.velocity.x += this.velocityChange;
 			}
 			if (this.velocity.x > this.maxVelocity.x) {
 				this.velocity.x = this.maxVelocity.x;
@@ -69,10 +72,10 @@ class MarioPlayer extends GameObject {
 		}
 		else if (Input.keys(Keys.ArrowLeft)) {
 			if (this.velocity.x > 0) {
-				this.velocity.x -= this.velocityXChange*2;
+				this.velocity.x -= this.velocityChange*2;
 			}
 			else {
-				this.velocity.x -= this.velocityXChange;
+				this.velocity.x -= this.velocityChange;
 			}
 
 			if (this.velocity.x < -this.maxVelocity.x) {
@@ -82,22 +85,31 @@ class MarioPlayer extends GameObject {
 		else {
 			// bring velocity back down to zero
 			if (this.velocity.x < 0) {
-				this.velocity.x += this.velocityXChange * 2;
+				this.velocity.x += this.velocityChange * 2;
 			}
 			else if (this.velocity.x > 0) {
-				this.velocity.x -= this.velocityXChange * 2;
+				this.velocity.x -= this.velocityChange * 2;
 			}
 
-			if (Math.abs(this.velocity.x) < this.velocityXChange * 2) {
+			if (Math.abs(this.velocity.x) < this.velocityChange * 2) {
 				this.velocity.x = 0;
 			}
 		}
+	}
 
-		// space keyup
-		if (this.pressedSpace && !Input.keys(Keys.Space)) {
-			this.spritesheetAnimationSet.currentAnimationName = "jumping";
-			this.pressedSpace = false;
-			this.jumping = true;
+	onNoPassthroughTouch(other: GameObject, side: string): void {
+		if (other instanceof MarioGameTile) {
+			if (side == 'right' || side == 'left') {
+				this.velocity.x = 0;
+			}
+			if (side == 'bottom') {
+				this.spritesheetAnimationSet.currentAnimationName = 'idle';
+				this.velocity.y = 0;
+			}
+			if (side == 'top') {
+				this.velocity.y = 0;
+			}
+
 		}
 	}
 }

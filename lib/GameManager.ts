@@ -250,7 +250,15 @@ class GameManager {
 							}
 
 							obj.transform.position = newPosition;
-							obj.onNoPassthroughTouch(other);
+
+							let side = null;
+							switch (smallestDistanceIndex) {
+								case 0: side = 'top'; break;
+								case 1: side = 'bottom'; break;
+								case 2: side = 'left'; break;
+								case 3: side = 'right'; break;
+							}
+							obj.onNoPassthroughTouch(other, side);
 						}
 					}
 
