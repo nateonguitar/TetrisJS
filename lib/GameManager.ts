@@ -36,6 +36,9 @@ class GameManager {
 	public static showingDebug: boolean = false;
 	private static pressedZ: boolean = false;
 
+	public static collidersTotal = 0;
+	public static collidersChecked = 0;
+
 	/** Anything we want to start before we run the main loop */
 	public static start(options: Object = {}): void {
 		// if an option is passed in override our defaults
@@ -170,6 +173,8 @@ class GameManager {
 	}
 
 	private static handleCollisions(): void {
+		this.collidersChecked = 0;
+		this.collidersTotal = 0;
 		let objs = this.currentLevel.gameObjects;
 		for (let i=0; i<objs.length; i++) {
 			let obj = objs[i];
@@ -181,104 +186,117 @@ class GameManager {
 				if (!other.collider) continue;
 				if (obj == other) continue;
 
-				let colliding = false;
-				let passThroughWhiteListed = false;
+				// both have colliders
+				this.collidersTotal++;
 
-				if((other.collider.allowPassThroughWhitelist || []).length) {
-					for (let type of other.collider.allowPassThroughWhitelist) {
-						if (obj instanceof type) {
-							passThroughWhiteListed = true;
+				if (obj.inViewOfCamera && other.inViewOfCamera) {
+					this.collidersChecked++;
+					let colliding = false;
+					let passThroughWhiteListed = false;
+
+					if((other.collider.allowPassThroughWhitelist || []).length) {
+						for (let type of other.collider.allowPassThroughWhitelist) {
+							if (obj instanceof type) {
+								passThroughWhiteListed = true;
+							}
 						}
 					}
-				}
 
-				if (obj.collider instanceof RectCollider && other.collider instanceof RectCollider) {
+					if (obj.collider instanceof RectCollider && other.collider instanceof RectCollider) {
 
-					let objScreenSize = obj.rectColliderSize().scale(GameManager.unitSize);
-					let otherScreenSize = other.rectColliderSize().scale(GameManager.unitSize);
-
-					let objScreenPos = obj.colliderPosition().scale(GameManager.unitSize).subtract(objScreenSize.scale(0.5));
-					let otherScreenPos = other.colliderPosition().scale(GameManager.unitSize).subtract(otherScreenSize.scale(0.5));
-
-					if (
-						objScreenPos.x < otherScreenPos.x + otherScreenSize.x &&
-						objScreenPos.x + objScreenSize.x > otherScreenPos.x &&
-						objScreenPos.y < otherScreenPos.y + otherScreenSize.y &&
-						objScreenPos.y + objScreenSize.y > otherScreenPos.y
-					) {
-
-						// no whitelist means we allow everything to pass through
-						// empty whitelist means we allow nothing to pass through
-						if (!other.collider.allowPassThroughWhitelist) {
-							colliding = true;
+						let minDistance = obj.rectColliderSize().magnitude() + other.rectColliderSize().magnitude();
+						let distance = obj.colliderPosition().distance(other.colliderPosition());
+						if (distance > minDistance) {
+							// console.log('y')
+							this.collidersChecked--;
+							continue;
 						}
-						else if (passThroughWhiteListed) {
-							colliding = true;
-						}
-						// not in whitelist, don't allow to pass through
-						else {
-							let ap = obj.colliderPosition();
-							let as = obj.rectColliderSize();
-							let bp = other.colliderPosition();
-							let bs = other.rectColliderSize();
 
-							let distances = [
-								// dist from obj top to other bottom
-								Math.abs((ap.y - as.y/2) - (bp.y + bs.y/2)), // top
-								Math.abs((ap.y + as.y/2) - (bp.y - bs.y/2)), // bottom
-								Math.abs((ap.x - as.x/2) - (bp.x + bs.x/2)), // left
-								Math.abs((ap.x + as.x/2) - (bp.x - bs.x/2)), // right
-							];
-							let smallestDistanceIndex = distances.indexOf(Math.min(...distances));
+						let objScreenSize = obj.rectColliderSize().scale(GameManager.unitSize);
+						let otherScreenSize = other.rectColliderSize().scale(GameManager.unitSize);
 
-							let newPosition = obj.transform.position.clone();
-							// closest to top
-							if (smallestDistanceIndex == 0) {
-								newPosition.y = bp.y + bs.y/2 + as.y/2 + obj.transform.position.y - ap.y;
+						let objScreenPos = obj.colliderPosition().scale(GameManager.unitSize).subtract(objScreenSize.scale(0.5));
+						let otherScreenPos = other.colliderPosition().scale(GameManager.unitSize).subtract(otherScreenSize.scale(0.5));
+
+						if (
+							objScreenPos.x < otherScreenPos.x + otherScreenSize.x &&
+							objScreenPos.x + objScreenSize.x > otherScreenPos.x &&
+							objScreenPos.y < otherScreenPos.y + otherScreenSize.y &&
+							objScreenPos.y + objScreenSize.y > otherScreenPos.y
+						) {
+
+							// no whitelist means we allow everything to pass through
+							// empty whitelist means we allow nothing to pass through
+							if (!other.collider.allowPassThroughWhitelist) {
+								colliding = true;
 							}
-							// closest to bottom
-							else if (smallestDistanceIndex == 1) {
-								newPosition.y = bp.y - bs.y/2 - as.y/2 + obj.transform.position.y - ap.y;
+							else if (passThroughWhiteListed) {
+								colliding = true;
 							}
-							// closest to left
-							else if (smallestDistanceIndex == 2) {
-								newPosition.x = bp.x + bs.x/2 + as.x/2 + obj.transform.position.x - ap.x;
-							}
-							// closest to right
+							// not in whitelist, don't allow to pass through
 							else {
-								newPosition.x = bp.x - bs.x/2 - as.x/2 + obj.transform.position.x - ap.x;
-							}
+								let ap = obj.colliderPosition();
+								let as = obj.rectColliderSize();
+								let bp = other.colliderPosition();
+								let bs = other.rectColliderSize();
 
-							obj.transform.position = newPosition;
+								let distances = [
+									// dist from obj top to other bottom
+									Math.abs((ap.y - as.y/2) - (bp.y + bs.y/2)), // top
+									Math.abs((ap.y + as.y/2) - (bp.y - bs.y/2)), // bottom
+									Math.abs((ap.x - as.x/2) - (bp.x + bs.x/2)), // left
+									Math.abs((ap.x + as.x/2) - (bp.x - bs.x/2)), // right
+								];
+								let smallestDistanceIndex = distances.indexOf(Math.min(...distances));
 
-							let side = null;
-							switch (smallestDistanceIndex) {
-								case 0: side = 'top'; break;
-								case 1: side = 'bottom'; break;
-								case 2: side = 'left'; break;
-								case 3: side = 'right'; break;
+								let newPosition = obj.transform.position.clone();
+								// closest to top
+								if (smallestDistanceIndex == 0) {
+									newPosition.y = bp.y + bs.y/2 + as.y/2 + obj.transform.position.y - ap.y;
+								}
+								// closest to bottom
+								else if (smallestDistanceIndex == 1) {
+									newPosition.y = bp.y - bs.y/2 - as.y/2 + obj.transform.position.y - ap.y;
+								}
+								// closest to left
+								else if (smallestDistanceIndex == 2) {
+									newPosition.x = bp.x + bs.x/2 + as.x/2 + obj.transform.position.x - ap.x;
+								}
+								// closest to right
+								else {
+									newPosition.x = bp.x - bs.x/2 - as.x/2 + obj.transform.position.x - ap.x;
+								}
+
+								obj.transform.position = newPosition;
+
+								let side = null;
+								switch (smallestDistanceIndex) {
+									case 0: side = 'top'; break;
+									case 1: side = 'bottom'; break;
+									case 2: side = 'left'; break;
+									case 3: side = 'right'; break;
+								}
+								obj.onNoPassthroughTouch(other, side);
 							}
-							obj.onNoPassthroughTouch(other, side);
 						}
 					}
 
-				}
 
-
-				if (colliding) {
-					// if not currently known to be colliding
-					if (obj.currentCollidingObjects.indexOf(other) == -1) {
-						obj.currentCollidingObjects.push(other);
-						obj.onCollisionEnter(other);
+					if (colliding) {
+						// if not currently known to be colliding
+						if (obj.currentCollidingObjects.indexOf(other) == -1) {
+							obj.currentCollidingObjects.push(other);
+							obj.onCollisionEnter(other);
+						}
 					}
-				}
-				else {
-					// if we aren't colliding any more
-					if (obj.currentCollidingObjects.indexOf(other) != -1) {
-						for (let k=obj.currentCollidingObjects.length-1; k>=0; k--) {
-							if (obj.currentCollidingObjects[k] == other) {
-								obj.currentCollidingObjects.splice(k, 1);
-								obj.onCollisionLeave(other);
+					else {
+						// if we aren't colliding any more
+						if (obj.currentCollidingObjects.indexOf(other) != -1) {
+							for (let k=obj.currentCollidingObjects.length-1; k>=0; k--) {
+								if (obj.currentCollidingObjects[k] == other) {
+									obj.currentCollidingObjects.splice(k, 1);
+									obj.onCollisionLeave(other);
+								}
 							}
 						}
 					}

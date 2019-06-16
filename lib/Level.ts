@@ -59,7 +59,8 @@ class Level {
 		let camera = GameManager.camera;
 		this.updatesSkipped = 0;
 		for (let gameObject of this.gameObjects) {
-			if (gameObject.neverSkipUpdate || camera.inViewOfGameObject(gameObject, this.extraViewportPadding)) {
+			gameObject.inViewOfCamera = camera.inViewOfGameObject(gameObject, this.extraViewportPadding);
+			if (gameObject.neverSkipUpdate || gameObject.inViewOfCamera) {
 				gameObject.update();
 			}
 			else {
@@ -69,23 +70,28 @@ class Level {
 	}
 
 	public draw(): void {
-		let drawnObjects: GameObject[] = [];
+		let handledGameObjects: GameObject[] = [];
 
 		// loop through our layers
 		for (let i=0; i<GameManager.options.layers; i++) {
 			// draw gameobjects on that layer
 			for (let j=0; j<this.gameObjects.length; j++) {
 				let gameObject = this.gameObjects[j];
-				if (gameObject.getLayer() == i) {
-					drawnObjects.push(gameObject);
-					gameObject.draw();
+				if (gameObject.inViewOfCamera) {
+					if (gameObject.getLayer() == i) {
+						handledGameObjects.push(gameObject);
+						gameObject.draw();
+					}
+				}
+				else {
+					handledGameObjects.push(gameObject);
 				}
 			}
 		}
 
-		if (drawnObjects.length < this.gameObjects.length) {
+		if (handledGameObjects.length < this.gameObjects.length) {
 			for (let gameObject of this.gameObjects) {
-				if (drawnObjects.indexOf(gameObject) == -1) {
+				if (handledGameObjects.indexOf(gameObject) == -1) {
 					console.warn(
 						gameObject.constructor.name +
 						" GameObject was not drawn, did you set its layers properly?"

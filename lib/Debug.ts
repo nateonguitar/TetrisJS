@@ -90,7 +90,6 @@ class Debug {
 			let separator = '<tr><td colspan="2"><hr></td></tr>';
 
 			let fps = Utils.fps();
-
 			if (fps > this.maxFPSSoFar) {
 				this.maxFPSSoFar = fps;
 			}
@@ -123,6 +122,9 @@ class Debug {
 				fpsBarColor = "red";
 			}
 
+			let collidersTotal = GameManager.collidersTotal;
+			let collidersChecked = GameManager.collidersChecked;
+
 			let html = `
 				<tr>
 					<td colspan="2" class="debug-sub-header">Game</td>
@@ -130,6 +132,14 @@ class Debug {
 				<tr>
 					<td>${this.padEndNbsp('FPS:', padSizeOuter)}</td>
 					<td>${fpsToFixed} [<span style="color: ${fpsBarColor};">${fpsBar}</span>]</td>
+				</tr>
+				<tr>
+					<td>${this.padEndNbsp('Cols MtoM:', padSizeOuter)}</td>
+					<td>${collidersTotal}</td>
+				</tr>
+				<tr>
+					<td>${this.padEndNbsp('Cols MtoM Checked:', padSizeOuter)}</td>
+					<td>${collidersChecked}</td>
 				</tr>
 				<tr>
 					<td>${this.padEndNbsp('Game Objects:', padSizeOuter)}</td>
