@@ -13,11 +13,11 @@ class Debug {
 
 	private static debugWindowParentElement: any = null;
 
-	public static track(gameObject: GameObject): void {
+	public static trackGameObject(gameObject: GameObject): void {
 		this.trackedGameObjects.push(gameObject);
 	}
 
-	public static untrack(gameObject: GameObject): void {
+	public static untrackGameObject(gameObject: GameObject): void {
 		for (let i=this.trackedGameObjects.length-1; i>=0; i--) {
 			if (this.trackedGameObjects[i] == gameObject) {
 				this.trackedGameObjects.splice(i, 1);

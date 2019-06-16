@@ -86,7 +86,7 @@ class MarioLevelController extends GameObject {
 		super({layer: 0});
 		this.backBarrier = new BackBarrier();
 		this.player = new MarioPlayer();
-		Debug.track(this.player);
+		Debug.trackGameObject(this.player);
 		// Debug.track(this.backBarrier);
 		this.buildLevel();
 	}
