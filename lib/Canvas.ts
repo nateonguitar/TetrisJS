@@ -17,7 +17,10 @@ class Canvas {
 		let el = parentElement ? parentElement : document.body;
 		el.appendChild(this.canvas);
 
-		this.context = this.canvas.getContext("2d");
+		// 2d context alpha: Boolean that indicates if the canvas contains an alpha channel.
+		// If set to false, the browser now knows that the backdrop is always opaque,
+		// which can speed up drawing of transparent content and images.
+		this.context = this.canvas.getContext("2d", {alpha: false});
 		this.context.imageSmoothingEnabled = GameManager.options.imageAntiAliasing;
 		this.context.shadowBlur = 0;
 	}
