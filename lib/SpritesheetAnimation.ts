@@ -19,8 +19,8 @@ class SpritesheetAnimation {
 		this.imageSrc = params.imageSrc;
 		this.transforms = params.transforms;
 		this.msPerFrame = params.msPerFrame || 100;
-		this.loop = params.loop || true;
 		this.index = params.startIndex || 0;
+		this.loop = params.loop === undefined ? true : params.loop;
 	}
 
 	public update(): void {

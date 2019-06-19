@@ -10,6 +10,7 @@ class MarioGameTileHillLeftGreen extends MarioGameTile {
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [ new Transform(new Vector2(MarioGameTile.spriteSize.x*8, MarioGameTile.spriteSize.y*8), MarioGameTile.spriteSize), ],
 						msPerFrame: 10000,
+						loop: false
 					}),
 				},
 				startAnimationName: "idle"

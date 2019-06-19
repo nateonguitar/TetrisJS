@@ -10,6 +10,7 @@ class MarioGameTileCloudTopLeft extends MarioGameTile {
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [ new Transform(new Vector2(MarioGameTile.spriteSize.x*0, MarioGameTile.spriteSize.y*20), MarioGameTile.spriteSize), ],
 						msPerFrame: 10000,
+						loop: false
 					}),
 				},
 				startAnimationName: "idle"

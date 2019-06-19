@@ -161,7 +161,6 @@ class Input {
 			let clickedObjects: GameObject[] = GameManager.currentLevel.gameObjects.filter(obj => {
 				let size = obj.absoluteSize;
 				let pos = obj.absolutePosition.subtract(size.scale(0.5));
-				// if (obj.name == 'player') debugger;
 				if (
 					clickPos.x >= pos.x &&
 					clickPos.y >= pos.y &&

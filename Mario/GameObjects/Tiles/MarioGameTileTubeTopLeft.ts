@@ -10,6 +10,7 @@ class MarioGameTileTubeTopLeft extends MarioGameTile {
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [ new Transform(new Vector2(0, MarioGameTile.spriteSize.y * 10), MarioGameTile.spriteSize), ],
 						msPerFrame: 10000,
+						loop: false
 					}),
 				},
 				startAnimationName: "idle"
