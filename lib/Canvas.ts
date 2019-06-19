@@ -203,9 +203,6 @@ class Canvas {
 				absoluteSize.y
 			);
 		}
-		else {
-			console.log("fillRect rejected outside camera")
-		}
 	}
 	/** Handles camera placement, won't draw if outside visible rect */
 	public static fillGameObjectRect(gameObject:GameObject): void {
