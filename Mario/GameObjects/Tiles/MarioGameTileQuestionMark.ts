@@ -19,7 +19,10 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 					"idle": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [
-							new Transform(new Vector2(MarioGameTile.spriteSize.x * 24, 0), MarioGameTile.spriteSize),
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x * 24, 0),
+								size: MarioGameTile.spriteSize
+							}),
 						],
 						msPerFrame: 10000,
 						loop: false
@@ -27,16 +30,30 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 					"flash": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [
-							new Transform(new Vector2(MarioGameTile.spriteSize.x * 25, 0), MarioGameTile.spriteSize),
-							new Transform(new Vector2(MarioGameTile.spriteSize.x * 26, 0), MarioGameTile.spriteSize),
-							new Transform(new Vector2(MarioGameTile.spriteSize.x * 24, 0), MarioGameTile.spriteSize),
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x * 25, 0),
+								size: MarioGameTile.spriteSize
+							}),
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x * 26, 0),
+								size: MarioGameTile.spriteSize
+							}),
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x * 24, 0),
+								size: MarioGameTile.spriteSize
+							}),
 						],
 						msPerFrame: 200,
 						loop: false
 					}),
 					"spent": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
-						transforms: [ new Transform(new Vector2(MarioGameTile.spriteSize.x * 3, 0), MarioGameTile.spriteSize), ],
+						transforms: [
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x * 3, 0),
+								size: MarioGameTile.spriteSize
+							})
+						],
 						msPerFrame: 10000,
 						loop: false
 					}),

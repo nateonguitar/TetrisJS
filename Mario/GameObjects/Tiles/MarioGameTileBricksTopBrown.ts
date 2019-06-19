@@ -8,7 +8,12 @@ class MarioGameTileBricksTopBrown extends MarioGameTile {
 				spritesheetAnimations: {
 					"idle":	new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
-						transforms: [ new Transform(new Vector2(MarioGameTile.spriteSize.x, 0), MarioGameTile.spriteSize), ],
+						transforms: [
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x, 0),
+								size: MarioGameTile.spriteSize
+							})
+						],
 						msPerFrame: 10000,
 						loop: false
 					}),

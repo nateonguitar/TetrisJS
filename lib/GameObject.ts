@@ -5,7 +5,7 @@ class GameObject {
 
 	public children: Array<GameObject> = [];
 
-	public transform: Transform = new Transform();
+	public transform: Transform = new Transform({});
 	public drawTransform: boolean = false;
 	public drawTransformColor: string = null;
 
