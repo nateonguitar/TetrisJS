@@ -181,7 +181,6 @@ class MarioPlayer extends GameObject {
 			if (side == 'bottom') {
 				this.jumping = false;
 				this.velocity.y = 0;
-				this.velocity.y = 0;
 			}
 			if (side == 'top') {
 				this.velocity.y = 0;
