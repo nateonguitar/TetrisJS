@@ -21,7 +21,8 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 						transforms: [
 							new Transform(new Vector2(MarioGameTile.spriteSize.x * 24, 0), MarioGameTile.spriteSize),
 						],
-						msPerFrame: 10000
+						msPerFrame: 10000,
+						loop: false
 					}),
 					"flash": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
@@ -30,7 +31,8 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 							new Transform(new Vector2(MarioGameTile.spriteSize.x * 26, 0), MarioGameTile.spriteSize),
 							new Transform(new Vector2(MarioGameTile.spriteSize.x * 24, 0), MarioGameTile.spriteSize),
 						],
-						msPerFrame: 200
+						msPerFrame: 200,
+						loop: false
 					}),
 					"spent": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
