@@ -1,6 +1,16 @@
+interface SpritesheetAnimationSetParams {
+	spritesheetAnimations: { [k in string]: SpritesheetAnimation };
+	startAnimationName: string;
+}
+
 class SpritesheetAnimationSet {
 	public _currentAnimationName: string = null;
 	public spritesheetAnimations: { [k in string]: SpritesheetAnimation } = {};
+
+	constructor(params: SpritesheetAnimationSetParams) {
+		this.spritesheetAnimations = params.spritesheetAnimations;
+		this._currentAnimationName = params.startAnimationName;
+	}
 
 	public get currentAnimationName(): string {
 		return this._currentAnimationName;
@@ -10,11 +20,6 @@ class SpritesheetAnimationSet {
 		this._currentAnimationName = name;
 		// on swapping animations we should always start it over
 		this.spritesheetAnimations[this._currentAnimationName].index = 0;
-	}
-
-	constructor(spritesheetAnimations:{ [k in string]: SpritesheetAnimation }, startAnimationName:string) {
-		this.spritesheetAnimations = spritesheetAnimations;
-		this._currentAnimationName = startAnimationName;
 	}
 
 	public get imageSrc(): string {

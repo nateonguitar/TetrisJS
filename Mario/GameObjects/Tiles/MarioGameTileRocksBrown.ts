@@ -4,16 +4,16 @@ class MarioGameTileRocksBrown extends MarioGameTile {
 			hasCollider: true,
 			allowPassThrough: false,
 			breakFromBeneath: false,
-			spritesheetAnimationSet: new SpritesheetAnimationSet(
-				{
+			spritesheetAnimationSet: new SpritesheetAnimationSet({
+				spritesheetAnimations: {
 					"idle":	new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [ new Transform(new Vector2(0, 0), MarioGameTile.spriteSize), ],
 						msPerFrame: 10000,
 					}),
 				},
-				"idle" // start animation name
-			)
+				startAnimationName: "idle"
+			})
 		});
 	}
 }
