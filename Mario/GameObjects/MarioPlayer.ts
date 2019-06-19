@@ -16,37 +16,37 @@ class MarioPlayer extends GameObject {
 		this.currentAnimationName = 'idle';
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
-				"smallIdle": new SpritesheetAnimation(
-					'Images/SpriteSheet.png',
-					[
+				"smallIdle": new SpritesheetAnimation({
+					imageSrc: 'Images/SpriteSheet.png',
+					transforms: [
 						new Transform(new Vector2(216, 398), tileSize),
 					],
-					10000
-				),
-				"smallJump": new SpritesheetAnimation(
-					'Images/SpriteSheet.png',
-					[
+					msPerFrame: 10000
+				}),
+				"smallJump": new SpritesheetAnimation({
+					imageSrc: 'Images/SpriteSheet.png',
+					transforms: [
 						new Transform(new Vector2(366, 398), tileSize),
 					],
-					10000
-				),
-				"smallRun": new SpritesheetAnimation(
-					'Images/SpriteSheet.png',
-					[
+					msPerFrame: 10000
+				}),
+				"smallRun": new SpritesheetAnimation({
+					imageSrc: 'Images/SpriteSheet.png',
+					transforms: [
 						new Transform(new Vector2(246, 398), tileSize),
 						new Transform(new Vector2(276, 398), tileSize),
 						new Transform(new Vector2(306, 398), tileSize),
 						new Transform(new Vector2(276, 398), tileSize),
 					],
-					75
-				),
-				"smallSkid": new SpritesheetAnimation(
-					'Images/SpriteSheet.png',
-					[
+					msPerFrame: 75
+				}),
+				"smallSkid": new SpritesheetAnimation({
+					imageSrc: 'Images/SpriteSheet.png',
+					transforms: [
 						new Transform(new Vector2(336, 398), tileSize),
 					],
-					10000
-				),
+					msPerFrame: 10000
+				}),
 			},
 			'smallIdle' // start animation name
 		);
@@ -180,7 +180,6 @@ class MarioPlayer extends GameObject {
 			}
 			if (side == 'bottom') {
 				this.jumping = false;
-				this.velocity.y = 0;
 				this.velocity.y = 0;
 			}
 			if (side == 'top') {

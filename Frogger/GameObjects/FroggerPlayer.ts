@@ -18,15 +18,15 @@ class FroggerPlayer extends GameObject {
 
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
-				"idle":	new SpritesheetAnimation(
-					'Images/FroggerSpritesheet.png',
-					[
-						new Transform(new Vector2(0, 0), this.spriteSize),
-					],
-				),
-				"jumping":	new SpritesheetAnimation(
-					'Images/FroggerSpritesheet.png',
-					[
+				"idle":	new SpritesheetAnimation({
+					imageSrc: 'Images/FroggerSpritesheet.png',
+					transforms: [ new Transform(new Vector2(0, 0), this.spriteSize) ],
+					msPerFrame: 10000,
+					loop: false
+				}),
+				"jumping":	new SpritesheetAnimation({
+					imageSrc: 'Images/FroggerSpritesheet.png',
+					transforms: [
 						new Transform(new Vector2(0,                   0), this.spriteSize),
 						new Transform(new Vector2(this.spriteSize.x,   0), this.spriteSize),
 						new Transform(new Vector2(this.spriteSize.x*2, 0), this.spriteSize),
@@ -34,8 +34,9 @@ class FroggerPlayer extends GameObject {
 						new Transform(new Vector2(this.spriteSize.x*4, 0), this.spriteSize),
 						new Transform(new Vector2(this.spriteSize.x*5, 0), this.spriteSize),
 					],
-					75
-				),
+					msPerFrame: 75,
+					loop: false
+				}),
 			},
 			"idle" // start animation name
 		)

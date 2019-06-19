@@ -10,25 +10,25 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 		this.currentAnimationName = "walkDown";
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
-				"walkDown":	new SpritesheetAnimation(
-					'Images/SoldierGreenWalkDownSpritesheet.png',
-					[
+				"walkDown":	new SpritesheetAnimation({
+					imageSrc: 'Images/SoldierGreenWalkDownSpritesheet.png',
+					transforms: [
 						new Transform(new Vector2(0, 0  ), new Vector2(22, 38)),
 						new Transform(new Vector2(0, 38 ), new Vector2(22, 38)),
 						new Transform(new Vector2(0, 76 ), new Vector2(22, 38)),
 						new Transform(new Vector2(0, 114), new Vector2(22, 38)),
 					],
-					200
-				),
-				"walkSide":	new SpritesheetAnimation(
-					'Images/SoldierGreenWalkSideSpritesheet.png',
-					[
+					msPerFrame: 200
+				}),
+				"walkSide":	new SpritesheetAnimation({
+					imageSrc: 'Images/SoldierGreenWalkSideSpritesheet.png',
+					transforms: [
 						new Transform(new Vector2(0, 0 ), new Vector2(31, 27)),
 						new Transform(new Vector2(0, 27), new Vector2(31, 27)),
 						new Transform(new Vector2(0, 54), new Vector2(31, 27)),
 					],
-					200
-				)
+					msPerFrame: 200
+				})
 			},
 			this.currentAnimationName // start animation name
 		);

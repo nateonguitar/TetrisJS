@@ -5,11 +5,11 @@ class FroggerLogSmall extends FroggerLandingObject {
 		let spriteSize = new Vector2(183, 57);
 		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
 			{
-				"idle":	new SpritesheetAnimation(
-					'Images/FroggerSpritesheet.png',
-					[ new Transform(spriteStartPoint, spriteSize), ],
-					10000,
-				),
+				"idle":	new SpritesheetAnimation({
+					imageSrc: 'Images/FroggerSpritesheet.png',
+					transforms: [ new Transform(spriteStartPoint, spriteSize), ],
+					msPerFrame: 10000,
+				}),
 			},
 			"idle" // start animation name
 		);

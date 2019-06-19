@@ -1,19 +1,26 @@
+interface SpritesheetAnimationParams {
+	transforms: Transform[];
+	imageSrc: string;
+	startIndex?: number;
+	msPerFrame?: number;
+	loop?: boolean;
+}
+
 class SpritesheetAnimation {
 	public transforms: Transform[] = [];
 	public imageSrc: string;
-	public index: number = 0;
+	public index: number;
+	public loop: boolean;
 
 	public msPerFrame: number = 100;
 	private msSinceLastIndexChange: number = 0;
 
-	constructor(
-		imageSrc: string,
-		transforms: Transform[],
-		msPerFrame: number = 100
-	) {
-		this.imageSrc = imageSrc;
-		this.transforms = transforms;
-		this.msPerFrame = msPerFrame;
+	constructor(params: SpritesheetAnimationParams) {
+		this.imageSrc = params.imageSrc;
+		this.transforms = params.transforms;
+		this.msPerFrame = params.msPerFrame || 100;
+		this.loop = params.loop || true;
+		this.index = params.startIndex || 0;
 	}
 
 	public update(): void {
@@ -24,7 +31,7 @@ class SpritesheetAnimation {
 			// now msSinceLastIndex == 5 so we don't lose some time from update latency
 			this.index++;
 			if (this.index >= this.transforms.length) {
-				this.index = 0;
+				this.index = this.loop ? 0 : this.transforms.length - 1;
 			}
 		}
 	}
