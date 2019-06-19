@@ -16,8 +16,8 @@ class FroggerPlayer extends GameObject {
 			name: null
 		});
 
-		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
-			{
+		this.spritesheetAnimationSet = new SpritesheetAnimationSet({
+			spritesheetAnimations: {
 				"idle":	new SpritesheetAnimation({
 					imageSrc: 'Images/FroggerSpritesheet.png',
 					transforms: [ new Transform(new Vector2(0, 0), this.spriteSize) ],
@@ -38,8 +38,8 @@ class FroggerPlayer extends GameObject {
 					loop: false
 				}),
 			},
-			"idle" // start animation name
-		)
+			startAnimationName: "idle"
+		});
 
 		this.collider = new RectCollider({
 			position: new Vector2(0, 0.1),

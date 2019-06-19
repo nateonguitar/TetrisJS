@@ -8,8 +8,8 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 		this.boundarySize = boundarySize.clone();
 
 		this.currentAnimationName = "walkDown";
-		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
-			{
+		this.spritesheetAnimationSet = new SpritesheetAnimationSet({
+			spritesheetAnimations: {
 				"walkDown":	new SpritesheetAnimation({
 					imageSrc: 'Images/SoldierGreenWalkDownSpritesheet.png',
 					transforms: [
@@ -30,8 +30,8 @@ class ZeldaSoldierGreen extends ZeldaSoldier {
 					msPerFrame: 200
 				})
 			},
-			this.currentAnimationName // start animation name
-		);
+			startAnimationName: this.currentAnimationName
+		});
 
 		Input.registerMouseDown(this, this.mousedown);
 		Input.registerMouseUp(this, this.mouseup);

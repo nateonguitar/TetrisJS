@@ -14,8 +14,8 @@ class MarioPlayer extends GameObject {
 		let tileSize = new Vector2(17, 16);
 
 		this.currentAnimationName = 'idle';
-		this.spritesheetAnimationSet = new SpritesheetAnimationSet(
-			{
+		this.spritesheetAnimationSet = new SpritesheetAnimationSet({
+			spritesheetAnimations: {
 				"smallIdle": new SpritesheetAnimation({
 					imageSrc: 'Images/SpriteSheet.png',
 					transforms: [
@@ -48,8 +48,8 @@ class MarioPlayer extends GameObject {
 					msPerFrame: 10000
 				}),
 			},
-			'smallIdle' // start animation name
-		);
+			startAnimationName: 'smallIdle'
+		});
 
 		this.transform.position = this.startPosition.clone();
 		this.setDefaultCollider();

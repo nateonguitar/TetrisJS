@@ -14,8 +14,8 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 			hasCollider: true,
 			allowPassThrough: false,
 			breakFromBeneath: false,
-			spritesheetAnimationSet: new SpritesheetAnimationSet(
-				{
+			spritesheetAnimationSet: new SpritesheetAnimationSet({
+				spritesheetAnimations: {
 					"idle": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
 						transforms: [
@@ -39,8 +39,8 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 						loop: false
 					}),
 				},
-				"idle" // start animation name
-			)
+				startAnimationName: "idle"
+			})
 		});
 		this.idleStartTime = Time.time;
 	}
