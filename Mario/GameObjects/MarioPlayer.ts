@@ -20,31 +20,31 @@ class MarioPlayer extends GameObject {
 				"smallIdle": new SpritesheetAnimation({
 					imageSrc: 'Images/SpriteSheet.png',
 					transforms: [
-						new Transform(new Vector2(216, 398), tileSize),
+						new Transform({ position: new Vector2(216, 398), size: tileSize }),
 					],
 					msPerFrame: 10000
 				}),
 				"smallJump": new SpritesheetAnimation({
 					imageSrc: 'Images/SpriteSheet.png',
 					transforms: [
-						new Transform(new Vector2(366, 398), tileSize),
+						new Transform({ position: new Vector2(366, 398), size: tileSize }),
 					],
 					msPerFrame: 10000
 				}),
 				"smallRun": new SpritesheetAnimation({
 					imageSrc: 'Images/SpriteSheet.png',
 					transforms: [
-						new Transform(new Vector2(246, 398), tileSize),
-						new Transform(new Vector2(276, 398), tileSize),
-						new Transform(new Vector2(306, 398), tileSize),
-						new Transform(new Vector2(276, 398), tileSize),
+						new Transform({ position: new Vector2(246, 398), size: tileSize }),
+						new Transform({ position: new Vector2(276, 398), size: tileSize }),
+						new Transform({ position: new Vector2(306, 398), size: tileSize }),
+						new Transform({ position: new Vector2(276, 398), size: tileSize }),
 					],
 					msPerFrame: 75
 				}),
 				"smallSkid": new SpritesheetAnimation({
 					imageSrc: 'Images/SpriteSheet.png',
 					transforms: [
-						new Transform(new Vector2(336, 398), tileSize),
+						new Transform({ position: new Vector2(336, 398), size: tileSize }),
 					],
 					msPerFrame: 10000
 				}),

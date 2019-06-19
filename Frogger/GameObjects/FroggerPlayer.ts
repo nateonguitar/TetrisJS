@@ -20,19 +20,21 @@ class FroggerPlayer extends GameObject {
 			spritesheetAnimations: {
 				"idle":	new SpritesheetAnimation({
 					imageSrc: 'Images/FroggerSpritesheet.png',
-					transforms: [ new Transform(new Vector2(0, 0), this.spriteSize) ],
+					transforms: [
+						new Transform({ position: new Vector2(0, 0), size: this.spriteSize })
+					],
 					msPerFrame: 10000,
 					loop: false
 				}),
 				"jumping":	new SpritesheetAnimation({
 					imageSrc: 'Images/FroggerSpritesheet.png',
 					transforms: [
-						new Transform(new Vector2(this.spriteSize.x,   0), this.spriteSize),
-						new Transform(new Vector2(this.spriteSize.x*2, 0), this.spriteSize),
-						new Transform(new Vector2(this.spriteSize.x*3, 0), this.spriteSize),
-						new Transform(new Vector2(this.spriteSize.x*4, 0), this.spriteSize),
-						new Transform(new Vector2(this.spriteSize.x*5, 0), this.spriteSize),
-						new Transform(new Vector2(0,                   0), this.spriteSize),
+						new Transform({ position: new Vector2(this.spriteSize.x,   0), size: this.spriteSize }),
+						new Transform({ position: new Vector2(this.spriteSize.x*2, 0), size: this.spriteSize }),
+						new Transform({ position: new Vector2(this.spriteSize.x*3, 0), size: this.spriteSize }),
+						new Transform({ position: new Vector2(this.spriteSize.x*4, 0), size: this.spriteSize }),
+						new Transform({ position: new Vector2(this.spriteSize.x*5, 0), size: this.spriteSize }),
+						new Transform({ position: new Vector2(0,                   0), size: this.spriteSize }),
 					],
 					msPerFrame: 75,
 					loop: false

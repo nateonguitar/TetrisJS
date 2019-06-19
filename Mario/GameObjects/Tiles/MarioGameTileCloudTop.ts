@@ -8,7 +8,12 @@ class MarioGameTileCloudTop extends MarioGameTile {
 				spritesheetAnimations: {
 					"idle":	new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
-						transforms: [ new Transform(new Vector2(MarioGameTile.spriteSize.x*1, MarioGameTile.spriteSize.y*20), MarioGameTile.spriteSize), ],
+						transforms: [
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x*1, MarioGameTile.spriteSize.y*20),
+								size: MarioGameTile.spriteSize
+							})
+						],
 						msPerFrame: 10000,
 						loop: false,
 					}),

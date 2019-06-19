@@ -7,7 +7,9 @@ class FroggerLogSmall extends FroggerLandingObject {
 			spritesheetAnimations: {
 				"idle":	new SpritesheetAnimation({
 					imageSrc: 'Images/FroggerSpritesheet.png',
-					transforms: [ new Transform(spriteStartPoint, spriteSize), ],
+					transforms: [
+						new Transform({ position: spriteStartPoint, size: spriteSize })
+					],
 					msPerFrame: 10000,
 					loop: false
 				}),

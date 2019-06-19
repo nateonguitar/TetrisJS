@@ -8,7 +8,12 @@ class MarioGameTileTubeTopRight extends MarioGameTile {
 				spritesheetAnimations: {
 					"idle": new SpritesheetAnimation({
 						imageSrc: MarioGameTile.spriteSheet,
-						transforms: [ new Transform(new Vector2(MarioGameTile.spriteSize.x, MarioGameTile.spriteSize.y * 10), MarioGameTile.spriteSize), ],
+						transforms: [
+							new Transform({
+								position: new Vector2(MarioGameTile.spriteSize.x, MarioGameTile.spriteSize.y * 10),
+								size: MarioGameTile.spriteSize
+							}),
+						],
 						msPerFrame: 10000,
 						loop: false
 					}),
