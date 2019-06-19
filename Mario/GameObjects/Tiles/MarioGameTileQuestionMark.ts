@@ -1,4 +1,7 @@
 class MarioGameTileQuestionMark extends MarioGameTile {
+
+
+
 	constructor() {
 		super({
 			hasCollider: true,
@@ -6,16 +9,26 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 			breakFromBeneath: false,
 			spritesheetAnimationSet: new SpritesheetAnimationSet(
 				{
-					"idle": new SpritesheetAnimation(
-						MarioGameTile.spriteSheet,
-						[ new Transform(new Vector2(MarioGameTile.spriteSize.x * 24, 0), MarioGameTile.spriteSize), ],
-						10000,
-					),
-					"spent": new SpritesheetAnimation(
-						MarioGameTile.spriteSheet,
-						[ new Transform(new Vector2(0, 0), MarioGameTile.spriteSize), ],
-						10000,
-					),
+					"idle": new SpritesheetAnimation({
+						imageSrc: MarioGameTile.spriteSheet,
+						transforms: [
+							new Transform(new Vector2(MarioGameTile.spriteSize.x * 24, 0), MarioGameTile.spriteSize),
+						],
+						msPerFrame: 10000
+					}),
+					"flash": new SpritesheetAnimation({
+						imageSrc: MarioGameTile.spriteSheet,
+						transforms: [
+							new Transform(new Vector2(MarioGameTile.spriteSize.x * 25, 0), MarioGameTile.spriteSize),
+							new Transform(new Vector2(MarioGameTile.spriteSize.x * 26, 0), MarioGameTile.spriteSize),
+						],
+						msPerFrame: 200
+					}),
+					"spent": new SpritesheetAnimation({
+						imageSrc: MarioGameTile.spriteSheet,
+						transforms: [ new Transform(new Vector2(0, 0), MarioGameTile.spriteSize), ],
+						msPerFrame: 10000,
+					}),
 				},
 				"idle" // start animation name
 			)
