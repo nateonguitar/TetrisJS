@@ -4,6 +4,7 @@ class MarioPlayer extends GameObject {
 	public velocity: Vector2 = Vector2.zero;
 	public velocityChange: number = 0.005;
 	private startPosition = new Vector2(2, 13);
+	private allowedToJump: boolean = true;
 	private jumping = false;
 	private skidding = false;
 	private currentAnimationName = null;
@@ -125,7 +126,7 @@ class MarioPlayer extends GameObject {
 	}
 
 	private handleMovement(): void {
-		if (Input.keys(Keys.Space)) {
+		if (Input.keys(Keys.Space) && this.allowedToJump) {
 			this.velocity.y = -0.15;
 			this.jumping = true;
 		}
@@ -180,10 +181,12 @@ class MarioPlayer extends GameObject {
 			}
 			if (side == 'bottom') {
 				this.jumping = false;
+				this.allowedToJump = true;
 				this.velocity.y = 0;
 			}
 			if (side == 'top') {
 				this.velocity.y = 0;
+				this.allowedToJump = false;
 				other.onHitFromBeneath();
 			}
 		}
