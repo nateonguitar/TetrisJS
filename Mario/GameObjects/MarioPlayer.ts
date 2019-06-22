@@ -134,14 +134,17 @@ class MarioPlayer extends GameObject {
 		if (Math.abs(this.velocity.x) > this.maxVelocity.x * 0.45 ) {
 			speed *= (buttons.B) ? 2 : 1;
 		}
+		console.log(speed);
 		this.velocity.x += speed;
-		if (this.velocity.x < -this.maxVelocity.x) {
-			this.velocity.x = -this.maxVelocity.x;
+		let max = (buttons.B ? this.maxVelocity.x : this.maxVelocity.x * 0.75);
+		if (this.velocity.x < -max) {
+			this.velocity.x = -max;
 		}
-		if (this.velocity.x > this.maxVelocity.x) {
-			this.velocity.x = this.maxVelocity.x;
+		if (this.velocity.x > max) {
+			this.velocity.x = max;
 		}
 
+		// reversing behavior
 		if (buttons.Right) {
 			if (this.velocity.x < 0) {
 				this.velocity.x += this.velocityChange * (buttons.B ? 1 : 0.5);
@@ -151,6 +154,7 @@ class MarioPlayer extends GameObject {
 				this.skidding = false;
 			}
 		}
+		// reversing behavior
 		else if (buttons.Left) {
 			if (this.velocity.x > 0) {
 				this.velocity.x -= this.velocityChange * (buttons.B ? 2 : 1);
@@ -160,8 +164,8 @@ class MarioPlayer extends GameObject {
 				this.skidding = false;
 			}
 		}
+		// bring velocity back down to zero
 		else {
-			// bring velocity back down to zero
 			if (this.velocity.x < 0) {
 				this.velocity.x += this.velocityChange * 2;
 			}
