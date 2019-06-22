@@ -130,13 +130,14 @@ class MarioPlayer extends GameObject {
 		if (buttons.Left) {
 			speed *= -1;
 		}
-
+		// if moving fast enough, B button should make you move even faster
 		if (Math.abs(this.velocity.x) > this.maxVelocity.x * 0.45 ) {
 			speed *= (buttons.B) ? 2 : 1;
 		}
-		console.log(speed);
+		// apply speed
 		this.velocity.x += speed;
 		let max = (buttons.B ? this.maxVelocity.x : this.maxVelocity.x * 0.75);
+		// limit speed
 		if (this.velocity.x < -max) {
 			this.velocity.x = -max;
 		}
