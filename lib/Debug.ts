@@ -1,6 +1,6 @@
 interface DebugTrackValue {
 	label: string,
-	value: string
+	value: any
 }
 
 class Debug {
@@ -159,7 +159,7 @@ class Debug {
 					trackedHTML += `
 					<tr>
 						<td>${this.padEndNbsp(tracked.label, padSizeOuter)}</td>
-						<td>${tracked.value}</td>
+						<td>${tracked.value.toString()}</td>
 					</tr>
 					`
 				}

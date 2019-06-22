@@ -6,7 +6,6 @@ enum Keys {
 	AltRight,
 	ShiftLeft,
 	ShiftRight,
-	Backquote,
 	Escape,
 	Space,
 	ArrowUp,
@@ -61,12 +60,23 @@ enum Keys {
 	F10,
 	F11,
 	F12,
+	Backquote,
+	Slash,
+	Period,
+	Comma,
+	Quote,
+	Semicolon,
+	BracketRight,
+	BracketLeft,
+	Backslash,
+	Backspace,
+	Equals,
+	Minus,
 }
 
 class Input {
 	private static _KEYS: {[key:string]: Keys} = {
 		'Tab': Keys.Tab,
-		'Backquote': Keys.Backquote,
 		'ControlLeft': Keys.ControlLeft,
 		'ControlRight': Keys.ControlRight,
 		'AltLeft': Keys.AltLeft,
@@ -127,6 +137,18 @@ class Input {
 		'F10': Keys.F10,
 		'F11': Keys.F11,
 		'F12': Keys.F12,
+		'Backquote': Keys.Backquote,
+		'Slash': Keys.Slash,
+		'Period': Keys.Period,
+		'Comma': Keys.Comma,
+		'Quote': Keys.Quote,
+		'Semicolon': Keys.Semicolon,
+		'BracketRight': Keys.BracketRight,
+		'BracketLeft': Keys.BracketLeft,
+		'Backslash': Keys.Backslash,
+		'Backspace': Keys.Backspace,
+		'Equals': Keys.Equals,
+		'Minus': Keys.Minus,
 	};
 
 	private static _keyDowns: { [key:number]:boolean } = {}
