@@ -1,3 +1,12 @@
+interface Buttons {
+	A: boolean,
+	B: boolean,
+	Left: boolean,
+	Right: boolean,
+	Up: boolean,
+	Down: boolean
+}
+
 class MarioPlayer extends GameObject {
 
 	public maxVelocity: Vector2 = new Vector2(0.2, 0.2);
@@ -13,6 +22,14 @@ class MarioPlayer extends GameObject {
 	private pressedSpace: boolean = false;
 	private velocityAtJumpTime = 0;
 	private bumpedTop = false;
+	private buttons: Buttons = {
+		A: false,
+		B: false,
+		Left: false,
+		Right: false,
+		Up: false,
+		Down: false
+	}
 
 	constructor() {
 		super({	layer: 2 });
@@ -66,6 +83,7 @@ class MarioPlayer extends GameObject {
 	}
 
 	update(): void {
+		this.detectButtons();
 		this.handleMovement();
 		this.trackValues();
 		this.handleSpritesheetSwapping();
@@ -89,18 +107,24 @@ class MarioPlayer extends GameObject {
 		this.handleDeathDetection();
 	}
 
-	private handleMovement(): void {
+	private detectButtons(): void {
 		// key mappings
-		let buttons = {
-			A: Input.keys(Keys.Slash) || Input.keys(Keys.Space),
-			B: Input.keys(Keys.Period) || Input.keys(Keys.ShiftLeft),
-			Left: Input.keys(Keys.KeyA) || Input.keys(Keys.ArrowLeft),
-			Right: Input.keys(Keys.KeyD) || Input.keys(Keys.ArrowRight)
+		this.buttons = {
+			//     Dpad right hand         || Dpad left hand
+			A:     Input.keys(Keys.Slash)  || Input.keys(Keys.Space),
+			B:     Input.keys(Keys.Period) || Input.keys(Keys.ShiftLeft),
+			Left:  Input.keys(Keys.KeyA)   || Input.keys(Keys.ArrowLeft),
+			Right: Input.keys(Keys.KeyD)   || Input.keys(Keys.ArrowRight),
+			Up:    Input.keys(Keys.KeyW)   || Input.keys(Keys.ArrowUp),
+			Down:  Input.keys(Keys.KeyS)   || Input.keys(Keys.ArrowDown),
 		}
+	}
+
+	private handleMovement(): void {
 
 		////////////////////////////////////
 		// JUMPING
-		if (buttons.A) {
+		if (this.buttons.A) {
 			if (this.allowedToJump && !this.pressedSpace) {
 				this.pressedSpace = true;
 				this.jumpStartTime = Time.time;
@@ -112,7 +136,7 @@ class MarioPlayer extends GameObject {
 				this.jumping = true;
 			}
 		}
-		if (!buttons.A) {
+		if (!this.buttons.A) {
 			this.pressedSpace = false;
 		}
 
@@ -126,17 +150,17 @@ class MarioPlayer extends GameObject {
 
 		////////////////////////////////////
 		// LEFT AND RIGHT MOVEMENT
-		let speed = buttons.Left || buttons.Right ? this.velocityChange : 0;
-		if (buttons.Left) {
+		let speed = this.buttons.Left || this.buttons.Right ? this.velocityChange : 0;
+		if (this.buttons.Left) {
 			speed *= -1;
 		}
 		// if moving fast enough, B button should make you move even faster
 		if (Math.abs(this.velocity.x) > this.maxVelocity.x * 0.45 ) {
-			speed *= (buttons.B) ? 2 : 1;
+			speed *= (this.buttons.B) ? 2 : 1;
 		}
 		// apply speed
 		this.velocity.x += speed;
-		let max = (buttons.B ? this.maxVelocity.x : this.maxVelocity.x * 0.75);
+		let max = (this.buttons.B ? this.maxVelocity.x : this.maxVelocity.x * 0.75);
 		// limit speed
 		if (this.velocity.x < -max) {
 			this.velocity.x = -max;
@@ -146,9 +170,9 @@ class MarioPlayer extends GameObject {
 		}
 
 		// reversing behavior
-		if (buttons.Right) {
+		if (this.buttons.Right) {
 			if (this.velocity.x < 0) {
-				this.velocity.x += this.velocityChange * (buttons.B ? 1 : 0.5);
+				this.velocity.x += this.velocityChange * (this.buttons.B ? 1 : 0.5);
 				this.skidding = true;
 			}
 			else {
@@ -156,9 +180,9 @@ class MarioPlayer extends GameObject {
 			}
 		}
 		// reversing behavior
-		else if (buttons.Left) {
+		else if (this.buttons.Left) {
 			if (this.velocity.x > 0) {
-				this.velocity.x -= this.velocityChange * (buttons.B ? 2 : 1);
+				this.velocity.x -= this.velocityChange * (this.buttons.B ? 2 : 1);
 				this.skidding = true;
 			}
 			else {
