@@ -57,6 +57,14 @@ class MarioPlayer extends GameObject {
 	}
 
 	update(): void {
+		// Mario isn't allowed to jump if he's falling.
+		// This isn't for his downward arc, this is for falling off of a ledge.
+		if (this.velocity.y > 0.125) {
+			this.allowedToJump = false;
+			this.jumping = true;
+			this.setAnimation('jump');
+		}
+
 		this.handleMovement();
 		this.handleSpritesheetSwapping();
 
@@ -75,6 +83,7 @@ class MarioPlayer extends GameObject {
 		if (this.velocity.y >= this.maxVelocity.y) {
 			this.velocity.y = this.maxVelocity.y;
 		}
+
 
 		this.handleDeathDetection();
 	}
