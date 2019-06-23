@@ -1,44 +1,81 @@
+interface GameObjectParams {
+	collider?: Collider;
+	colliderColor?: string;
+
+	imageBounds?: Transform;
+	imageSrc?: string;
+	spritesheetAnimationSet?: SpritesheetAnimationSet;
+
+	layer?: number;
+
+	neverSkipUpdate?: boolean;
+
+	name?: string;
+
+	shape?: string;
+	shapeStrokeStyle?: string;
+	shapeFillStyle?: string;
+
+	transform?: Transform;
+	showTransform?: boolean;
+
+	/** text that will be drawn over the game object */
+	text?: string;
+	textFont?: string;
+	textColor?: string;
+	textAlign?: TextAlignType;
+	textBold?: boolean;
+	textItalic?: boolean;
+}
+
 class GameObject {
+	///////////
+	// Params
+	///////////
 	public layer: number = 0;
 	public neverSkipUpdate: boolean = false;
-	public inViewOfCamera: boolean = false;
-
-	public children: Array<GameObject> = [];
-
-	public transform: Transform = new Transform({});
-	public drawTransform: boolean = false;
-	public drawTransformColor: string = null;
-
-	public currentCollidingObjects: GameObject[] = [];
-
 	public name: string = '';
-
-	/** basic shape fill color */
-	public fillStyle: string = null;
-
-	/** basic shape stroke color */
-	public strokeStyle: string = null;
-
-	public shape: string = null;
-
+	/** for single image objects, if this is set it won't use animations */
+	public imageSrc: string = null;
+	/** for single image objects, if this is set it won't use animations. Set this to draw part of the image */
+	public imageBounds: Transform = null;
+	public spritesheetAnimationSet: SpritesheetAnimationSet = null;
 	/** Can be any type of collider, Collider is the parent class each collider type inherets from */
 	public collider: Collider = null;
-	public drawColliderColor: string = null;
+	/** For debugging: transform color will be red if not specified */
+	public colliderColor: string = null;
+	public transform: Transform = new Transform({});
+	public currentCollidingObjects: GameObject[] = [];
+	public text: string = null;
+	public textFont: string = null;
+	public textColor: string = null;
+	public textAlign: TextAlignType = null;
+	public textBold: boolean = false;
+	public textItalic: boolean = false;
+
+	/** For debugging */
+	public showTransform: boolean = false;
+	/** For debugging: transform color will be red if not specified */
+	public transformColor: string = null;
+
+	public shape: string = null;
+	/** basic shape fill color */
+	public shapeFillStyle: string = null;
+	/** basic shape stroke color */
+	public shapeStrokeStyle: string = null;
+
+	//////////////
+	// Not Params
+	//////////////
 
 	/* Will be an instance of `Image` but TypeScript doesn't like to type anything with Image. **/
 	public image: any = null;
+	public inViewOfCamera: boolean = false;
+	public children: Array<GameObject> = [];
 
-	/** for single image objects, if this is set it won't use animations */
-	protected imageSrc: string = null;
-	/** for single image objects, if this is set it won't use animations. Set this to draw part of the image */
-	protected spritesheetBounds: { x:number, y:number, width:number, height:number } = null;
-
-	protected spritesheetAnimationSet: SpritesheetAnimationSet = null;
-
-	constructor(options: object = {}) {
-
-		for (let key in options) {
-			this[key] = options[key];
+	constructor(params: GameObjectParams = <GameObjectParams>{}) {
+		for (let key in params) {
+			this[key] = params[key];
 		}
 
 		if (this.imageSrc) {
@@ -140,19 +177,18 @@ class GameObject {
 		}
 	}
 
-	public get absoluteSize(): Vector2 { return this.transform.size.scale(GameManager.unitSize); }
-	public get absolutePosition(): Vector2 { return this.transform.position.scale(GameManager.unitSize); }
+	public get absoluteSize(): Vector2 { return this.transform.size.scale(this.unitSize); }
+	public get absolutePosition(): Vector2 { return this.transform.position.scale(this.unitSize); }
+
+	/** convenience method to get GameManager.unitSize (which is a convenience for getting the current level's unit size) */
 	public get unitSize(): number { return GameManager.unitSize; }
 
-	public onCollisionEnter(other: GameObject): void {
-		// console.warn("Detected a collision with this => " + this.constructor.name + " and other => " + other.constructor.name);
-	}
+	/** Override this */
+	public onCollisionEnter(other: GameObject): void { }
 
-	public onCollisionLeave(other: GameObject): void {
-		// console.warn("Collision leave with this => " + this.constructor.name + " and other => " + other.constructor.name);
-	}
+	/** Override this */
+	public onCollisionLeave(other: GameObject): void { }
 
-	public onNoPassthroughTouch(other: GameObject, side: string): void {
-		// console.warn("Collision !allowPassThrough with this => " + this.constructor.name + " and other => " + other.constructor.name);
-	}
+	/** Override this */
+	public onNoPassthroughTouch(other: GameObject, side: string): void { }
 }

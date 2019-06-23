@@ -160,9 +160,11 @@ class Input {
 	public static init(): void {
 		document.onkeydown = Input.getKeyDown;
 		document.onkeyup = Input.getKeyUp;
-		Canvas.canvas.addEventListener('mousedown', this.mousedown);
-		Canvas.canvas.addEventListener('mouseup', this.mouseup);
-		Canvas.canvas.addEventListener('mousemove', this.mousemove);
+		for (let c of [Canvas.gameCanvas]) {
+			c.addEventListener('mousedown', this.mousedown);
+			c.addEventListener('mouseup', this.mouseup);
+			c.addEventListener('mousemove', this.mousemove);
+		}
 	}
 
 	private static mousedown(event:MouseEvent): void {

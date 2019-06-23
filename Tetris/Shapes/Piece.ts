@@ -23,12 +23,12 @@ class Piece extends GameObject {
 			for (let j = 0; j < this.arrangement[i].length; j++) {
 				if (!this.arrangement[i][j]) continue;
 				let t = this.transform;
-				let s = t.size;
-				let p = t.position.clone();
-				p.x += j;
-				p.y += i;
-				Canvas.strokeRect(p, s, this.outerColor);
-				Canvas.fillRect(p, s, this.innerColor);
+				let s = t.size.scale(this.unitSize);
+				let p = t.position.scale(this.unitSize);
+				p.x += j * this.unitSize;
+				p.y += i * this.unitSize;
+				Canvas.strokeRect(p, s, this.outerColor, true);
+				Canvas.fillRect(p, s, this.innerColor, true);
 			}
 		}
 	}

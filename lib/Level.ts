@@ -8,6 +8,7 @@ interface LevelParams {
 	 **/
 	extraViewportPadding?: Vector2,
 	unitSize?: number,
+	hudUnitSize?: number,
 	backgroundColor?: string,
 }
 
@@ -29,6 +30,7 @@ class Level {
 	public extraViewportPadding: Vector2 = null;
 
 	public unitSize: number = 50;
+	public hudUnitSize: number = 50;
 	public backgroundColor: string = "#000000";
 
 	constructor(params:LevelParams) {
@@ -60,6 +62,7 @@ class Level {
 		this.updatesSkipped = 0;
 		for (let gameObject of this.gameObjects) {
 			gameObject.inViewOfCamera = camera.inViewOfGameObject(gameObject, this.extraViewportPadding);
+			// HudGameObjects are always "inViewOfCamera"
 			if (gameObject.neverSkipUpdate || gameObject.inViewOfCamera) {
 				gameObject.update();
 			}
@@ -72,19 +75,34 @@ class Level {
 	public draw(): void {
 		let handledGameObjects: GameObject[] = [];
 
-		// loop through our layers
-		for (let i=0; i<GameManager.options.layers; i++) {
-			// draw gameobjects on that layer
-			for (let j=0; j<this.gameObjects.length; j++) {
-				let gameObject = this.gameObjects[j];
-				if (gameObject.inViewOfCamera) {
-					if (gameObject.getLayer() == i) {
-						handledGameObjects.push(gameObject);
-						gameObject.draw();
+		// split HudGameObjects out so we draw them last
+		let gameObjects: GameObject[] = [];
+		let hudGameObjects: HudGameObject[] = [];
+		for (let o of this.gameObjects) {
+			if (o instanceof HudGameObject) {
+				hudGameObjects.push(o);
+			}
+			else {
+				gameObjects.push(o);
+			}
+		}
+
+		// draw in the appropriate order
+		for (let objs of [gameObjects, hudGameObjects]) {
+			// loop through our layers
+			for (let i=0; i<GameManager.options.layers; i++) {
+				// draw gameobjects on that layer
+				for (let j=0; j<objs.length; j++) {
+					let obj = objs[j];
+					if (obj.inViewOfCamera) {
+						if (obj.getLayer() == i) {
+							handledGameObjects.push(obj);
+							obj.draw();
+						}
 					}
-				}
-				else {
-					handledGameObjects.push(gameObject);
+					else {
+						handledGameObjects.push(obj);
+					}
 				}
 			}
 		}

@@ -17,18 +17,20 @@ class FroggerRiver extends GameObject {
 
 	public draw(): void {
 		let t = this.transform;
-		let p = t.position;
-		let s = t.size;
+		let p = t.position.scale(this.unitSize);
+		let s = t.size.scale(this.unitSize);
 
 		// draw river water
-		Canvas.fillRect(p, s, this.blue);
+		Canvas.fillRect(p, s, this.blue, true);
 
 		// draw separator lines
-		for (let i=-this.transform.size.y/2; i<this.transform.size.y/2; i++) {
+		for (let i=-s.y/2; i<s.y/2; i += this.unitSize) {
+			debugger;
 			Canvas.fillRect(
 				new Vector2(0, i),
-				new Vector2(this.transform.size.x, 0.01),
-				this.darkBlue
+				new Vector2(s.x, 1),
+				this.darkBlue,
+				true
 			);
 		}
 	}

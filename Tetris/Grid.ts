@@ -15,8 +15,8 @@ class Grid extends GameObject {
 				let gridPiece = new GameObject({
 					layer: 1,
 					shape: 'square',
-					strokeStyle: "#aaaaaa",
-					fillStyle: "#000000"
+					shapeStrokeStyle: "#aaaaaa",
+					shapeFillStyle: "#000000"
 				});
 				gridPiece.transform.position = new Vector2(
 					j - t.size.x/2,

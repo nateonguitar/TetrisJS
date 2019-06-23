@@ -25,7 +25,7 @@ class ZeldaPlayer extends GameObject {
 	public update(): void {
 		this.handleMovement();
 		if (this.holdingMouse) {
-			console.log(this.transform.position);
+			// console.log(this.transform.position);
 		}
 		if (Input.keys(Keys.Space)) {
 			console.log("keys.space")

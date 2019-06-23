@@ -6,6 +6,13 @@ class MarioLevelController extends GameObject {
 
 	protected backBarrier: BackBarrier;
 	public player: MarioPlayer;
+	public hud: any = {
+		score: null,
+		lives: null,
+		coins: null,
+		world: null,
+		time: null
+	};
 
 	// first level example image: https://www.spriters-resource.com/fullview/20592/
 	protected tileFlags: string[][] = [
@@ -119,6 +126,27 @@ class MarioLevelController extends GameObject {
 		this.backBarrier.init();
 		this.player.init();
 
+		this.hud.score = new HudGameObject({
+			gameObjectParams: {
+				textColor: "#FFFFFF",
+				text: "5000",
+				textAlign: "center",
+				textFont: "Courier New",
+				// textItalic: true,
+				textBold: false,
+				// showTransform: true,
+				shape: "square",
+				shapeFillStyle: "rgba(0, 0, 255, 0.5)",
+				transform: new Transform({
+					position: new Vector2(0, 0),
+					size: new Vector2(5, 2),
+				})
+			},
+			anchor: HudAnchors.Center
+		});
+		this.hud.score.update()
+		// this.hud.score.transform.rotation = Math.PI/4;
+
 		// build tiles
 		for (let i=0; i<this.tileFlags.length; i++) {
 			// create empty row if it doesn't exist already
@@ -163,9 +191,11 @@ class MarioLevelController extends GameObject {
 	protected handleCameraZoom(): void {
 		if (Input.keys(Keys.Key1) && GameManager.unitSize > 5) {
 			GameManager.currentLevel.unitSize -= 0.5;
+			this.hud.score.transform.rotation += 0.01;
 		}
 		if (Input.keys(Keys.Key2) && GameManager.unitSize < 500) {
 			GameManager.currentLevel.unitSize += 0.5;
+			this.hud.score.transform.rotation += 0.01;
 		}
 	}
 }
