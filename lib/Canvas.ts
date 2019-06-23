@@ -64,7 +64,7 @@ class Canvas {
 
 		if (camera.inViewOfGameObject(gameObject)) {
 			let relativePos: Vector2 = gameObject instanceof HudGameObject
-				? gameObject.getDrawPosition()
+				? gameObject.getHudDrawPosition()
 				: camera.relativeWorldspacePosition(p);
 
 			let screenSize = GameManager.screenSize;
@@ -94,7 +94,7 @@ class Canvas {
 		if (camera.inViewOfGameObject(gameObject)) {
 
 			let relativePos: Vector2 = gameObject instanceof HudGameObject
-				? gameObject.getDrawPosition()
+				? gameObject.getHudDrawPosition()
 				: camera.relativeWorldspacePosition(p);
 
 			let screenSize = GameManager.screenSize;
@@ -180,17 +180,14 @@ class Canvas {
 			let r: number = t.rotation;
 
 			let relativePos: Vector2 = gameObject instanceof HudGameObject
-				? gameObject.getDrawPosition()
+				? gameObject.getHudDrawPosition()
 				: camera.relativeWorldspacePosition(p);
 
-			relativePos = relativePos.add(s.scale(0.5))
-
-			let screenSize = GameManager.screenSize;
-
-			this.context.setTransform(1, 0, 0, 1, relativePos.x + screenSize.x/2, relativePos.y + screenSize.y/2);
-
+			// relativePos = relativePos.add(s.scale(0.5));
+			this.setTransform(relativePos);
 			this.context.rotate(-r);
 			this.flipCanvas(t.size);
+
 			let font = '';
 			font += gameObject.textBold ? 'bold ' : '';
 			font += gameObject.textItalic ? 'italic ' : '';
@@ -199,7 +196,12 @@ class Canvas {
 			this.context.font = font;
 			this.context.textAlign = gameObject.textAlign || "center";
 			this.setFillStyle(color);
-			this.context.fillText(gameObject.text, -Math.abs(s.x/2), 0, Math.abs(s.x));
+			this.context.fillText(
+				gameObject.text,
+				0, //-Math.abs(s.x),
+				0, //-Math.abs(s.y/2),
+				Math.abs(s.x)
+			);
 		}
 	}
 

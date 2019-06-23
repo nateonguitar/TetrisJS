@@ -26,7 +26,7 @@ class HudGameObject extends GameObject {
 		this.anchor = params.anchor || HudAnchors.Center;
 	}
 
-	public getDrawPosition(): Vector2 {
+	public getHudDrawPosition(): Vector2 {
 		return this.transform.position.scale(this.unitSize);
 	}
 
