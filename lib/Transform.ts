@@ -8,7 +8,7 @@ class Transform {
 	public size: Vector2;
 	public rotation: number;
 
-	constructor(params: TransformParams) {
+	constructor(params: TransformParams = <TransformParams>{}) {
 		this.position = params.position || new Vector2(0, 0);
 		this.size     = params.size || new Vector2(1, 1);
 		this.rotation = params.rotation || 0;

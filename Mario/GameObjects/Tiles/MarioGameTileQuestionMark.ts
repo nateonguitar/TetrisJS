@@ -87,7 +87,13 @@ class MarioGameTileQuestionMark extends MarioGameTile {
 	public onHitFromBeneath(): void {
 		if (!this.spent) {
 			this.spent = true;
-			console.log("Coin!");
+			MarioData.coins++;
+			if (MarioData.coins >= 100) {
+				MarioData.coins = 0;
+				MarioData.lives++;
+				MarioData.hud.lives.text = "Lives " + MarioData.lives.toString();
+			}
+			MarioData.hud.coins.text = "Coins " + MarioData.coins.toString();
 			this.spritesheetAnimationSet.currentAnimationName = "spent";
 		}
 

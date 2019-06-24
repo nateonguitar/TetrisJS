@@ -3,7 +3,7 @@ class FroggerRiverBank extends GameObject {
 		super({
 			layer: 1,
 			shape: "square",
-			fillStyle: "#654321" // brown
+			shapeFillStyle: "#654321" // brown
 		});
 		this.transform.size = new Vector2(16, 1);
 	}

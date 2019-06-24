@@ -32,7 +32,7 @@ class MarioPlayer extends GameObject {
 	}
 
 	constructor() {
-		super({	layer: 2 });
+		super({ layer: 2 });
 
 		let tileSize = new Vector2(17, 16);
 
@@ -211,7 +211,7 @@ class MarioPlayer extends GameObject {
 	private handleDeathDetection(): void {
 		if (this.transform.position.y > 17.5) {
 			this.transform.position = this.startPosition.clone();
-			(<any> GameManager.currentLevel.managingGameObject).buildLevel();
+			this.die();
 		}
 	}
 
@@ -273,7 +273,9 @@ class MarioPlayer extends GameObject {
 	}
 
 	public die(): void {
-
+		MarioData.lives -= 1;
+		MarioData.hud.lives.text = "Lives " + MarioData.lives.toString();
+		(<any> GameManager.currentLevel.managingGameObject).buildLevel();
 	}
 
 	private trackValues(): void {

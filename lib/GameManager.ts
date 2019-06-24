@@ -1,6 +1,6 @@
 /** GM stands for GameManager */
 
-interface Options {
+interface GameOptions {
 	parentElementID: string;
 	screenWidth: number;
 	screenHeight: number;
@@ -10,15 +10,16 @@ interface Options {
 	backgroundColor: string;
 	border: string;
 	allowToggleDebug: boolean;
-	levelClasses: {[k:string]: Level},
-	initialLevel: string,
+	levelClasses: {[k:string]: Level};
+	initialLevel: string;
+	font: string;
 }
 
 class GameManager {
 	public static camera: Camera = null;
 	public static currentLevel: Level = null;
 	public static screenSize: Vector2 = null;
-	public static options: Options = {
+	public static options: GameOptions = {
 		parentElementID: null,
 		screenWidth: 800,
 		screenHeight: 600,
@@ -31,6 +32,7 @@ class GameManager {
 		allowToggleDebug: false,
 		levelClasses: {},
 		initialLevel: '',
+		font: 'monospace'
 	};
 
 	public static showingDebug: boolean = false;
@@ -89,6 +91,7 @@ class GameManager {
 	}
 
 	public static get unitSize() { return GameManager.currentLevel.unitSize; }
+	public static get hudUnitSize() { return GameManager.currentLevel.hudUnitSize; }
 
 	public static registerGameObject(gameObject: GameObject): void {
 		this.currentLevel.registerGameObject(gameObject);
@@ -207,7 +210,6 @@ class GameManager {
 						let minDistance = obj.rectColliderSize().magnitude() + other.rectColliderSize().magnitude();
 						let distance = obj.colliderPosition().distance(other.colliderPosition());
 						if (distance > minDistance) {
-							// console.log('y')
 							this.collidersChecked--;
 							continue;
 						}

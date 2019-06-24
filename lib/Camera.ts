@@ -39,7 +39,11 @@ class Camera {
 		this._previousWorldspacePosition = this._worldspacePosition.scale(1/GameManager.currentLevel.unitSize);
 	}
 
+	/** returns true if gameObject instanceof HudGameObject */
 	public inViewOfGameObject(gameObject: GameObject, extraPadding:Vector2=null): boolean {
+		if (gameObject instanceof HudGameObject) {
+			return true;
+		}
 		return this.inViewOf(gameObject.absolutePosition, gameObject.absoluteSize, extraPadding);
 	}
 

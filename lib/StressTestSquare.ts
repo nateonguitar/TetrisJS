@@ -6,7 +6,7 @@ class StressTestSquare extends GameObject {
 	private useImage: boolean = false;
 
 	// overrides
-	public fillStyle: string = '#';
+	public shapeFillStyle: string = '#';
 	public shape: string = 'square';
 
 	constructor(imageSrc: string = null) {
@@ -22,7 +22,7 @@ class StressTestSquare extends GameObject {
 			let allowedColorChars: string = '0123456789abcdef';
 			for (let i=0; i<6; i++) {
 				let randomCharIndex: number = Math.floor(Math.random() * 16);
-				this.fillStyle += allowedColorChars.charAt(randomCharIndex);
+				this.shapeFillStyle += allowedColorChars.charAt(randomCharIndex);
 			}
 		}
 	}
