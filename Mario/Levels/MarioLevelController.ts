@@ -6,13 +6,7 @@ class MarioLevelController extends GameObject {
 
 	protected backBarrier: BackBarrier;
 	public player: MarioPlayer;
-	public hud: any = {
-		score: null,
-		lives: null,
-		coins: null,
-		world: null,
-		time: null
-	};
+
 
 	// first level example image: https://www.spriters-resource.com/fullview/20592/
 	protected tileFlags: string[][] = [
@@ -125,24 +119,7 @@ class MarioLevelController extends GameObject {
 	public buildLevel(): void {
 		this.backBarrier.init();
 		this.player.init();
-
-		this.hud.score = new HudGameObject({
-			gameObjectParams: {
-				textColor: "#FFFFFF",
-				text: "5000",
-				textAlign: "center",
-				textFont: "Courier New",
-				// textItalic: true,
-				textBold: false,
-				// showTransform: true,
-				shape: "square",
-				shapeFillStyle: "rgba(0, 0, 255, 0.5)",
-				transform: new Transform({
-					position: new Vector2(0, 0),
-					size: new Vector2(5, 2),
-				})
-			}
-		});
+		this.buildHud();
 
 		// build tiles
 		for (let i=0; i<this.tileFlags.length; i++) {
@@ -175,6 +152,67 @@ class MarioLevelController extends GameObject {
 					this.replaceTile(tileRow[j], TileClass);
 				}
 			}
+		}
+	}
+
+	private buildHud(): void {
+		console.log(MarioData.lives);
+		let size = new Vector2(5, 1);
+		let yOffset = -11;
+		if (!MarioData.hud) {
+			console.log("buildHud");
+			MarioData.hud = {
+				panel: new HudGameObject({
+					gameObjectParams: {
+						shape: 'square',
+						shapeFillStyle: 'rgba(0, 0, 0, 0.2)',
+						transform: new Transform({
+							position: new Vector2(0, yOffset - 0.5),
+							size: new Vector2(GameManager.screenSize.x / GameManager.hudUnitSize, 2)
+						})
+					}
+				}),
+				score: new HudGameObject({
+					gameObjectParams: {
+						textColor: "#FFFFFF",
+						text: MarioData.score.toString(),
+						textBold: true,
+						transform: new Transform({ position: new Vector2(-13, yOffset), size: size })
+					}
+				}),
+				lives: new HudGameObject({
+					gameObjectParams: {
+						textColor: "#FFFFFF",
+						text: 'Lives ' + MarioData.lives.toString(),
+						textBold: true,
+						transform: new Transform({ position: new Vector2(-7, yOffset), size: size })
+					}
+				}),
+				coins: new HudGameObject({
+					gameObjectParams: {
+						textColor: "#FFFFFF",
+						text: "Coins " + MarioData.coins.toString(),
+						textBold: true,
+						transform: new Transform({ position: new Vector2(-1, yOffset), size: size })
+					}
+				}),
+				level: new HudGameObject({
+					gameObjectParams: {
+						textColor: "#FFFFFF",
+						text: 'Level ' + MarioData.world.toString() + '-' + MarioData.level.toString(),
+						textBold: true,
+						transform: new Transform({ position: new Vector2(6, yOffset), size: size })
+					}
+				}),
+				time: new HudGameObject({
+					gameObjectParams: {
+						textColor: "#FFFFFF",
+						text: 'Time ' + MarioData.time.toString(),
+						textBold: true,
+						transform: new Transform({ position: new Vector2(13, yOffset), size: size })
+					}
+				}),
+			};
 		}
 	}
 
