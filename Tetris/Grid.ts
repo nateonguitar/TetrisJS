@@ -14,7 +14,7 @@ class Grid extends GameObject {
 			for (let j=0; j<this.transform.size.x; j++) {
 				let gridPiece = new GameObject({
 					layer: 1,
-					shape: 'square',
+					shape: 'rectangle',
 					shapeStrokeStyle: "#aaaaaa",
 					shapeFillStyle: "#000000"
 				});

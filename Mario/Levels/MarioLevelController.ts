@@ -156,15 +156,13 @@ class MarioLevelController extends GameObject {
 	}
 
 	private buildHud(): void {
-		console.log(MarioData.lives);
 		let size = new Vector2(5, 1);
 		let yOffset = -11;
 		if (!MarioData.hud) {
-			console.log("buildHud");
 			MarioData.hud = {
 				panel: new HudGameObject({
 					gameObjectParams: {
-						shape: 'square',
+						shape: 'rectangle',
 						shapeFillStyle: 'rgba(0, 0, 0, 0.2)',
 						transform: new Transform({
 							position: new Vector2(0, yOffset - 0.5),

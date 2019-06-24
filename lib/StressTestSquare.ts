@@ -7,7 +7,7 @@ class StressTestSquare extends GameObject {
 
 	// overrides
 	public shapeFillStyle: string = '#';
-	public shape: string = 'square';
+	public shape: string = 'rectangle';
 
 	constructor(imageSrc: string = null) {
 		super({ imageSrc: imageSrc });
