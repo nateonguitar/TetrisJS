@@ -25,7 +25,6 @@ class FroggerRiver extends GameObject {
 
 		// draw separator lines
 		for (let i=-s.y/2; i<s.y/2; i += this.unitSize) {
-			debugger;
 			Canvas.fillRect(
 				new Vector2(0, i),
 				new Vector2(s.x, 1),
