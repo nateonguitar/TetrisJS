@@ -145,12 +145,12 @@ class Canvas {
 		}
 		else {
 			if (gameObject.shapeFillStyle) {
-				if (gameObject.shape == "square") {
+				if (gameObject.shape == "rectangle") {
 					Canvas.fillGameObjectRect(gameObject);
 				}
 			}
 			if (gameObject.shapeStrokeStyle) {
-				if (gameObject.shape == "square") {
+				if (gameObject.shape == "rectangle") {
 					Canvas.strokeGameObjectRect(gameObject);
 				}
 			}
