@@ -32,13 +32,7 @@ class MarioPlayer extends GameObject {
 	}
 
 	constructor() {
-		super({
-			layer: 2,
-			text: "mario",
-			textColor: "#007700",
-			textFont: "Courier New",
-			showTransform: true
-		});
+		super({ layer: 2 });
 
 		let tileSize = new Vector2(17, 16);
 

@@ -141,11 +141,8 @@ class MarioLevelController extends GameObject {
 					position: new Vector2(0, 0),
 					size: new Vector2(5, 2),
 				})
-			},
-			anchor: HudAnchors.Center
+			}
 		});
-		this.hud.score.update()
-		// this.hud.score.transform.rotation = Math.PI/4;
 
 		// build tiles
 		for (let i=0; i<this.tileFlags.length; i++) {
@@ -191,11 +188,9 @@ class MarioLevelController extends GameObject {
 	protected handleCameraZoom(): void {
 		if (Input.keys(Keys.Key1) && GameManager.unitSize > 5) {
 			GameManager.currentLevel.unitSize -= 0.5;
-			this.hud.score.transform.rotation += 0.01;
 		}
 		if (Input.keys(Keys.Key2) && GameManager.unitSize < 500) {
 			GameManager.currentLevel.unitSize += 0.5;
-			this.hud.score.transform.rotation += 0.01;
 		}
 	}
 }

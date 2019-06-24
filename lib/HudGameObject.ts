@@ -1,29 +1,13 @@
-enum HudAnchors {
-	Center,
-	TopLeft,
-	TopCenter,
-	TopRight,
-	RightCenter,
-	BottomRight,
-	BottomCenter,
-	BottomLeft,
-	LeftCenter
-}
-
 interface HudGameObjectParams {
 	gameObjectParams?: GameObjectParams;
-	anchor?: HudAnchors;
 }
 
 /** Defaults anchor to HudAnchors.Center */
 class HudGameObject extends GameObject {
 
-	public anchor: HudAnchors;
-
 	constructor(params:HudGameObjectParams) {
 		super(params.gameObjectParams || {});
 		this.neverSkipUpdate = true;
-		this.anchor = params.anchor || HudAnchors.Center;
 	}
 
 	public getHudDrawPosition(): Vector2 {

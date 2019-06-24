@@ -183,7 +183,6 @@ class Canvas {
 				? gameObject.getHudDrawPosition()
 				: camera.relativeWorldspacePosition(p);
 
-			// relativePos = relativePos.add(s.scale(0.5));
 			this.setTransform(relativePos);
 			this.context.rotate(-r);
 			this.flipCanvas(t.size);
@@ -196,12 +195,7 @@ class Canvas {
 			this.context.font = font;
 			this.context.textAlign = gameObject.textAlign || "center";
 			this.setFillStyle(color);
-			this.context.fillText(
-				gameObject.text,
-				0, //-Math.abs(s.x),
-				0, //-Math.abs(s.y/2),
-				Math.abs(s.x)
-			);
+			this.context.fillText(gameObject.text, 0, 0, Math.abs(s.x));
 		}
 	}
 
