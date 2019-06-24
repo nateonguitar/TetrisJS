@@ -1,10 +1,10 @@
-interface MarioLevelParams {
+interface MarioPlayableLevelParams {
 	managingGameObjectClass: Function,
 	backgroundColor: string,
 }
 
-class MarioLevel extends Level {
-	constructor(params: MarioLevelParams) {
+class MarioPlayableLevel extends Level {
+	constructor(params: MarioPlayableLevelParams) {
 		super(<LevelParams>{
 			managingGameObjectClass: params.managingGameObjectClass,
 			imageSrcs: [
