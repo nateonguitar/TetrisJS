@@ -1,14 +1,14 @@
 This is a typescript project.
 
-Make sure you have Typescript installed.
-`npm install -g typescript`
-
 From a terminal:
-- `tsc` to run once (won't watch for changes),
-- `tsc -w` if you want to auto-recompile on saving a file (just refresh your browser window after saving).
-- `rm -r js/ ; tsc -w` if you want to delete the build folder before running.
+- `npm build` will compile the code into the `dist` directory,
+- If the `dist` directory exits it will fail to compile.  Delete it first.
 
 ------
+
+Installation: `npm install game-object-engine`
+
+# The rest of this readme is due to change from a major re-factor.
 
 The `lib` directory is the game engine.
 
