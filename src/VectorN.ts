@@ -1,4 +1,4 @@
-export default class VectorN {
+export class VectorN {
     private values: any[];
 
     constructor(...values: any[]) {

@@ -1,7 +1,7 @@
-import GameManager from "./GameManager";
+import { GameManager, GameOptions } from "./";
 
-export default class GameLauncher {
-	constructor(options: object = {}) {
+export class GameLauncher {
+	constructor(options: GameOptions = <GameOptions>{}) {
 		GameManager.start(options);
 	}
 }

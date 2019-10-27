@@ -1,12 +1,12 @@
-import Vector2 from "./Vector2";
+import { Vector2 } from "./";
 
-interface TransformParams {
+export interface TransformParams {
 	position?: Vector2;
 	size?: Vector2;
 	rotation?: number;
 }
 
-export default class Transform {
+export class Transform {
 	public position: Vector2;
 	public size: Vector2;
 	public rotation: number;

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/nateonguitar/TSGameObjectEngine.git#readme",
   "devDependencies": {
+    "ts-loader": "^6.2.1",
     "typescript": "^3.6.4"
   }
 }

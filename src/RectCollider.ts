@@ -1,7 +1,6 @@
-import Collider from "./Collider";
-import Vector2 from "./Vector2";
+import { Collider, Vector2 } from "./";
 
-interface ColliderParams {
+export interface ColliderParams {
 	position: Vector2;
 	/** size defaults to `new Vector2(1, 1)` in RectCollider */
 	size: Vector2;
@@ -22,7 +21,7 @@ interface ColliderParams {
  * @param `size`
  * - Relative size, Vector2(0, 0.5) will shrink the collider to half the size of the GameObject.
  */
-export default class RectCollider extends Collider {
+export class RectCollider extends Collider {
 
 	public size: Vector2;
 

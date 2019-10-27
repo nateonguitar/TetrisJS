@@ -1,4 +1,4 @@
-export default class Keys {
+export class Keys {
 	public static Tab: string = 'Tab';
 	public static ControlLeft: string = 'ControlLeft';
 	public static ControlRight: string = 'ControlRight';

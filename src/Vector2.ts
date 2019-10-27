@@ -1,6 +1,6 @@
 // TODO: implement some of functionality.  All we did was zero to start out with
 //       https://gist.github.com/Dalimil/3daf2a0c531d7d030deb37a7bfeff454
-export default class Vector2 {
+export class Vector2 {
 	public x: number;
 	public y: number;
 

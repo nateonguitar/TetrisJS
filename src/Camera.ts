@@ -1,9 +1,6 @@
-import Vector2 from "./Vector2";
-import GameObject from "./GameObject";
-import GameManager from "./GameManager";
-import HudGameObject from "./HudGameObject";
+import { Vector2, GameObject, GameManager, HudGameObject } from './';
 
-export default class Camera {
+export class Camera {
 	private _worldspacePosition: Vector2 = null;
 	private _previousWorldspacePosition: Vector2 = null;
 

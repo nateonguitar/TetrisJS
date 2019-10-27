@@ -1,9 +1,6 @@
-import Vector2 from "./Vector2";
-import GameObject from "./GameObject";
-import GameManager from "./GameManager";
-import HudGameObject from "./HudGameObject";
+import { Vector2, GameObject, GameManager, HudGameObject } from './';
 
-interface LevelParams {
+export interface LevelParams {
 	managingGameObjectClass: Function,
 	imageSrcs?: string[],
 	/**
@@ -17,7 +14,7 @@ interface LevelParams {
 	backgroundColor?: string,
 }
 
-export default class Level {
+export class Level {
 	// Inherit from this class.
 	// Leave your constructor empty.
 	// Override the init() function with the contents:
@@ -25,7 +22,7 @@ export default class Level {
 	// - set the images array for each image you will.
 	public gameObjects: GameObject[] = [];
 
-	private _cachedImages: {[k:string]: any} = {};
+	private _cachedImages: {[k:string]: any} = <any>{};
 	private imageSrcs: string[] = [];
 	private managingGameObjectClass: Function;
 	public managingGameObject: GameObject = null;

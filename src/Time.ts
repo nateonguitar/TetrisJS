@@ -1,4 +1,4 @@
-export default class Time {
+export class Time {
 	public static time: number = 0;
 	public static deltaTime: number = 0;
 

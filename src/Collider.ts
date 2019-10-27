@@ -1,6 +1,6 @@
-import Vector2 from "./Vector2";
+import { Vector2 } from "./";
 
-interface ColliderParams {
+export interface ColliderParams {
 	position: Vector2;
 	/** size defaults to `new Vector2(1, 1)` in RectCollider */
 	size: Vector2;
@@ -12,7 +12,7 @@ interface ColliderParams {
 	allowPassThroughWhitelist?: any[];
 }
 
-export default class Collider {
+export class Collider {
 	public position: Vector2;
 	public allowPassThroughWhitelist: any[] = null;
 

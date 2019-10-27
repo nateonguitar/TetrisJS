@@ -1,6 +1,6 @@
-import Time from "./Time";
+import { Time } from "./";
 
-export default class Utils {
+export class Utils {
 	public static isFunction(functionToCheck: Function): boolean {
 		return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
 	}

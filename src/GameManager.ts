@@ -1,32 +1,36 @@
 /** GM stands for GameManager */
+import {
+	Camera,
+	Level,
+	Vector2,
+	Input,
+	Canvas,
+	GameObject,
+	Time,
+	Debug,
+	RectCollider,
+	Keys
+} from './';
 
-import Camera from './Camera';
-import Level from './Level';
-import Vector2 from './Vector2';
-import Input from './Input';
-import Canvas from './Canvas';
-import GameObject from './GameObject';
-import Time from './Time';
-import Debug from './Debug';
-import RectCollider from './RectCollider';
-import Keys from './Keys';
-
-interface GameOptions {
-	parentElementID: string;
-	screenWidth: number;
-	screenHeight: number;
-	imageAntiAliasing: boolean;
-	layers: number;
-	showDebug: boolean;
-	backgroundColor: string;
-	border: string;
-	allowToggleDebug: boolean;
-	levelClasses: {[k:string]: Level};
-	initialLevel: string;
-	font: string;
+export interface GameOptions {
+    parentElementID?: string;
+    screenWidth?: number;
+    screenHeight?: number;
+    imageAntiAliasing?: boolean;
+    layers?: number;
+    showDebug?: boolean;
+    backgroundColor?: string;
+    border?: string;
+    allowToggleDebug?: boolean;
+    levelClasses: {
+        [k: string]: any;
+	};
+	/**default: null, first entry of levelClasses will be used if not set */
+    initialLevel?: string;
+    font?: string;
 }
 
-export default class GameManager {
+export class GameManager {
 	public static camera: Camera = null;
 	public static currentLevel: Level = null;
 	public static screenSize: Vector2 = null;

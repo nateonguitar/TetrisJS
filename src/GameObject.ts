@@ -1,15 +1,15 @@
-import Transform from "./Transform";
-import Collider from "./Collider";
-import SpritesheetAnimationSet from "./SpritesheetAnimationSet";
-import GameManager from "./GameManager";
-import RectCollider from "./RectCollider";
-import Vector2 from "./Vector2";
-import Canvas from "./Canvas";
+import {
+	Transform,
+	Collider,
+	SpritesheetAnimationSet,
+	GameManager,
+	RectCollider,
+	Vector2,
+	Canvas,
+	TextAlignType
+} from "./";
 
-
-type TextAlignType = 'center' | 'left' | 'right';
-
-interface GameObjectParams {
+export interface GameObjectParams {
 	collider?: Collider;
 	colliderColor?: string;
 
@@ -39,7 +39,7 @@ interface GameObjectParams {
 	textItalic?: boolean;
 }
 
-export default class GameObject {
+export class GameObject {
 	///////////
 	// Params
 	///////////

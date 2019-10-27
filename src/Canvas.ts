@@ -1,13 +1,7 @@
-import Camera from "./Camera";
-import GameManager from "./GameManager";
-import GameObject from "./GameObject";
-import Transform from "./Transform";
-import Vector2 from "./Vector2";
-import HudGameObject from "./HudGameObject";
+import { Camera, GameManager, GameObject, Transform, Vector2, HudGameObject } from "./";
 
-type TextAlignType = 'center' | 'left' | 'right';
 
-export default class Canvas {
+export class Canvas {
 
 	public static gameCanvas: HTMLCanvasElement = null;
 	public static context: CanvasRenderingContext2D = null;

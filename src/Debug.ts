@@ -1,15 +1,6 @@
-import GameManager from './GameManager';
-import GameObject from './GameObject';
-import Time from './Time';
-import Utils from './Utils';
-import RectCollider from './RectCollider';
+import { GameManager, GameObject, Time, Utils, RectCollider, DebugTrackValue } from './';
 
-interface DebugTrackValue {
-	label: string,
-	value: any
-}
-
-export default class Debug {
+export class Debug {
 	private static trackedValues: DebugTrackValue[] = [];
 
 	private static maxFPSSoFar = 0;

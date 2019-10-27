@@ -1,7 +1,6 @@
-import Transform from "./Transform";
-import Time from "./Time";
+import { Transform, Time } from "./";
 
-interface SpritesheetAnimationParams {
+export interface SpritesheetAnimationParams {
 	transforms: Transform[];
 	imageSrc: string;
 	startIndex?: number;
@@ -9,7 +8,7 @@ interface SpritesheetAnimationParams {
 	loop?: boolean;
 }
 
-export default class SpritesheetAnimation {
+export class SpritesheetAnimation {
 	public transforms: Transform[] = [];
 	public imageSrc: string;
 	public index: number;

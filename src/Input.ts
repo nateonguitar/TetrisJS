@@ -1,11 +1,6 @@
-import Vector2 from "./Vector2";
-import Canvas from "./Canvas";
-import GameObject from "./GameObject";
-import GameManager from "./GameManager";
-import Keys from "./Keys";
+import {Vector2, Canvas, GameObject, GameManager, Keys } from './';
 
-export default class Input {
-
+export class Input {
 	private static _keyDowns: { [key:string]:boolean } = {}
 
 	private static mousedownListeners: Function[] = [];

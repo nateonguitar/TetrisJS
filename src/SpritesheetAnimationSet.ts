@@ -1,12 +1,11 @@
-import SpritesheetAnimation from "./SpritesheetAnimation";
-import Transform from "./Transform";
+import { SpritesheetAnimation, Transform } from "./";
 
-interface SpritesheetAnimationSetParams {
+export interface SpritesheetAnimationSetParams {
 	spritesheetAnimations: { [k in string]: SpritesheetAnimation };
 	startAnimationName: string;
 }
 
-export default class SpritesheetAnimationSet {
+export class SpritesheetAnimationSet {
 	public _currentAnimationName: string = null;
 	public spritesheetAnimations: { [k in string]: SpritesheetAnimation } = {};
 
