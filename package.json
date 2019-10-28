@@ -1,7 +1,7 @@
 {
   "name": "game-object-engine",
   "version": "1.0.0",
-  "description": "This is a typescript project.",
+  "description": "Game engine focused on rapidly creating a game in TypeScript.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --declaration"
