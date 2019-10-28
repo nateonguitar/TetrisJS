@@ -1,143 +1,191 @@
-This is a typescript project.
+## If you are developing the engine itself
+Clone the project and build it.
+It can be easily built using `npm run build` from the command line.
+It will transpile the code into the `./dist` directory with the TypeScript typings files.
 
-Make sure you have Typescript installed.
-`npm install -g typescript`
+* Known issue: If the `dist` directory exits it will fail to compile. Delete it first.
 
-From a terminal:
-- `tsc` to run once (won't watch for changes),
-- `tsc -w` if you want to auto-recompile on saving a file (just refresh your browser window after saving).
-- `rm -r js/ ; tsc -w` if you want to delete the build folder before running.
+-------------------
 
-------
+## Installing to use in your own game:
 
-The `lib` directory is the game engine.
+`npm install game-object-engine` 
 
-Import all lib files into the index.html
+-------------------
 
-```
-<html>
-<head>
-	<!-- YOU MUST IMPORT THESE-->
-	<script src="js/lib/Camera.js"></script>
-	<script src="js/lib/Canvas.js"></script>
-	<script src="js/lib/Debug.js"></script>
-	<script src="js/lib/GameLauncher.js"></script>
-	<script src="js/lib/GameManager.js"></script>
-	<script src="js/lib/GameObject.js"></script>
-	<script src="js/lib/Input.js"></script>
-	<script src="js/lib/Level.js"></script>
-	<script src="js/lib/SpritesheetAnimation.js"></script>
-	<script src="js/lib/SpritesheetAnimationSet.js"></script>
-	<script src="js/lib/StressTestSquare.js"></script>
-	<script src="js/lib/Time.js"></script>
-	<script src="js/lib/Transform.js"></script>
-	<script src="js/lib/Utils.js"></script>
-	<script src="js/lib/Vector2.js"></script>
-	<!-- End required import-->
+## You will need TypeScript for developing the engine or using the engine to create a game.
 
-	<!-- my own code imports -->
-	<script src="js/Zelda/Levels/OverworldController.js"></script>
-	<script src="js/Zelda/Levels/OverworldLevel.js"></script>
-	<script src="js/Zelda/GameObjects/Background.js"></script>
-	<script src="js/Zelda/GameObjects/Player.js"></script>
-	<script src="js/Zelda/GameObjects/Soldier.js"></script>
-	<script src="js/Zelda/GameObjects/SoldierGreen.js"></script>
-	<script src="js/Zelda/GameObjects/SoldierBlue.js"></script>
-</head>
+`npm install typescript` 
 
-```
+-------------------
 
-then in a script tag:
+## Running your first application example:
 
-```
-<div style="padding:10px; background-color: grey;">
-    <div id="game-holder"></div>
-</div>
+Put your images somewhere useful in your project, we'll use the `Images` directory.
 
-<script type="text/JavaScript">
-    function runZelda() {
-        // Note: HTML5 canvas runs much smoother without antialiasing
-        new GameLauncher({
-            // all parameters are optional, they have defaults
-            parentElementID: "game-holder",    // default: null, directly to body if not provided or id not found
-            screenWidth: 1000,                 // default: 800
-            screenHeight: 800,                 // default: 600
-            imageAntiAliasing: false,          // default: false
-            layers: 4,                         // default: 1
-            showDebug: true,                   // default: false
-            backgroundColor: "#001100",        // default: "#000000"
-            border: "1px solid #008800",       // default: "1px solid #444444",
-            levelClasses: {                    // default: {} and will error if no entries defined
-                'Overworld': OverworldLevel,
-                'LinksHouse': LinksHouseLevel,
-            },
-            initialLevel: 'Overworld'          // default: null, first entry of levelClasses will be used if not set
-        });
-    }
+* __Images/Player.png__
+* __Images/Overworld.png__
 
-    window.addEventListener('load', runZelda, false);
-</script>
-```
+Create a Player class that extends `GameObject` :
 
-to launch the game.
+* __GameObjects/Player.ts__
 
--------
+``` 
+export class Player extends GameObject {
 
-Your Levels must inheret from `Level` and provide a `managingGameObjectClass` in the constructor => super params
+	private speed = 0.1;
 
-```
-class OverworldLevel extends Level {
+	// All options in the super() call can be set at a later time,
+	// but if these will never change or you want some defaults, best to set them here.
 	constructor() {
-		super(<LevelParams>{
-			managingGameObjectClass: ZeldaController,
-			imageSrcs: [
-				'Zelda/Images/Link.png',
-				'Zelda/Images/Overworld.png',
-				'Zelda/Images/SoldierBlue.png',
-				'Zelda/Images/SoldierGreenWalkDownSpritesheet.png',
-				'Zelda/Images/SoldierGreenWalkSideSpritesheet.png',
-			],
+		super(<GameObjectParams>{
+			layer: 1,
+			imageSrc: "Images/Player.png",
+			// optional
+			name: "player"
+			// You can create a transform here, but if you leave it out a Transform with size (1, 1) and position(0, 0) will be created.
 		});
+
+		// if you like most of what was created in the transform,
+		// go ahead and override some now
+		this.transform.size = new Vector2(0.75, 1); // a little thinner in the x axis
+	}
+
+	// override this function inhereted from GameObject to control behavior
+	public update(): void {
+		// some basic controls
+
+		// for simplicity we haven't used Time.deltaTime but it's a good idea to, like:
+		// `p.x -= this.speed * Time.deltaTime`
+		// This has the benefit of making your game not slow down if your framerate ever drops.
+		let p = this.transform.position;
+		if (Input.keys(Keys.ArrowLeft)) {
+			p.x -= this.speed;
+		}
+		if (Input.keys(Keys.ArrowRight)) {
+			p.x += this.speed;
+		}
+		if (Input.keys(Keys.ArrowUp)) {
+			p.y -= this.speed;
+		}
+		if (Input.keys(Keys.ArrowDown)) {
+			p.y += this.speed;
+		}
 	}
 }
 ```
 
+Create the Overworld that extends from GameObject:
 
-and do whatever you want.
+* __GameObjects/Overworld.ts__
 
-Very similar to Unity.  Any class that extends from GameObject will automatically be registered with the GameManager's currentLevel 
-and all GameObjects' `update()` and `draw()` functions will run if you override them.
-
-
---------
-
-You can override some styles using the game-canvas and game-debug ids
-
+``` 
+export class OverworldBackground extends GameObject {
+	constructor(b) {
+		super({
+			layer: 0,
+			imageSrc: "Images/Overworld.png",
+		});
+		// make it kinda big (60 times bigger than the player is tall)
+		this.transform.size = new Vector2(60, 60);
+		// shift it so its center is at the origin
+		this.transform.position = boundarySize.scale(-0.5);
+	}
+}
 ```
-<style type="text/css">
-    body, html {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-    }
-    #game-holder {
-        padding:10px;
-        background-color: grey;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-    }
-    #game-canvas {
-        /* box-shadow: 2px -2px 2px #000; */
-    }
-    #game-debug {
-        border: 1px solid #330000;
-        background-color: #220000;
-        color: white;
-    }
-</style>
+
+Create a class that extends `Level` and a LevelController that extends `GameObject` .
+Let's say we make an OverworldLevel and an OverworldController.
+
+``` 
+export class OverworldLevel extends Level {
+	constructor() {
+		super(<LevelParams>{
+			managingGameObjectClass: OverworldController,
+			imageSrcs: [
+				'Images/Player.png',
+				'Images/Overworld.png'
+			],
+			// Override the unitSize here if you'd like to,
+			// all objects scale according to the unit size.
+			// A unitSize of 25 means all Transforms with a size of
+			// Vector2(1, 1) will be 25 x 25 pixels in size.
+			unitSize: 25
+		});
+	}
+}
+
+export class OverworldController extends GameObject {
+	private player: Player = null;
+	private background: OverworldBackground = null;
+
+	constructor() {
+		super();
+		this.player = new Player();
+		this.background = new OverworldBackground();
+	}
+
+	// override
+	public update(): void {
+		// put level specific logic here if you'd like.
+		// Remember that GameObjects should handle their own update() calls.
+		// Maybe put a timer logic or something here?
+
+		// you can swap to another level (once you create one) by calling
+		// GameManager.loadLevel('Level2');
+	}
+}
 ```
+
+create an `index.ts` file
+import GameLauncher, and GameOptions from the engine and any of your classes, 
+then create a function that will run on window load:
+
+``` 
+function gameLauncher() {
+	new GameLauncher(<GameOptions>{
+		parentElementID: "game-holder",
+		screenWidth: 800,
+		screenHeight: 750,
+		imageAntiAliasing: false,
+		layers: 3,
+		backgroundColor: "#001100",
+		border: "1px solid #008800",
+		// allow showing debug tools by pressing ctrl + shift + alt + z
+		allowToggleDebug: true,
+		// have debug tools open by default
+		showDebug: true,
+
+		// you must register any Level classes here to be able to switch to them.
+		levelClasses: {
+			// 'Level2': Level2
+			'Overworld': OverworldLevel,
+		},
+		// if not provided the levelClasses[0] will be used,
+		initialLevel: 'OverworldLevel'
+	});
+}
+
+// run the gameLauncher() function on page load.
+window.addEventListener('load', gameLauncher, false);
+```
+
+In your HTML file you'd like to have your game in, make sure you have a `<div id="game-holder"></div>` 
+as the entry point. The game will inject itself here automatically (you can set a different `id` to look for in the GameLauncher options)
+
+``` 
+<html>
+<head>
+	<!-- import scripts here -->
+	<!-- a bundler like webpack or gulp will generate a single file -->
+	<!-- otherwize import all of the file you'll need -->
+    <script src="dist/bundle.js"></script>
+</head>
+<body>
+	<div id="game-holder"></div>
+</body>
+</html>
+```
+
+build the project with `tsc` or set up a build script for webpack to `"build": "tsc & webpack"` (or whatever your project happens to need)
+

@@ -1,0 +1,29 @@
+{
+  "name": "game-object-engine",
+  "version": "1.0.0",
+  "description": "Game engine focused on rapidly creating a game in TypeScript.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --declaration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nateonguitar/TSGameObjectEngine.git"
+  },
+  "keywords": [
+    "2d",
+    "game",
+    "engine",
+    "typescript"
+  ],
+  "author": "Nate Brooks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nateonguitar/TSGameObjectEngine.git/issues"
+  },
+  "homepage": "https://github.com/nateonguitar/TSGameObjectEngine.git#readme",
+  "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.6.4"
+  }
+}
