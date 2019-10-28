@@ -1,6 +1,6 @@
 {
   "name": "game-object-engine",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Game engine focused on rapidly creating a game in TypeScript.",
   "scripts": {
     "test": "echo 1",
