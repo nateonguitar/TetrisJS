@@ -56,6 +56,8 @@ export class GameManager {
 	public static collidersTotal = 0;
 	public static collidersChecked = 0;
 
+	private static gameIsRunning: boolean = false;
+
 	/** Anything we want to start before we run the main loop */
 	public static start(options: Object = {}): void {
 		// if an option is passed in override our defaults
@@ -81,6 +83,9 @@ export class GameManager {
 		// input MUST be initialized after canvas as it registers click events
 		Input.init();
 
+		// no issues creating game
+		this.gameIsRunning = true;
+
 		// calling gameLoop once will start it infinitely running
 		requestAnimationFrame(() => {
 			this.gameLoop.bind(this)();
@@ -105,8 +110,15 @@ export class GameManager {
 
 	}
 
-	public static get unitSize() { return GameManager.currentLevel.unitSize; }
-	public static get hudUnitSize() { return GameManager.currentLevel.hudUnitSize; }
+	public static close(): void {
+		this.gameIsRunning = false;
+		this.camera = null;
+		Canvas.close();
+		this.currentLevel.close();
+	}
+
+	public static get unitSize() { return this.currentLevel.unitSize; }
+	public static get hudUnitSize() { return this.currentLevel.hudUnitSize; }
 
 	public static registerGameObject(gameObject: GameObject): void {
 		this.currentLevel.registerGameObject(gameObject);
@@ -138,6 +150,7 @@ export class GameManager {
 
 	/** main game loop */
 	private static gameLoop(frame: DOMHighResTimeStamp = null): void {
+		if (!this.gameIsRunning) return;
 		requestAnimationFrame(this.gameLoop.bind(this));
 		Time.update();
 		this.update();
@@ -154,6 +167,7 @@ export class GameManager {
 
 	private static update(): void {
 		if (!this.currentLevel) return;
+		if (!this.gameIsRunning) return;
 		this.currentLevel.update();
 
 
@@ -229,11 +243,11 @@ export class GameManager {
 							continue;
 						}
 
-						let objScreenSize = obj.rectColliderSize().scale(GameManager.unitSize);
-						let otherScreenSize = other.rectColliderSize().scale(GameManager.unitSize);
+						let objScreenSize = obj.rectColliderSize().scale(this.unitSize);
+						let otherScreenSize = other.rectColliderSize().scale(this.unitSize);
 
-						let objScreenPos = obj.colliderPosition().scale(GameManager.unitSize).subtract(objScreenSize.scale(0.5));
-						let otherScreenPos = other.colliderPosition().scale(GameManager.unitSize).subtract(otherScreenSize.scale(0.5));
+						let objScreenPos = obj.colliderPosition().scale(this.unitSize).subtract(objScreenSize.scale(0.5));
+						let otherScreenPos = other.colliderPosition().scale(this.unitSize).subtract(otherScreenSize.scale(0.5));
 
 						if (
 							objScreenPos.x < otherScreenPos.x + otherScreenSize.x &&

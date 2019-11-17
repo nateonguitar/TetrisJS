@@ -32,6 +32,10 @@ export class Canvas {
 		this.context.shadowBlur = 0;
 	}
 
+	public static close() {
+		this.gameCanvas.remove();
+	}
+
 	public static wipe(): void {
 		this.context.setTransform(1, 0, 0, 1, 0, 0);
 		this.context.clearRect(0, 0, this.gameCanvas.width, this.gameCanvas.height);

@@ -52,6 +52,14 @@ export class Level {
 		}
 	}
 
+	public close(): void {
+		this.gameObjects = [];
+		this.managingGameObject = null;
+		this.managingGameObjectClass = null;
+		this.imageSrcs = [];
+		this._cachedImages = null;
+	}
+
 	public init(): void {
 		this.managingGameObject = new (<any>this.managingGameObjectClass)();
 		this.managingGameObject.neverSkipUpdate = true;
