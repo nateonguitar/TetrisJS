@@ -202,4 +202,92 @@ export class GameObject {
 
 	/** Override this */
 	public onNoPassthroughTouch(other: GameObject, side: string): void { }
+
+	public handleCollision(other: GameObject, passThroughWhiteListed: boolean): boolean {
+		if (!this.collider) return false;
+
+		let colliding = false;
+
+		if (this.collider instanceof RectCollider && other.collider instanceof RectCollider) {
+
+			let minDistance = this.rectColliderSize().magnitude() + other.rectColliderSize().magnitude();
+			let distance = this.colliderPosition().distance(other.colliderPosition());
+			if (distance > minDistance) return false;
+
+			let objScreenSize = this.rectColliderSize().scale(this.unitSize);
+			let otherScreenSize = other.rectColliderSize().scale(this.unitSize);
+
+			let objScreenPos = this.colliderPosition().scale(this.unitSize).subtract(objScreenSize.scale(0.5));
+			let otherScreenPos = other.colliderPosition().scale(this.unitSize).subtract(otherScreenSize.scale(0.5));
+
+			if (
+				objScreenPos.x < otherScreenPos.x + otherScreenSize.x &&
+				objScreenPos.x + objScreenSize.x > otherScreenPos.x &&
+				objScreenPos.y < otherScreenPos.y + otherScreenSize.y &&
+				objScreenPos.y + objScreenSize.y > otherScreenPos.y
+			) {
+
+				// no whitelist means we allow everything to pass through
+				// empty whitelist means we allow nothing to pass through
+				if (!other.collider.allowPassThroughWhitelist) {
+					colliding = true;
+				}
+				else if (passThroughWhiteListed) {
+					colliding = true;
+				}
+				// not in whitelist, don't allow to pass through
+				else {
+					let ap = this.colliderPosition();
+					let as = this.rectColliderSize();
+					let bp = other.colliderPosition();
+					let bs = other.rectColliderSize();
+
+					let distances = [
+						// dist from obj top to other bottom
+						Math.abs((ap.y - as.y/2) - (bp.y + bs.y/2)), // top
+						Math.abs((ap.y + as.y/2) - (bp.y - bs.y/2)), // bottom
+						Math.abs((ap.x - as.x/2) - (bp.x + bs.x/2)), // left
+						Math.abs((ap.x + as.x/2) - (bp.x - bs.x/2)), // right
+					];
+					let smallestDistanceIndex = distances.indexOf(Math.min(...distances));
+
+					let newPosition = this.transform.position.clone();
+					// closest to top
+					if (smallestDistanceIndex == 0) {
+						newPosition.y = bp.y + bs.y/2 + as.y/2 + this.transform.position.y - ap.y;
+					}
+					// closest to bottom
+					else if (smallestDistanceIndex == 1) {
+						newPosition.y = bp.y - bs.y/2 - as.y/2 + this.transform.position.y - ap.y;
+					}
+					// closest to left
+					else if (smallestDistanceIndex == 2) {
+						newPosition.x = bp.x + bs.x/2 + as.x/2 + this.transform.position.x - ap.x;
+					}
+					// closest to right
+					else {
+						newPosition.x = bp.x - bs.x/2 - as.x/2 + this.transform.position.x - ap.x;
+					}
+
+					this.transform.position = newPosition;
+
+					// objects only barely collided, if object barriers are touching and not
+					// pressing into eachother, we don't need to report it.
+					// This allows Mario to stand next to a pipe, but if you press right on the dpad, it'll register.
+					if (distances[smallestDistanceIndex] > 0.1) {
+						let side = null;
+						switch (smallestDistanceIndex) {
+							case 0: side = 'top'; break;
+							case 1: side = 'bottom'; break;
+							case 2: side = 'left'; break;
+							case 3: side = 'right'; break;
+						}
+						this.onNoPassthroughTouch(other, side);
+					}
+				}
+			}
+		}
+
+		return colliding;
+	}
 }
